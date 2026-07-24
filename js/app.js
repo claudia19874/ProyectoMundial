@@ -1,5 +1,5 @@
+import { GROUPS, ALBUM_DATA, CATALOGO_COMPLETO } from "./data.js";
 
-// Estado en memoria (simula lo que hoy resolvería el servidor)
 
 const estado = {
   coleccion: new Map(), // id de carta -> cantidad que tengo (0, 1, 2, 3...)
@@ -20,18 +20,21 @@ const estado = {
   ],
 };
 
+
+const countryArr = CATALOGO_COMPLETO.countries
+
 // inicializa todas las cartas en 0
-ALBUM_DATA.forEach((pais) => {
-  pais.cartas.forEach((c) => estado.coleccion.set(c.id, 0));
+countryArr.forEach((country) => {
+  country.cards.forEach((c) => estado.coleccion.set(c.id, 0));
 });
 
-const TOTAL_CARTAS = ALBUM_DATA.reduce((acc, p) => acc + p.cartas.length, 0);
+const TOTAL_CARTAS = CATALOGO_COMPLETO.totalCards;
 
 // ---------------------------------------------------------------------
 // Íconos por rol (SVG inline, sin dependencias externas)
 // ---------------------------------------------------------------------
 const ICONOS = {
-  "Federación": `<svg viewBox="0 0 24 24"><path d="M12 2 3 6v6c0 5 3.8 8.7 9 10 5.2-1.3 9-5 9-10V6l-9-4Zm0 2.2 7 3.1v4.7c0 3.9-2.9 6.9-7 8-4.1-1.1-7-4.1-7-8V7.3l7-3.1Z"/></svg>`,
+  "Escudo": `<svg viewBox="0 0 24 24"><path d="M12 2 3 6v6c0 5 3.8 8.7 9 10 5.2-1.3 9-5 9-10V6l-9-4Zm0 2.2 7 3.1v4.7c0 3.9-2.9 6.9-7 8-4.1-1.1-7-4.1-7-8V7.3l7-3.1Z"/></svg>`,
   "Arquero": `<svg viewBox="0 0 24 24"><path d="M12 2a5 5 0 0 1 5 5v2a5 5 0 0 1-10 0V7a5 5 0 0 1 5-5Zm-7 18c0-3.3 3.1-6 7-6s7 2.7 7 6v1H5v-1Zm2-9h1v2H7v-2Zm10 0h1v2h-1v-2Z"/></svg>`,
   "Defensa": `<svg viewBox="0 0 24 24"><path d="M12 2 4 5v6c0 5.2 3.4 9 8 11 4.6-2 8-5.8 8-11V5l-8-3Zm0 4 4 1.5v3.6c0 3.1-1.9 5.4-4 6.4-2.1-1-4-3.3-4-6.4V7.5L12 6Z"/></svg>`,
   "Mediocampista": `<svg viewBox="0 0 24 24"><path d="M12 2 2 12l10 10 10-10L12 2Zm0 3.6 6.4 6.4L12 18.4 5.6 12 12 5.6Z"/></svg>`,
@@ -39,7 +42,7 @@ const ICONOS = {
 };
 
 function iconoDeCarta(carta) {
-  return ICONOS[carta.rol] || ICONOS["Delantero"];
+  return ICONOS[carta.role] || ICONOS["Delantero"];
 }
 
 
@@ -49,21 +52,21 @@ function sigla3(nombre) {
 }
 
 function buscarCartaPorId(id) {
-  for (const pais of ALBUM_DATA) {
-    const carta = pais.cartas.find((c) => c.id === id);
+  for (const pais of CATALOGO_COMPLETO.countries) {
+    const carta = pais.cards.find((c) => c.id === id);
     if (carta) return { carta, pais };
   }
   return null;
 }
 
 function cantidadObtenidaPais(pais) {
-  return pais.cartas.filter((c) => estado.coleccion.get(c.id) > 0).length;
+  return pais.cards.filter((c) => estado.coleccion.get(c.id) > 0).length;
 }
 
 
 function renderNav() {
   const ul = document.getElementById("confed-nav-list");
-  ul.innerHTML = CONFEDERACIONES.map(
+  ul.innerHTML = GROUPS.map(
     (c) => `
       <li>
         <a class="confed-nav__link" href="#confed-${c.codigo}">${c.nombre}</a>
@@ -77,31 +80,33 @@ function renderCarta(carta) {
   const cantidad = estado.coleccion.get(carta.id) || 0;
   const obtenida = cantidad > 0;
   const claseEstado = obtenida ? "carta--obtenida" : "carta--faltante";
-  const claseTipo = carta.tipo === "escudo" ? "carta--escudo" : "";
+  const claseTipo = carta.role === "Escudo" ? "carta--escudo" : "";
   const badge = cantidad > 1 ? `<span class="carta__badge">x${cantidad}</span>` : "";
 
   return `
-    <div class="carta ${claseEstado} ${claseTipo}" data-id="${carta.id}" title="${carta.nombre} · ${carta.rol}">
+    <div class="carta ${claseEstado} ${claseTipo}" data-id="${carta.id}" title="${carta.name} · ${carta.role}">
       ${badge}
       <div class="carta__icono">${iconoDeCarta(carta)}</div>
-      <p class="carta__nombre">${obtenida ? carta.nombre : "¿?"}</p>
-      <p class="carta__rol">${carta.rol}</p>
+      <p class="carta__nombre">${obtenida ? carta.name : "¿?"}</p>
+      <p class="carta__rol">${carta.role}</p>
     </div>`;
 }
 
 
 function renderPaginaPais(pais) {
   const obtenidas = cantidadObtenidaPais(pais);
-  const total = pais.cartas.length;
+  const total = pais.cards.length;
+  // flagcdn requiere 2 letras, usamos los primeros 2 caracteres del countryCode como workaround rápido
+  const code2 = pais.countryCode ? pais.countryCode.substring(0, 2).toLowerCase() : "xx";
   return `
-    <article class="pagina-pais" id="pais-${sigla3(pais.pais)}" data-nombre="${pais.pais.toLowerCase()}">
+    <article class="pagina-pais" id="pais-${sigla3(pais.country)}" data-nombre="${pais.country.toLowerCase()}">
       <div class="pagina-pais__header">
-        <img class="pagina-pais__bandera" src="https://flagcdn.com/w80/${pais.code}.png" alt="Bandera de ${pais.pais}" loading="lazy" />
-        <h3 class="pagina-pais__nombre">${pais.pais}</h3>
+        <img class="pagina-pais__bandera" src="https://flagcdn.com/w80/${code2}.png" alt="Bandera de ${pais.country}" loading="lazy" />
+        <h3 class="pagina-pais__nombre">${pais.country}</h3>
         <span class="pagina-pais__progreso">${obtenidas}/${total}</span>
       </div>
       <div class="cartas-grid">
-        ${pais.cartas.map(renderCarta).join("")}
+        ${pais.cards.map(renderCarta).join("")}
       </div>
     </article>`;
 }
@@ -111,19 +116,23 @@ function renderAlbum() {
   const main = document.getElementById("album-main");
   const mercadoSection = document.getElementById("seccion-mercado");
 
-  CONFEDERACIONES.forEach((conf) => {
-    const paisesConf = ALBUM_DATA.filter((p) => p.confederacion === conf.codigo);
+  const groups = ["Grupo A", "Grupo B", "Grupo C", "Grupo D", "Grupo E", "Grupo F", "Grupo G", "Grupo H", "Grupo I", "Grupo J", "Grupo K", "Grupo L"];
+
+  groups.forEach((groupName) => {
+    const countryGroup = CATALOGO_COMPLETO.countries.filter((p) => p.wcGroup === groupName);
+    if (countryGroup.length === 0) return;
     const seccion = document.createElement("section");
-    seccion.className = "confed-section";
-    seccion.id = `confed-${conf.codigo}`;
-    seccion.setAttribute("aria-labelledby", `heading-${conf.codigo}`);
+    const groupLetter = groupName.slice(-1)
+    seccion.className = "group-section";
+    seccion.id = `group-${groupLetter}`;
+    seccion.setAttribute("aria-labelledby", `heading-${groupLetter}`);
     seccion.innerHTML = `
-      <div class="confed-section__heading">
-        <h2 id="heading-${conf.codigo}">${conf.nombre}</h2>
-        <span class="confed-section__count">${paisesConf.length} selecciones</span>
+      <div class="group-section__heading">
+        <h2 id="heading-${groupLetter}">${groupName}</h2>
+        <span class="group-section__count">${countryGroup.length} selecciones</span>
       </div>
       <div class="paises-grid">
-        ${paisesConf.map(renderPaginaPais).join("")}
+        ${countryGroup.map(renderPaginaPais).join("")}
       </div>
     `;
     main.insertBefore(seccion, mercadoSection);
@@ -138,11 +147,11 @@ function actualizarStats() {
   document.getElementById("progreso-global-fill").style.width = `${(obtenidas / TOTAL_CARTAS) * 100}%`;
 
   // refresca los contadores de cada país sin volver a montar todo el DOM
-  ALBUM_DATA.forEach((pais) => {
-    const art = document.getElementById(`pais-${sigla3(pais.pais)}`);
+  CATALOGO_COMPLETO.countries.forEach((pais) => {
+    const art = document.getElementById(`pais-${sigla3(pais.country)}`);
     if (!art) return;
     const badge = art.querySelector(".pagina-pais__progreso");
-    if (badge) badge.textContent = `${cantidadObtenidaPais(pais)}/${pais.cartas.length}`;
+    if (badge) badge.textContent = `${cantidadObtenidaPais(pais)}/${pais.cards.length}`;
   });
 }
 
@@ -174,7 +183,7 @@ function initBuscador() {
 }
 
 function generarSobreLocal() {
-  const todasLasCartas = ALBUM_DATA.flatMap((p) => p.cartas);
+  const todasLasCartas = CATALOGO_COMPLETO.countries.flatMap((p) => p.cards);
   const sobre = [];
   for (let i = 0; i < 7; i++) {
     const carta = todasLasCartas[Math.floor(Math.random() * todasLasCartas.length)];
@@ -220,7 +229,7 @@ function initSobre() {
         return `
           <div class="reveal-carta ${esNueva ? "reveal-carta--nueva" : "reveal-carta--repetida"}" style="animation-delay:${i * 0.08}s">
             <div class="reveal-carta__icono">${iconoDeCarta(carta)}</div>
-            <p class="reveal-carta__nombre">${carta.nombre}</p>
+            <p class="reveal-carta__nombre">${carta.name}</p>
             <p class="reveal-carta__tag">${esNueva ? "¡Nueva!" : "Repetida"}</p>
           </div>`;
       })
@@ -268,8 +277,8 @@ function renderRepetidas() {
       return `<div class="carta carta--obtenida" style="aspect-ratio:3/4">
         <span class="carta__badge">x${cant}</span>
         <div class="carta__icono">${iconoDeCarta(info.carta)}</div>
-        <p class="carta__nombre">${info.carta.nombre}</p>
-        <p class="carta__rol">${info.pais.pais}</p>
+        <p class="carta__nombre">${info.carta.name}</p>
+        <p class="carta__rol">${info.pais.country}</p>
       </div>`;
     })
     .join("");
@@ -277,7 +286,7 @@ function renderRepetidas() {
   select.innerHTML = repetidas
     .map(({ id, cant }) => {
       const info = buscarCartaPorId(id);
-      return `<option value="${id}">${id} · ${info.carta.nombre} (x${cant})</option>`;
+      return `<option value="${id}">${id} · ${info.carta.name} (x${cant})</option>`;
     })
     .join("");
 }
@@ -354,12 +363,12 @@ function initScrollSpy() {
   secciones.forEach((s) => observer.observe(s));
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  renderNav();
-  renderAlbum();
-  actualizarStats();
-  initBuscador();
-  initSobre();
-  initMercado();
-  initScrollSpy();
-});
+// Ya que usamos top-level await en data.js, el DOM ya está cargado cuando este código se ejecuta.
+// No necesitamos DOMContentLoaded.
+renderNav();
+renderAlbum();
+actualizarStats();
+initBuscador();
+initSobre();
+initMercado();
+initScrollSpy();
