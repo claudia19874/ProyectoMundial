@@ -1,83 +1,34 @@
-
-// Estado en memoria (simula lo que hoy resolvería el servidor)
+import { GROUPS, ALBUM_DATA, CATALOGO_COMPLETO, FLAG_CODES } from "./data.js";
 
 const estado = {
-  coleccion: new Map(), // id de carta -> cantidad que tengo (0, 1, 2, 3...)
+  coleccion: new Map(),
   sobresDisponibles: 3,
-  vista: "album", // "album" | "mercado"
-  paginaActual: 0, // índice dentro de ALBUM_DATA (orden = confederaciones en orden)
+  paginaActual: 0,
   ofertas: [
-    {
-      id: "OF-1",
-      grupo: "Grupo 4",
-      ofrece: "BRA-09",
-      pide: "ARG-10",
-    },
-    {
-      id: "OF-2",
-      grupo: "Grupo 7",
-      ofrece: "JPN-ESC",
-      pide: "MEX-01",
-    },
-  ],
+    { id: "OF-1", grupo: "Grupo 4", ofrece: "BRA-09", pide: "ARG-10" },
+    { id: "OF-2", grupo: "Grupo 7", ofrece: "JPN-ESC", pide: "MEX-01" }
+  ]
 };
 
-// inicializa todas las cartas en 0
-ALBUM_DATA.forEach((pais) => {
-  pais.cartas.forEach((c) => estado.coleccion.set(c.id, 0));
+const countryArr = CATALOGO_COMPLETO.countries;
+
+countryArr.forEach((country) => {
+  country.cards.forEach((c) => estado.coleccion.set(c.id, 0));
 });
 
-const TOTAL_CARTAS = ALBUM_DATA.reduce((acc, p) => acc + p.cartas.length, 0);
+const TOTAL_CARTAS = CATALOGO_COMPLETO.totalCards;
 
-// ---------------------------------------------------------------------
-// Íconos por rol (SVG inline, sin dependencias externas)
-// ---------------------------------------------------------------------
 const ICONOS = {
-  "Federación": `<svg viewBox="0 0 24 24"><path d="M12 2 3 6v6c0 5 3.8 8.7 9 10 5.2-1.3 9-5 9-10V6l-9-4Zm0 2.2 7 3.1v4.7c0 3.9-2.9 6.9-7 8-4.1-1.1-7-4.1-7-8V7.3l7-3.1Z"/></svg>`,
-  "Arquero": `<svg viewBox="0 0 24 24"><path d="M12 2a5 5 0 0 1 5 5v2a5 5 0 0 1-10 0V7a5 5 0 0 1 5-5Zm-7 18c0-3.3 3.1-6 7-6s7 2.7 7 6v1H5v-1Zm2-9h1v2H7v-2Zm10 0h1v2h-1v-2Z"/></svg>`,
-  "Defensa": `<svg viewBox="0 0 24 24"><path d="M12 2 4 5v6c0 5.2 3.4 9 8 11 4.6-2 8-5.8 8-11V5l-8-3Zm0 4 4 1.5v3.6c0 3.1-1.9 5.4-4 6.4-2.1-1-4-3.3-4-6.4V7.5L12 6Z"/></svg>`,
-  "Mediocampista": `<svg viewBox="0 0 24 24"><path d="M12 2 2 12l10 10 10-10L12 2Zm0 3.6 6.4 6.4L12 18.4 5.6 12 12 5.6Z"/></svg>`,
-  "Delantero": `<svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 .001 20.001A10 10 0 0 0 12 2Zm0 2.2 2.6 1.9-1 3h-3.2l-1-3L12 4.2ZM5 9.6l2.9-.9 1.9 2.3-1.2 2.9-3 .4L5 9.6Zm2.6 8.6 1-2.9 3-.1 1 2.9-2.2 2A8 8 0 0 1 7.6 18.2Zm9.9-5.3-1.2-2.9 1.9-2.3 2.9.9-.6 4.7-3 .4Zm-1.1 5.3 1-2.9 3 .1 1 2.9a8 8 0 0 1-3 2Z"/></svg>`,
+  "Escudo": '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 3 6v6c0 5 3.8 8.7 9 10 5.2-1.3 9-5 9-10V6l-9-4Zm0 2.2 7 3.1v4.7c0 3.9-2.9 6.9-7 8-4.1-1.1-7-4.1-7-8V7.3l7-3.1Z"/></svg>',
+  "Arquero": '<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6v2H4z"/></svg>',
+  "Defensa": '<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6v2H4z"/></svg>',
+  "Mediocampista": '<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6v2H4z"/></svg>',
+  "Delantero": '<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6v2H4z"/></svg>'
 };
 
 function iconoDeCarta(carta) {
-  return ICONOS[carta.rol] || ICONOS["Delantero"];
+  return ICONOS[carta.role] || ICONOS["Delantero"];
 }
-
-/**
- * Asocia una barajita con su imagen (carta.foto, ver data.js) y hace
- * fallback automático al ícono SVG si la imagen todavía no existe en
- * /img/jugadores (esto es lo que pide el punto 4 del enunciado:
- * "Gestión de Imágenes en el Cliente" — el servidor solo manda { id, nombre, rol }
- * y el cliente decide cómo dibujarlo).
- */
-function mediaCarta(carta) {
-  const iconoSVG = iconoDeCarta(carta);
-  // Si la carta tiene "bandera" (solo el escudo la tiene), la usamos como
-  // respaldo cuando todavía no suben el logo real de la federación.
-  const fallback = carta.bandera ? `data-fallback="${carta.bandera}"` : "";
-  return `
-    <div class="carta__media">
-      <img
-        src="${carta.foto}"
-        alt="${carta.nombre}"
-        loading="lazy"
-        class="carta__foto"
-        ${fallback}
-        onerror="
-          if (this.dataset.fallback && this.src !== this.dataset.fallback) {
-            this.src = this.dataset.fallback;
-            this.classList.add('carta__foto--respaldo');
-          } else {
-            this.style.display = 'none';
-            this.nextElementSibling.style.display = 'flex';
-          }
-        "
-      />
-      <div class="carta__icono" style="display:none">${iconoSVG}</div>
-    </div>`;
-}
-
 
 function sigla3(nombre) {
   const partes = nombre.toUpperCase().split(/\s+/);
@@ -85,99 +36,138 @@ function sigla3(nombre) {
 }
 
 function buscarCartaPorId(id) {
-  for (const pais of ALBUM_DATA) {
-    const carta = pais.cartas.find((c) => c.id === id);
+  for (const pais of CATALOGO_COMPLETO.countries) {
+    const carta = pais.cards.find((c) => c.id === id);
     if (carta) return { carta, pais };
   }
   return null;
 }
 
 function cantidadObtenidaPais(pais) {
-  return pais.cartas.filter((c) => estado.coleccion.get(c.id) > 0).length;
+  return pais.cards.filter((c) => estado.coleccion.get(c.id) > 0).length;
 }
 
-
-function renderNav() {
-  const ul = document.getElementById("confed-nav-list");
-  ul.innerHTML = CONFEDERACIONES.map(
-    (c) => `
-      <li>
-        <button class="confed-nav__link" type="button" data-confed="${c.codigo}">${c.nombre}</button>
-      </li>`
-  ).join("");
-
-  ul.querySelectorAll(".confed-nav__link").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const codigo = btn.dataset.confed;
-      const idx = ALBUM_DATA.findIndex((p) => p.confederacion === codigo);
-      if (idx >= 0) irAPagina(idx);
-    });
-  });
+function abreviarPosicion(role) {
+  if (role === "Arquero") return "POR";
+  if (role === "Defensa") return "DEF";
+  if (role === "Mediocampista") return "MED";
+  if (role === "Delantero") return "DEL";
+  if (role === "Escudo") return "ESC";
+  return "";
 }
 
-function marcarConfedActiva() {
-  const paisActual = ALBUM_DATA[estado.paginaActual];
-  document.querySelectorAll(".confed-nav__link").forEach((btn) => {
-    btn.classList.toggle("is-active", btn.dataset.confed === paisActual.confederacion);
-  });
+function fotoDeCarta(carta, pais) {
+  const fotoAPI = carta.photo || carta.photoUrl || carta.image || carta.imageUrl || null;
+  let fotoLocal;
+  if (carta.role === "Escudo") {
+    const codeBandera = FLAG_CODES[pais.countryCode] || pais.countryCode.toLowerCase();
+    fotoLocal = `img/escudos/${codeBandera}.png`;
+  } else {
+    fotoLocal = `img/jugadores/${carta.id}.jpg`;
+  }
+  return { fotoAPI, fotoLocal };
 }
 
-function renderCarta(carta) {
+function banderaDePais(pais) {
+  const code = FLAG_CODES[pais.countryCode] || "xx";
+  return `https://flagcdn.com/w320/${code}.png`;
+}
+
+function renderCarta(carta, pais) {
+  if (!pais) {
+    const info = buscarCartaPorId(carta.id);
+    if (info) pais = info.pais;
+  }
+
   const cantidad = estado.coleccion.get(carta.id) || 0;
   const obtenida = cantidad > 0;
-  const claseEstado = obtenida ? "carta--obtenida" : "carta--faltante";
-  const claseTipo = carta.tipo === "escudo" ? "carta--escudo" : "";
-  const claseClic = obtenida ? "carta--clicable" : "";
+
+  if (!obtenida) {
+    return `
+      <div class="carta carta--faltante" data-id="${carta.id}">
+        <div class="carta__media"><span class="carta__signo">?</span></div>
+        <p class="carta__nombre">${carta.id}</p>
+      </div>`;
+  }
+
+  const { fotoAPI, fotoLocal } = fotoDeCarta(carta, pais);
+  const bandera = pais ? banderaDePais(pais) : "";
   const badge = cantidad > 1 ? `<span class="carta__badge">x${cantidad}</span>` : "";
+  const dorsal = (carta.jerseyNumber || carta.dorsal || carta.number)
+    ? `<span class="carta__dorsal">${carta.jerseyNumber || carta.dorsal || carta.number}</span>`
+    : "";
+  const pos = abreviarPosicion(carta.role);
+  const club = carta.club || carta.team || "";
+  const claseEscudo = carta.role === "Escudo" ? "carta--escudo" : "";
+
+  const primeraFoto = fotoLocal;
+  const respaldoAPI = fotoAPI || "";
+  const respaldoBandera = bandera;
+
+  const onerror = "if(this.dataset.stage==='0'&&this.dataset.foto2){this.dataset.stage='1';this.src=this.dataset.foto2;}else if(this.dataset.stage!=='2'&&this.dataset.bandera){this.dataset.stage='2';this.src=this.dataset.bandera;this.classList.add('carta__foto--respaldo');}else{this.style.display='none';this.nextElementSibling.style.display='flex';}";
 
   return `
-    <div class="carta ${claseEstado} ${claseTipo} ${claseClic}" data-id="${carta.id}" title="${carta.nombre} · ${carta.rol}">
+    <div class="carta ${claseEscudo}" data-id="${carta.id}" title="${carta.name} - ${carta.role}">
       ${badge}
-      ${obtenida ? mediaCarta(carta) : `<div class="carta__icono">${iconoDeCarta(carta)}</div>`}
-      <p class="carta__nombre">${obtenida ? carta.nombre : "¿?"}</p>
-      <p class="carta__rol">${carta.rol}</p>
+      <div class="carta__media">
+        ${dorsal}
+        <img src="${primeraFoto}" alt="${carta.name}" class="carta__foto"
+             data-stage="0"
+             data-foto2="${respaldoAPI}"
+             data-bandera="${respaldoBandera}"
+             onerror="${onerror}" />
+        <div class="carta__icono" style="display:none">${iconoDeCarta(carta)}</div>
+      </div>
+      <p class="carta__nombre">${carta.name}</p>
+      <div class="carta__info">
+        ${pos ? `<span class="carta__pos">${pos}</span>` : ""}
+        ${club ? `<span class="carta__club">${club}</span>` : `<span class="carta__club">${carta.role}</span>`}
+      </div>
     </div>`;
 }
 
 function renderPaginaPais(pais) {
   const obtenidas = cantidadObtenidaPais(pais);
-  const total = pais.cartas.length;
-  return `
-    <article class="pagina-pais" id="pais-${sigla3(pais.pais)}" data-nombre="${pais.pais.toLowerCase()}">
+  const total = pais.cards.length;
+  const code2 = FLAG_CODES[pais.countryCode] || "xx";
+
+  const html = `
+    <article class="pagina-pais" id="pais-${sigla3(pais.country)}" data-nombre="${pais.country.toLowerCase()}">
       <div class="pagina-pais__header">
-        <img class="pagina-pais__bandera" src="https://flagcdn.com/w80/${pais.code}.png" alt="Bandera de ${pais.pais}" loading="lazy" />
-        <h3 class="pagina-pais__nombre">${pais.pais}</h3>
-        <span class="pagina-pais__progreso">${obtenidas}/${total}</span>
+        <img class="pagina-pais__bandera" src="https://flagcdn.com/w80/${code2}.png" alt="Bandera de ${pais.country}" loading="lazy" />
+        <div style="flex:1">
+          <h3 class="pagina-pais__nombre">${pais.country}</h3>
+          <span class="pagina-pais__grupo">${pais.wcGroup || ""}</span>
+        </div>
+        <span class="pagina-pais__progreso">${obtenidas} / ${total}</span>
       </div>
       <div class="cartas-grid">
-        ${pais.cartas.map(renderCarta).join("")}
+        ${pais.cards.map((c) => renderCarta(c, pais)).join("")}
       </div>
     </article>`;
+
+  return html;
 }
 
-// ---------------------------------------------------------------------
-// Álbum tipo libro: una selección a la vez, con flechas prev/next
-// ---------------------------------------------------------------------
 function renderLibroPagina() {
-  const cont = document.getElementById("libro-pagina");
-  const pais = ALBUM_DATA[estado.paginaActual];
-  cont.innerHTML = renderPaginaPais(pais);
-
-  const conf = CONFEDERACIONES.find((c) => c.codigo === pais.confederacion);
+  const pais = countryArr[estado.paginaActual];
+  document.getElementById("libro-pagina").innerHTML = renderPaginaPais(pais);
   document.getElementById("libro-indicador").textContent =
-    `${conf ? conf.nombre : ""} · Selección ${estado.paginaActual + 1} de ${ALBUM_DATA.length}`;
+    `${pais.wcGroup || ""} - Pagina ${estado.paginaActual + 1} de ${countryArr.length}`;
 
   document.getElementById("btn-pagina-prev").disabled = estado.paginaActual === 0;
-  document.getElementById("btn-pagina-next").disabled = estado.paginaActual === ALBUM_DATA.length - 1;
+  document.getElementById("btn-pagina-next").disabled = estado.paginaActual === countryArr.length - 1;
 
-  marcarConfedActiva();
-  attachClicksEnCartas();
+  marcarGrupoActivo();
+  agregarClicsACartas();
 }
 
 function irAPagina(indice) {
-  const max = ALBUM_DATA.length - 1;
-  estado.paginaActual = Math.min(Math.max(indice, 0), max);
+  if (indice < 0) indice = 0;
+  if (indice >= countryArr.length) indice = countryArr.length - 1;
+  estado.paginaActual = indice;
   renderLibroPagina();
+  document.getElementById("album-main").scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 function initLibro() {
@@ -185,42 +175,53 @@ function initLibro() {
   document.getElementById("btn-pagina-next").addEventListener("click", () => irAPagina(estado.paginaActual + 1));
 }
 
-// ---------------------------------------------------------------------
-// Pestañas fijas: Álbum / Mercado (siempre accesible, no depende de scroll)
-// ---------------------------------------------------------------------
-function initTabs() {
-  const tabAlbum = document.getElementById("tab-album");
-  const tabMercado = document.getElementById("tab-mercado");
-  const vistaAlbum = document.getElementById("vista-album");
-  const vistaMercado = document.getElementById("seccion-mercado");
+function renderNav() {
+  const ul = document.getElementById("confed-nav-list");
+  const gruposLetra = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"];
+  ul.innerHTML = gruposLetra.map((letra) => {
+    return `<li><button class="confed-nav__link" type="button" data-grupo="${letra}">Grupo ${letra}</button></li>`;
+  }).join("");
 
-  function mostrar(vista) {
-    estado.vista = vista;
-    vistaAlbum.hidden = vista !== "album";
-    vistaMercado.hidden = vista !== "mercado";
-    tabAlbum.classList.toggle("is-active", vista === "album");
-    tabMercado.classList.toggle("is-active", vista === "mercado");
-  }
-
-  tabAlbum.addEventListener("click", () => mostrar("album"));
-  tabMercado.addEventListener("click", () => mostrar("mercado"));
+  ul.querySelectorAll(".confed-nav__link").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const letra = btn.dataset.grupo;
+      const idx = countryArr.findIndex((p) => p.wcGroup === `Grupo ${letra}`);
+      if (idx >= 0) irAPagina(idx);
+    });
+  });
 }
 
-// ---------------------------------------------------------------------
-// Modal de detalle de carta: foto grande arriba, info abajo
-// ---------------------------------------------------------------------
+function marcarGrupoActivo() {
+  const paisActual = countryArr[estado.paginaActual];
+  if (!paisActual) return;
+  const letra = (paisActual.wcGroup || "").replace("Grupo ", "");
+  document.querySelectorAll(".confed-nav__link").forEach((btn) => {
+    if (btn.dataset.grupo === letra) btn.classList.add("is-active");
+    else btn.classList.remove("is-active");
+  });
+}
+
 function abrirModalCarta(id) {
   const info = buscarCartaPorId(id);
   if (!info) return;
-  const cantidad = estado.coleccion.get(id) || 0;
-  if (cantidad <= 0) return; // no mostramos detalle de algo que no tienen
+  if ((estado.coleccion.get(id) || 0) <= 0) return;
 
-  document.getElementById("carta-modal-media").innerHTML = mediaCarta(info.carta);
-  document.getElementById("carta-modal-pais").textContent = info.pais.pais;
-  document.getElementById("carta-modal-nombre").textContent = info.carta.nombre;
-  document.getElementById("carta-modal-rol").textContent = info.carta.rol;
-  document.getElementById("carta-modal-cantidad").textContent =
-    cantidad > 1 ? `Tenés ${cantidad}` : "Tenés 1";
+  document.getElementById("carta-modal-wrap").innerHTML = renderCarta(info.carta, info.pais);
+  document.getElementById("carta-modal-pais").textContent = info.pais.country;
+  document.getElementById("carta-modal-nombre").textContent = info.carta.name;
+  document.getElementById("carta-modal-rol").textContent = info.carta.role;
+
+  const chipClub = document.getElementById("carta-modal-club");
+  const club = info.carta.club || info.carta.team;
+  if (club) {
+    chipClub.textContent = club;
+    chipClub.hidden = false;
+  } else {
+    chipClub.hidden = true;
+  }
+
+  const cantidad = estado.coleccion.get(id);
+  document.getElementById("carta-modal-cantidad").textContent = `Tienes: ${cantidad}`;
 
   document.getElementById("carta-overlay").hidden = false;
 }
@@ -233,15 +234,12 @@ function initModalCarta() {
   });
 }
 
-function attachClicksEnCartas() {
-  document.querySelectorAll("#libro-pagina .carta--clicable").forEach((nodo) => {
+function agregarClicsACartas() {
+  document.querySelectorAll("#libro-pagina .carta:not(.carta--faltante)").forEach((nodo) => {
     nodo.addEventListener("click", () => abrirModalCarta(nodo.dataset.id));
   });
 }
 
-// ---------------------------------------------------------------------
-// Buscador: salta directo a la página de la selección elegida
-// ---------------------------------------------------------------------
 function initBuscador() {
   const input = document.getElementById("buscador-pais");
   const resultados = document.getElementById("search-resultados");
@@ -253,33 +251,28 @@ function initBuscador() {
       resultados.innerHTML = "";
       return;
     }
-    const coincidencias = ALBUM_DATA
-      .map((pais, idx) => ({ pais, idx }))
-      .filter(({ pais }) => pais.pais.toLowerCase().includes(q))
-      .slice(0, 8);
+
+    const coincidencias = [];
+    for (let i = 0; i < countryArr.length; i++) {
+      if (countryArr[i].country.toLowerCase().includes(q)) {
+        coincidencias.push({ pais: countryArr[i], idx: i });
+      }
+    }
 
     if (coincidencias.length === 0) {
-      resultados.innerHTML = `<li class="search-bar__vacio">Sin resultados</li>`;
+      resultados.innerHTML = `<li>Sin resultados</li>`;
       resultados.hidden = false;
       return;
     }
 
-    resultados.innerHTML = coincidencias
-      .map(
-        ({ pais, idx }) => `
-        <li>
-          <button type="button" data-idx="${idx}">
-            <img src="https://flagcdn.com/w40/${pais.code}.png" alt="" />
-            ${pais.pais}
-          </button>
-        </li>`
-      )
-      .join("");
+    resultados.innerHTML = coincidencias.slice(0, 8).map(({ pais, idx }) => {
+      return `<li data-idx="${idx}">${pais.country}</li>`;
+    }).join("");
     resultados.hidden = false;
 
-    resultados.querySelectorAll("button[data-idx]").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        irAPagina(Number(btn.dataset.idx));
+    resultados.querySelectorAll("li[data-idx]").forEach((li) => {
+      li.addEventListener("click", () => {
+        irAPagina(Number(li.dataset.idx));
         resultados.hidden = true;
         input.value = "";
       });
@@ -287,41 +280,54 @@ function initBuscador() {
   });
 
   document.addEventListener("click", (e) => {
-    if (!e.target.closest(".search-bar")) resultados.hidden = true;
+    if (e.target !== input) resultados.hidden = true;
   });
 }
 
-
 function actualizarStats() {
   const obtenidas = [...estado.coleccion.values()].filter((v) => v > 0).length;
+  const repetidas = [...estado.coleccion.values()].filter((v) => v > 1).length;
+
   document.getElementById("stat-coleccion").textContent = `${obtenidas} / ${TOTAL_CARTAS}`;
   document.getElementById("stat-sobres").textContent = `Sobres: ${estado.sobresDisponibles}`;
   document.getElementById("progreso-global-fill").style.width = `${(obtenidas / TOTAL_CARTAS) * 100}%`;
 
-  // refresca los contadores de cada país sin volver a montar todo el DOM
-  ALBUM_DATA.forEach((pais) => {
-    const art = document.getElementById(`pais-${sigla3(pais.pais)}`);
-    if (!art) return;
-    const badge = art.querySelector(".pagina-pais__progreso");
-    if (badge) badge.textContent = `${cantidadObtenidaPais(pais)}/${pais.cartas.length}`;
-  });
-}
+  const paisActual = countryArr[estado.paginaActual];
+  if (paisActual) {
+    const art = document.getElementById(`pais-${sigla3(paisActual.country)}`);
+    if (art) {
+      const badge = art.querySelector(".pagina-pais__progreso");
+      if (badge) badge.textContent = `${cantidadObtenidaPais(paisActual)} / ${paisActual.cards.length}`;
+    }
+  }
 
+  const badge = document.getElementById("mercado-badge");
+  const total = repetidas + estado.ofertas.length;
+  if (total > 0) {
+    badge.textContent = total;
+    badge.hidden = false;
+  } else {
+    badge.hidden = true;
+  }
+
+  const tabCount = document.getElementById("mercado-tab-count");
+  if (tabCount) tabCount.textContent = estado.ofertas.length;
+}
 
 function refrescarCartaEnDOM(id) {
   const nodo = document.querySelector(`.carta[data-id="${id}"]`);
   if (!nodo) return;
   const info = buscarCartaPorId(id);
   if (!info) return;
-  nodo.outerHTML = renderCarta(info.carta);
+  nodo.outerHTML = renderCarta(info.carta, info.pais);
   const nuevoNodo = document.querySelector(`.carta[data-id="${id}"]`);
-  if (nuevoNodo && nuevoNodo.classList.contains("carta--clicable")) {
+  if (nuevoNodo && !nuevoNodo.classList.contains("carta--faltante")) {
     nuevoNodo.addEventListener("click", () => abrirModalCarta(id));
   }
 }
 
 function generarSobreLocal() {
-  const todasLasCartas = ALBUM_DATA.flatMap((p) => p.cartas);
+  const todasLasCartas = CATALOGO_COMPLETO.countries.flatMap((p) => p.cards);
   const sobre = [];
   for (let i = 0; i < 7; i++) {
     const carta = todasLasCartas[Math.floor(Math.random() * todasLasCartas.length)];
@@ -336,19 +342,22 @@ function initSobre() {
   const btnAbrir = document.getElementById("btn-abrir-sobre");
   const btnCerrar = document.getElementById("btn-cerrar-sobre");
 
+  function pantallaInicial() {
+    contenido.innerHTML = `
+      <div class="sobre-inicial">
+        <p>Tu sobre trae <strong>7 barajitas</strong> al azar de cualquier seleccion clasificada.</p>
+        <button class="btn-revelar" id="btn-revelar">Abrir sobre</button>
+      </div>`;
+    document.getElementById("btn-revelar").addEventListener("click", revelarSobre);
+  }
+
   function abrirModal() {
     if (estado.sobresDisponibles <= 0) {
       alert("No te quedan sobres disponibles por ahora.");
       return;
     }
-    contenido.innerHTML = `
-      <div class="sobre-inicial">
-        <div class="sobre-inicial__icono" aria-hidden="true">✉️</div>
-        <p>Tu sobre trae 7 figuritas al azar de cualquier selección clasificada.</p>
-        <button class="btn-revelar" id="btn-revelar">Abrir</button>
-      </div>`;
+    pantallaInicial();
     overlay.hidden = false;
-    document.getElementById("btn-revelar").addEventListener("click", revelarSobre);
   }
 
   function revelarSobre() {
@@ -357,30 +366,37 @@ function initSobre() {
     let nuevas = 0;
     let repetidas = 0;
 
+    const wasNew = [];
+    sobre.forEach((carta) => {
+      const teniaAntes = estado.coleccion.get(carta.id) || 0;
+      wasNew.push(teniaAntes === 0);
+      estado.coleccion.set(carta.id, teniaAntes + 1);
+      if (teniaAntes === 0) nuevas++;
+      else repetidas++;
+    });
+
     const html = sobre
       .map((carta, i) => {
-        const teniaAntes = estado.coleccion.get(carta.id) || 0;
-        estado.coleccion.set(carta.id, teniaAntes + 1);
-        const esNueva = teniaAntes === 0;
-        if (esNueva) nuevas++;
-        else repetidas++;
+        const info = buscarCartaPorId(carta.id);
+        const paisDeCarta = info ? info.pais : null;
+        const esNueva = wasNew[i];
         return `
-          <div class="reveal-carta ${esNueva ? "reveal-carta--nueva" : "reveal-carta--repetida"}" style="animation-delay:${i * 0.08}s">
-            ${mediaCarta(carta)}
-            <p class="reveal-carta__nombre">${carta.nombre}</p>
-            <p class="reveal-carta__tag">${esNueva ? "¡Nueva!" : "Repetida"}</p>
+          <div class="reveal-carta ${esNueva ? "reveal-carta--nueva" : "reveal-carta--repetida"}">
+            ${renderCarta(carta, paisDeCarta)}
+            <div class="reveal-carta__tag">${esNueva ? "NUEVA" : "REPETIDA"}</div>
           </div>`;
       })
       .join("");
 
     contenido.innerHTML = `
       <div class="reveal-grid">${html}</div>
-      <p class="sobre-resumen">${nuevas} nuevas · ${repetidas} repetidas</p>
+      <p class="sobre-resumen"><strong>${nuevas}</strong> nuevas - <strong>${repetidas}</strong> repetidas</p>
     `;
 
     sobre.forEach((c) => refrescarCartaEnDOM(c.id));
     actualizarStats();
     renderRepetidas();
+    renderOfertas();
   }
 
   btnAbrir.addEventListener("click", abrirModal);
@@ -389,7 +405,6 @@ function initSobre() {
     if (e.target === overlay) overlay.hidden = true;
   });
 }
-
 
 function renderRepetidas() {
   const cont = document.getElementById("repetidas-lista");
@@ -401,38 +416,38 @@ function renderRepetidas() {
   });
 
   if (repetidas.length === 0) {
-    cont.innerHTML = `<p class="mercado__vacio">Todavía no tenés figuritas repetidas. Abrí sobres para conseguir.</p>`;
-    select.innerHTML = `<option value="">— sin repetidas —</option>`;
-    document.getElementById("btn-proponer").disabled = true;
+    cont.innerHTML = `<p class="vacio">Todavia no tienes barajitas repetidas. Abre sobres para conseguir.</p>`;
+    if (select) select.innerHTML = `<option value="">-- sin repetidas --</option>`;
+    const btnProp = document.getElementById("btn-proponer");
+    if (btnProp) btnProp.disabled = true;
     return;
   }
 
-  document.getElementById("btn-proponer").disabled = false;
+  const btnProp = document.getElementById("btn-proponer");
+  if (btnProp) btnProp.disabled = false;
 
   cont.innerHTML = repetidas
-    .map(({ id, cant }) => {
+    .map(({ id }) => {
       const info = buscarCartaPorId(id);
-      return `<div class="carta carta--obtenida" style="aspect-ratio:3/4">
-        <span class="carta__badge">x${cant}</span>
-        ${mediaCarta(info.carta)}
-        <p class="carta__nombre">${info.carta.nombre}</p>
-        <p class="carta__rol">${info.pais.pais}</p>
-      </div>`;
+      return renderCarta(info.carta, info.pais);
     })
     .join("");
 
-  select.innerHTML = repetidas
-    .map(({ id, cant }) => {
-      const info = buscarCartaPorId(id);
-      return `<option value="${id}">${id} · ${info.carta.nombre} (x${cant})</option>`;
-    })
-    .join("");
+  if (select) {
+    select.innerHTML = repetidas
+      .map(({ id, cant }) => {
+        const info = buscarCartaPorId(id);
+        return `<option value="${id}">${id} - ${info.carta.name} (x${cant})</option>`;
+      })
+      .join("");
+  }
 }
 
 function renderOfertas() {
   const ul = document.getElementById("ofertas-lista");
   if (estado.ofertas.length === 0) {
-    ul.innerHTML = `<p class="mercado__vacio">No hay ofertas activas en este momento.</p>`;
+    ul.innerHTML = `<p class="vacio">No hay ofertas activas en este momento.</p>`;
+    actualizarStats();
     return;
   }
   ul.innerHTML = estado.ofertas
@@ -454,13 +469,35 @@ function renderOfertas() {
       const id = li.dataset.oferta;
       estado.ofertas = estado.ofertas.filter((o) => o.id !== id);
       renderOfertas();
+      actualizarStats();
     });
   });
 }
 
 function initMercado() {
-  renderRepetidas();
-  renderOfertas();
+  const overlay = document.getElementById("mercado-overlay");
+  const btnAbrir = document.getElementById("btn-mercado");
+  const btnCerrar = document.getElementById("btn-cerrar-mercado");
+
+  btnAbrir.addEventListener("click", () => {
+    renderRepetidas();
+    renderOfertas();
+    overlay.hidden = false;
+  });
+
+  btnCerrar.addEventListener("click", () => (overlay.hidden = true));
+  overlay.addEventListener("click", (e) => {
+    if (e.target === overlay) overlay.hidden = true;
+  });
+
+  const tabs = overlay.querySelectorAll(".tab");
+  const paneles = overlay.querySelectorAll(".panel");
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      tabs.forEach((t) => t.classList.toggle("activo", t === tab));
+      paneles.forEach((p) => p.classList.toggle("activo", p.dataset.panel === tab.dataset.tab));
+    });
+  });
 
   document.getElementById("form-propuesta").addEventListener("submit", (e) => {
     e.preventDefault();
@@ -473,23 +510,22 @@ function initMercado() {
       id: `OF-${Date.now()}`,
       grupo: grupo || "Tu grupo",
       ofrece: ofrecida,
-      pide: pedido || "?",
+      pide: pedido || "?"
     });
     renderOfertas();
+    actualizarStats();
     e.target.reset();
-    alert("Propuesta guardada localmente. Cuando la API esté lista, esto se enviará por Socket.IO al otro grupo.");
+
+    tabs.forEach((t) => t.classList.toggle("activo", t.dataset.tab === "ofertas"));
+    paneles.forEach((p) => p.classList.toggle("activo", p.dataset.panel === "ofertas"));
   });
 }
 
-
-document.addEventListener("DOMContentLoaded", () => {
-  renderNav();
-  renderLibroPagina();
-  actualizarStats();
-  initLibro();
-  initTabs();
-  initModalCarta();
-  initBuscador();
-  initSobre();
-  initMercado();
-});
+renderNav();
+renderLibroPagina();
+actualizarStats();
+initLibro();
+initBuscador();
+initSobre();
+initMercado();
+initModalCarta();

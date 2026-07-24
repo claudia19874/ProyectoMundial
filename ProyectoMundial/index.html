@@ -3,10 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Álbum Fútbol · Mundial 2026</title>
-  <meta name="description" content="Álbum interactivo de figuritas del Mundial 2026: abre sobres, completa países e intercambia repetidas." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Anton&family=JetBrains+Mono:wght@500;700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <title>Album Mundial 2026</title>
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
@@ -14,16 +11,18 @@
   <header class="app-header">
     <div class="app-header__top">
       <div class="brand">
-        <span class="brand__mark" aria-hidden="true">⚽</span>
         <div>
-          <p class="brand__title">Álbum Mundial 2026</p>
-          <p class="brand__subtitle">48 selecciones · 576 figuritas</p>
+          <p class="brand__title">Album Mundial 2026</p>
+          <p class="brand__subtitle">48 selecciones - 576 barajitas</p>
         </div>
       </div>
 
       <div class="header-stats">
         <span class="stat-pill" id="stat-coleccion">0 / 576</span>
         <span class="stat-pill" id="stat-sobres">Sobres: 3</span>
+        <button class="btn-mercado" id="btn-mercado" type="button">
+          Mercado <span class="badge" id="mercado-badge" hidden>0</span>
+        </button>
         <button class="btn-sobre" id="btn-abrir-sobre" type="button">
           Abrir sobre
         </button>
@@ -37,117 +36,123 @@
     </div>
   </header>
 
-  <nav class="vista-tabs" aria-label="Vista principal">
-    <button class="vista-tabs__btn is-active" id="tab-album" type="button">📖 Álbum</button>
-    <button class="vista-tabs__btn" id="tab-mercado" type="button">🔄 Mercado</button>
+  <nav class="confed-nav" aria-label="Grupos">
+    <ul class="confed-nav__list" id="confed-nav-list">
+
+    </ul>
   </nav>
 
-  <section id="vista-album">
-    <nav class="confed-nav" aria-label="Confederaciones">
-      <ul class="confed-nav__list" id="confed-nav-list">
-        <!-- generado por JS -->
-      </ul>
-    </nav>
-
-    <div class="search-bar">
-      <label for="buscador-pais" class="visually-hidden">Buscar selección</label>
-      <input
-        type="search"
-        id="buscador-pais"
-        placeholder="Buscar selección… (ej: Argentina, Japón, Marruecos)"
-        autocomplete="off"
-      />
-      <ul class="search-bar__resultados" id="search-resultados" hidden></ul>
-    </div>
-
-    <div class="libro">
-      <button class="libro__flecha libro__flecha--prev" id="btn-pagina-prev" type="button" aria-label="Selección anterior">‹</button>
-      <div class="libro__pagina" id="libro-pagina"><!-- generado por JS --></div>
-      <button class="libro__flecha libro__flecha--next" id="btn-pagina-next" type="button" aria-label="Selección siguiente">›</button>
-    </div>
-
-    <p class="libro__indicador" id="libro-indicador"></p>
-  </section>
-
-  <section id="seccion-mercado" aria-labelledby="mercado-heading" hidden>
-    <div class="mercado">
-      <h2 class="mercado__heading" id="mercado-heading">Mercado de intercambios</h2>
-      <div class="mercado__grid">
-
-        <div class="mercado__panel">
-          <h3>Tus repetidas</h3>
-          <div class="repetidas-lista" id="repetidas-lista">
-            <p class="mercado__vacio">Todavía no tenés figuritas repetidas. Abrí sobres para conseguir.</p>
-          </div>
-
-          <h3>Proponer intercambio</h3>
-          <form class="propuesta-form" id="form-propuesta">
-            <label for="select-repetida">Ofrecés</label>
-            <select id="select-repetida" required></select>
-
-            <label for="input-grupo">A qué grupo</label>
-            <input type="text" id="input-grupo" placeholder="Ej: Grupo 4" required />
-
-            <label for="input-pedido">A cambio de</label>
-            <input type="text" id="input-pedido" placeholder="Ej: ARG-10 (figurita que te falta)" required />
-
-            <button type="submit" id="btn-proponer">Enviar propuesta</button>
-          </form>
-          <p class="mercado__vacio" style="margin-top:.5rem">
-            Esta propuesta se enviará por Socket.IO al servidor cuando la API esté disponible. Por ahora queda simulada localmente.
-          </p>
-        </div>
-
-        <div class="mercado__panel">
-          <h3>Ofertas en vivo</h3>
-          <ul class="ofertas-lista" id="ofertas-lista">
-            <!-- generado por JS -->
-          </ul>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <footer class="app-footer">
-    Proyecto NRC 26577 · Programación Orientada a la Web · Interfaz de cliente (sin servidor todavía)
-  </footer>
-
-  <!-- Modal detalle de una carta -->
-  <div class="carta-overlay" id="carta-overlay" hidden>
-    <div class="carta-modal" role="dialog" aria-modal="true" aria-labelledby="carta-modal-nombre">
-      <button class="sobre-modal__cerrar carta-modal__cerrar" id="btn-cerrar-carta" aria-label="Cerrar">✕</button>
-      <div class="carta-modal__media" id="carta-modal-media"><!-- generado por JS --></div>
-      <div class="carta-modal__info">
-        <p class="carta-modal__pais" id="carta-modal-pais"></p>
-        <h2 class="carta-modal__nombre" id="carta-modal-nombre"></h2>
-        <div class="carta-modal__tags">
-          <span class="carta-modal__tag" id="carta-modal-rol"></span>
-          <span class="carta-modal__tag" id="carta-modal-cantidad"></span>
-        </div>
-      </div>
-    </div>
+  <div class="search-bar">
+    <label for="buscador-pais" class="visually-hidden">Buscar seleccion</label>
+    <input
+      type="search"
+      id="buscador-pais"
+      placeholder="Buscar seleccion..."
+      autocomplete="off"
+    />
+    <ul class="buscador-resultados" id="search-resultados" hidden></ul>
   </div>
 
-  <!-- Modal apertura de sobre -->
-  <div class="sobre-overlay" id="sobre-overlay" hidden>
-    <div class="sobre-modal" role="dialog" aria-modal="true" aria-labelledby="sobre-titulo">
-      <div class="sobre-modal__header">
-        <h2 id="sobre-titulo">Sobre de figuritas</h2>
-        <button class="sobre-modal__cerrar" id="btn-cerrar-sobre" aria-label="Cerrar">✕</button>
+  <main id="album-main">
+    <div class="libro">
+      <button class="flecha" id="btn-pagina-prev" type="button" aria-label="Seleccion anterior">&lt;</button>
+      <div id="libro-pagina"></div>
+      <button class="flecha" id="btn-pagina-next" type="button" aria-label="Siguiente seleccion">&gt;</button>
+    </div>
+    <p id="libro-indicador"></p>
+  </main>
+
+  <div class="overlay" id="sobre-overlay" hidden>
+    <div class="modal modal-sobre" role="dialog" aria-modal="true" aria-labelledby="sobre-titulo">
+      <div class="modal-header">
+        <h2 id="sobre-titulo">Sobre nuevo - 7 barajitas</h2>
+        <button class="cerrar" id="btn-cerrar-sobre" aria-label="Cerrar">X</button>
       </div>
 
       <div id="sobre-contenido">
         <div class="sobre-inicial">
-          <div class="sobre-inicial__icono" aria-hidden="true">✉️</div>
-          <p>Tu sobre trae 7 figuritas al azar de cualquier selección clasificada.</p>
-          <button class="btn-revelar" id="btn-revelar">Abrir</button>
+          <p>Tu sobre trae <strong>7 barajitas</strong> al azar de cualquier seleccion clasificada.</p>
+          <button class="btn-revelar" id="btn-revelar">Abrir sobre</button>
         </div>
       </div>
     </div>
   </div>
 
-  <script src="js/data.js"></script>
-  <script src="js/app.js"></script>
+  <div class="overlay" id="mercado-overlay" hidden>
+    <div class="modal modal-mercado" role="dialog" aria-modal="true" aria-labelledby="mercado-heading">
+      <div class="modal-header">
+        <h2 id="mercado-heading">Mercado de intercambios</h2>
+        <button class="cerrar" id="btn-cerrar-mercado" aria-label="Cerrar">X</button>
+      </div>
+
+      <div class="tabs">
+        <button class="tab activo" data-tab="repetidas" type="button">Tus repetidas</button>
+        <button class="tab" data-tab="proponer" type="button">Proponer</button>
+        <button class="tab" data-tab="ofertas" type="button">
+          Ofertas <span class="badge" id="mercado-tab-count">0</span>
+        </button>
+      </div>
+
+      <div class="tabs-body">
+
+        <section class="panel activo" data-panel="repetidas">
+          <p class="panel-intro">Estas son las barajitas que tienes duplicadas.</p>
+          <div class="repetidas-lista" id="repetidas-lista">
+            <p class="vacio">Todavia no tienes barajitas repetidas. Abre sobres para conseguir.</p>
+          </div>
+        </section>
+
+        <section class="panel" data-panel="proponer">
+          <p class="panel-intro">Elige una repetida tuya y a que grupo se la ofreces.</p>
+          <form class="propuesta-form" id="form-propuesta">
+            <label for="select-repetida">Ofreces</label>
+            <select id="select-repetida" required></select>
+
+            <label for="input-grupo">A que grupo</label>
+            <input type="text" id="input-grupo" placeholder="Ej: Grupo 4" required />
+
+            <label for="input-pedido">A cambio de</label>
+            <input type="text" id="input-pedido" placeholder="Ej: ARG-10" required />
+
+            <button type="submit" id="btn-proponer">Enviar propuesta</button>
+          </form>
+          <p class="nota">
+            Esta propuesta se enviara por Socket.IO al servidor cuando la API este disponible.
+          </p>
+        </section>
+
+        <section class="panel" data-panel="ofertas">
+          <p class="panel-intro">Otros grupos te han hecho estas ofertas:</p>
+          <ul class="ofertas-lista" id="ofertas-lista">
+
+          </ul>
+        </section>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="overlay" id="carta-overlay" hidden>
+    <div class="modal modal-carta" role="dialog" aria-modal="true">
+      <button class="cerrar" id="btn-cerrar-carta" aria-label="Cerrar">X</button>
+      <div id="carta-modal-wrap"></div>
+      <div class="modal-info">
+        <p class="modal-info__pais" id="carta-modal-pais"></p>
+        <h2 id="carta-modal-nombre"></h2>
+        <div class="modal-tags">
+          <span class="chip" id="carta-modal-rol"></span>
+          <span class="chip" id="carta-modal-club" hidden></span>
+          <span class="chip" id="carta-modal-cantidad"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="app-footer">
+    <p>Proyecto NRC 26577 - Programacion Orientada a la Web - UCAB</p>
+  </footer>
+
+  <script type="module" src="js/data.js"></script>
+  <script type="module" src="js/app.js"></script>
 </body>
 </html>
