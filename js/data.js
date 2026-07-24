@@ -7,90 +7,20 @@ const apiUrl = import.meta.env.VITE_API_URL
  * Datos simulados q en teoria da la apikey
  */
 
-const CONFEDERACIONES = [
-  {
-    codigo: "CONMEBOL",
-    nombre: "Conmebol · Sudamérica",
-    paises: [
-      { nombre: "Argentina", code: "ar" },
-      { nombre: "Brasil", code: "br" },
-      { nombre: "Colombia", code: "co" },
-      { nombre: "Ecuador", code: "ec" },
-      { nombre: "Paraguay", code: "py" },
-      { nombre: "Uruguay", code: "uy" },
-    ],
-  },
-  {
-    codigo: "UEFA",
-    nombre: "UEFA · Europa",
-    paises: [
-      { nombre: "Alemania", code: "de" },
-      { nombre: "Austria", code: "at" },
-      { nombre: "Bélgica", code: "be" },
-      { nombre: "Bosnia y Herzegovina", code: "ba" },
-      { nombre: "Croacia", code: "hr" },
-      { nombre: "España", code: "es" },
-      { nombre: "Escocia", code: "gb-sct" },
-      { nombre: "Francia", code: "fr" },
-      { nombre: "Países Bajos", code: "nl" },
-      { nombre: "Noruega", code: "no" },
-      { nombre: "Portugal", code: "pt" },
-      { nombre: "República Checa", code: "cz" },
-      { nombre: "Suecia", code: "se" },
-      { nombre: "Suiza", code: "ch" },
-      { nombre: "Turquía", code: "tr" },
-      { nombre: "Inglaterra", code: "gb-eng" },
-    ],
-  },
-  {
-    codigo: "CAF",
-    nombre: "CAF · África",
-    paises: [
-      { nombre: "Argelia", code: "dz" },
-      { nombre: "Cabo Verde", code: "cv" },
-      { nombre: "Costa de Marfil", code: "ci" },
-      { nombre: "Egipto", code: "eg" },
-      { nombre: "Ghana", code: "gh" },
-      { nombre: "Marruecos", code: "ma" },
-      { nombre: "RD del Congo", code: "cd" },
-      { nombre: "Senegal", code: "sn" },
-      { nombre: "Sudáfrica", code: "za" },
-      { nombre: "Túnez", code: "tn" },
-    ],
-  },
-  {
-    codigo: "AFC",
-    nombre: "AFC · Asia",
-    paises: [
-      { nombre: "Arabia Saudita", code: "sa" },
-      { nombre: "Australia", code: "au" },
-      { nombre: "Catar", code: "qa" },
-      { nombre: "Corea del Sur", code: "kr" },
-      { nombre: "Irak", code: "iq" },
-      { nombre: "Irán", code: "ir" },
-      { nombre: "Japón", code: "jp" },
-      { nombre: "Jordania", code: "jo" },
-      { nombre: "Uzbekistán", code: "uz" },
-    ],
-  },
-  {
-    codigo: "CONCACAF",
-    nombre: "Concacaf · Norte y Centroamérica",
-    paises: [
-      { nombre: "Canadá", code: "ca" },
-      { nombre: "Curazao", code: "cw" },
-      { nombre: "Estados Unidos", code: "us" },
-      { nombre: "Haití", code: "ht" },
-      { nombre: "México", code: "mx" },
-      { nombre: "Panamá", code: "pa" },
-    ],
-  },
-  {
-    codigo: "OFC",
-    nombre: "OFC · Oceanía",
-    paises: [{ nombre: "Nueva Zelanda", code: "nz" }],
-  },
-];
+const FLAG_CODES = {
+  "MEX": "mx", "RSA": "za", "KOR": "kr", "CZE": "cz",
+  "CAN": "ca", "BIH": "ba", "QAT": "qa", "SUI": "ch",
+  "BRA": "br", "MAR": "ma", "HAI": "ht", "SCO": "gb-sct",
+  "USA": "us", "PAR": "py", "AUS": "au", "TUR": "tr",
+  "GER": "de", "CUW": "cw", "CIV": "ci", "ECU": "ec",
+  "NED": "nl", "JPN": "jp", "SWE": "se", "TUN": "tn",
+  "BEL": "be", "EGY": "eg", "IRN": "ir", "NZL": "nz",
+  "ESP": "es", "CPV": "cv", "KSA": "sa", "URU": "uy",
+  "FRA": "fr", "NOR": "no", "SEN": "sn", "IRQ": "iq",
+  "ARG": "ar", "AUT": "at", "ALG": "dz", "JOR": "jo",
+  "POR": "pt", "COD": "cd", "UZB": "uz", "COL": "co",
+  "ENG": "gb-eng", "CRO": "hr", "GHA": "gh", "PAN": "pa"
+};
 
 const GROUPS = [
   {
@@ -305,4 +235,4 @@ async function BuscarCatalogoBarajitas() {
 const CATALOGO_COMPLETO = await BuscarCatalogoBarajitas();
 const ALBUM_DATA = await construirAlbumLocal();
 
-export { CATALOGO_COMPLETO, ALBUM_DATA, GROUPS };
+export { CATALOGO_COMPLETO, ALBUM_DATA, GROUPS, FLAG_CODES };

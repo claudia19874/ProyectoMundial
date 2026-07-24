@@ -1,4 +1,4 @@
-import { GROUPS, ALBUM_DATA, CATALOGO_COMPLETO } from "./data.js";
+import { GROUPS, ALBUM_DATA, CATALOGO_COMPLETO, FLAG_CODES } from "./data.js";
 
 
 const estado = {
@@ -93,11 +93,13 @@ function renderCarta(carta) {
 }
 
 
+
+
 function renderPaginaPais(pais) {
   const obtenidas = cantidadObtenidaPais(pais);
   const total = pais.cards.length;
-  // flagcdn requiere 2 letras, usamos los primeros 2 caracteres del countryCode como workaround rápido
-  const code2 = pais.countryCode ? pais.countryCode.substring(0, 2).toLowerCase() : "xx";
+  // Usamos el diccionario para mapear la sigla de 3 letras al código de flagcdn
+  const code2 = FLAG_CODES[pais.countryCode] || "xx";
   return `
     <article class="pagina-pais" id="pais-${sigla3(pais.country)}" data-nombre="${pais.country.toLowerCase()}">
       <div class="pagina-pais__header">
