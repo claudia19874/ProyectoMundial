@@ -4,6 +4,8 @@
 const estado = {
   coleccion: new Map(), // id de carta -> cantidad que tengo (0, 1, 2, 3...)
   sobresDisponibles: 3,
+  vista: "album", // "album" | "mercado"
+  paginaActual: 0, // índice dentro de ALBUM_DATA (orden = confederaciones en orden)
   ofertas: [
     {
       id: "OF-1",
@@ -32,9 +34,9 @@ const TOTAL_CARTAS = ALBUM_DATA.reduce((acc, p) => acc + p.cartas.length, 0);
 // ---------------------------------------------------------------------
 const ICONOS = {
   "Federación": `<svg viewBox="0 0 24 24"><path d="M12 2 3 6v6c0 5 3.8 8.7 9 10 5.2-1.3 9-5 9-10V6l-9-4Zm0 2.2 7 3.1v4.7c0 3.9-2.9 6.9-7 8-4.1-1.1-7-4.1-7-8V7.3l7-3.1Z"/></svg>`,
-  "Portero": `<svg viewBox="0 0 24 24"><path d="M12 2a5 5 0 0 1 5 5v2a5 5 0 0 1-10 0V7a5 5 0 0 1 5-5Zm-7 18c0-3.3 3.1-6 7-6s7 2.7 7 6v1H5v-1Zm2-9h1v2H7v-2Zm10 0h1v2h-1v-2Z"/></svg>`,
+  "Arquero": `<svg viewBox="0 0 24 24"><path d="M12 2a5 5 0 0 1 5 5v2a5 5 0 0 1-10 0V7a5 5 0 0 1 5-5Zm-7 18c0-3.3 3.1-6 7-6s7 2.7 7 6v1H5v-1Zm2-9h1v2H7v-2Zm10 0h1v2h-1v-2Z"/></svg>`,
   "Defensa": `<svg viewBox="0 0 24 24"><path d="M12 2 4 5v6c0 5.2 3.4 9 8 11 4.6-2 8-5.8 8-11V5l-8-3Zm0 4 4 1.5v3.6c0 3.1-1.9 5.4-4 6.4-2.1-1-4-3.3-4-6.4V7.5L12 6Z"/></svg>`,
-  "Centrocampista": `<svg viewBox="0 0 24 24"><path d="M12 2 2 12l10 10 10-10L12 2Zm0 3.6 6.4 6.4L12 18.4 5.6 12 12 5.6Z"/></svg>`,
+  "Mediocampista": `<svg viewBox="0 0 24 24"><path d="M12 2 2 12l10 10 10-10L12 2Zm0 3.6 6.4 6.4L12 18.4 5.6 12 12 5.6Z"/></svg>`,
   "Delantero": `<svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 .001 20.001A10 10 0 0 0 12 2Zm0 2.2 2.6 1.9-1 3h-3.2l-1-3L12 4.2ZM5 9.6l2.9-.9 1.9 2.3-1.2 2.9-3 .4L5 9.6Zm2.6 8.6 1-2.9 3-.1 1 2.9-2.2 2A8 8 0 0 1 7.6 18.2Zm9.9-5.3-1.2-2.9 1.9-2.3 2.9.9-.6 4.7-3 .4Zm-1.1 5.3 1-2.9 3 .1 1 2.9a8 8 0 0 1-3 2Z"/></svg>`,
 };
 
@@ -42,27 +44,38 @@ function iconoDeCarta(carta) {
   return ICONOS[carta.rol] || ICONOS["Delantero"];
 }
 
-// Algunas barajitas todavía no tienen foto real: el equipo dejó cargado un
-// placeholder genérico de Wikimedia para esos casos. Mientras no se
-// reemplace por una foto real, mostramos el ícono por rol en su lugar.
-function tieneFotoReal(carta) {
-  return Boolean(carta.foto) && !carta.foto.includes("No-image-placeholder");
-}
-
-// Se llama desde el atributo onerror del <img> si la URL de la foto real
-// falla al cargar (link roto, etc.): cae al ícono por rol sin romper el layout.
-function manejarErrorFoto(img, rol) {
-  const contenedor = img.parentElement;
-  img.remove();
-  if (contenedor) contenedor.innerHTML = ICONOS[rol] || ICONOS["Delantero"];
-}
-
-// Contenido visual de una carta: foto real si existe, si no el ícono por rol.
-function mediaDeCarta(carta) {
-  if (tieneFotoReal(carta)) {
-    return `<img class="carta__foto" src="${carta.foto}" alt="${carta.nombre}" loading="lazy" onerror="manejarErrorFoto(this, '${carta.rol}')" />`;
-  }
-  return iconoDeCarta(carta);
+/**
+ * Asocia una barajita con su imagen (carta.foto, ver data.js) y hace
+ * fallback automático al ícono SVG si la imagen todavía no existe en
+ * /img/jugadores (esto es lo que pide el punto 4 del enunciado:
+ * "Gestión de Imágenes en el Cliente" — el servidor solo manda { id, nombre, rol }
+ * y el cliente decide cómo dibujarlo).
+ */
+function mediaCarta(carta) {
+  const iconoSVG = iconoDeCarta(carta);
+  // Si la carta tiene "bandera" (solo el escudo la tiene), la usamos como
+  // respaldo cuando todavía no suben el logo real de la federación.
+  const fallback = carta.bandera ? `data-fallback="${carta.bandera}"` : "";
+  return `
+    <div class="carta__media">
+      <img
+        src="${carta.foto}"
+        alt="${carta.nombre}"
+        loading="lazy"
+        class="carta__foto"
+        ${fallback}
+        onerror="
+          if (this.dataset.fallback && this.src !== this.dataset.fallback) {
+            this.src = this.dataset.fallback;
+            this.classList.add('carta__foto--respaldo');
+          } else {
+            this.style.display = 'none';
+            this.nextElementSibling.style.display = 'flex';
+          }
+        "
+      />
+      <div class="carta__icono" style="display:none">${iconoSVG}</div>
+    </div>`;
 }
 
 
@@ -89,33 +102,42 @@ function renderNav() {
   ul.innerHTML = CONFEDERACIONES.map(
     (c) => `
       <li>
-        <a class="confed-nav__link" href="#confed-${c.codigo}">${c.nombre}</a>
+        <button class="confed-nav__link" type="button" data-confed="${c.codigo}">${c.nombre}</button>
       </li>`
-  ).join("") + `
-      <li><a class="confed-nav__link" href="#seccion-mercado">Mercado</a></li>`;
+  ).join("");
+
+  ul.querySelectorAll(".confed-nav__link").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const codigo = btn.dataset.confed;
+      const idx = ALBUM_DATA.findIndex((p) => p.confederacion === codigo);
+      if (idx >= 0) irAPagina(idx);
+    });
+  });
 }
 
+function marcarConfedActiva() {
+  const paisActual = ALBUM_DATA[estado.paginaActual];
+  document.querySelectorAll(".confed-nav__link").forEach((btn) => {
+    btn.classList.toggle("is-active", btn.dataset.confed === paisActual.confederacion);
+  });
+}
 
 function renderCarta(carta) {
   const cantidad = estado.coleccion.get(carta.id) || 0;
   const obtenida = cantidad > 0;
   const claseEstado = obtenida ? "carta--obtenida" : "carta--faltante";
   const claseTipo = carta.tipo === "escudo" ? "carta--escudo" : "";
+  const claseClic = obtenida ? "carta--clicable" : "";
   const badge = cantidad > 1 ? `<span class="carta__badge">x${cantidad}</span>` : "";
 
-  // La foto real solo se muestra si ya la conseguiste; si todavía no la
-  // tenés, la carta queda como silueta (no revela quién es).
-  const media = obtenida ? mediaDeCarta(carta) : iconoDeCarta(carta);
-
   return `
-    <div class="carta ${claseEstado} ${claseTipo}" data-id="${carta.id}" title="${carta.nombre} · ${carta.rol}">
+    <div class="carta ${claseEstado} ${claseTipo} ${claseClic}" data-id="${carta.id}" title="${carta.nombre} · ${carta.rol}">
       ${badge}
-      <div class="carta__icono">${media}</div>
+      ${obtenida ? mediaCarta(carta) : `<div class="carta__icono">${iconoDeCarta(carta)}</div>`}
       <p class="carta__nombre">${obtenida ? carta.nombre : "¿?"}</p>
       <p class="carta__rol">${carta.rol}</p>
     </div>`;
 }
-
 
 function renderPaginaPais(pais) {
   const obtenidas = cantidadObtenidaPais(pais);
@@ -133,27 +155,139 @@ function renderPaginaPais(pais) {
     </article>`;
 }
 
+// ---------------------------------------------------------------------
+// Álbum tipo libro: una selección a la vez, con flechas prev/next
+// ---------------------------------------------------------------------
+function renderLibroPagina() {
+  const cont = document.getElementById("libro-pagina");
+  const pais = ALBUM_DATA[estado.paginaActual];
+  cont.innerHTML = renderPaginaPais(pais);
 
-function renderAlbum() {
-  const main = document.getElementById("album-main");
-  const mercadoSection = document.getElementById("seccion-mercado");
+  const conf = CONFEDERACIONES.find((c) => c.codigo === pais.confederacion);
+  document.getElementById("libro-indicador").textContent =
+    `${conf ? conf.nombre : ""} · Selección ${estado.paginaActual + 1} de ${ALBUM_DATA.length}`;
 
-  CONFEDERACIONES.forEach((conf) => {
-    const paisesConf = ALBUM_DATA.filter((p) => p.confederacion === conf.codigo);
-    const seccion = document.createElement("section");
-    seccion.className = "confed-section";
-    seccion.id = `confed-${conf.codigo}`;
-    seccion.setAttribute("aria-labelledby", `heading-${conf.codigo}`);
-    seccion.innerHTML = `
-      <div class="confed-section__heading">
-        <h2 id="heading-${conf.codigo}">${conf.nombre}</h2>
-        <span class="confed-section__count">${paisesConf.length} selecciones</span>
-      </div>
-      <div class="paises-grid">
-        ${paisesConf.map(renderPaginaPais).join("")}
-      </div>
-    `;
-    main.insertBefore(seccion, mercadoSection);
+  document.getElementById("btn-pagina-prev").disabled = estado.paginaActual === 0;
+  document.getElementById("btn-pagina-next").disabled = estado.paginaActual === ALBUM_DATA.length - 1;
+
+  marcarConfedActiva();
+  attachClicksEnCartas();
+}
+
+function irAPagina(indice) {
+  const max = ALBUM_DATA.length - 1;
+  estado.paginaActual = Math.min(Math.max(indice, 0), max);
+  renderLibroPagina();
+}
+
+function initLibro() {
+  document.getElementById("btn-pagina-prev").addEventListener("click", () => irAPagina(estado.paginaActual - 1));
+  document.getElementById("btn-pagina-next").addEventListener("click", () => irAPagina(estado.paginaActual + 1));
+}
+
+// ---------------------------------------------------------------------
+// Pestañas fijas: Álbum / Mercado (siempre accesible, no depende de scroll)
+// ---------------------------------------------------------------------
+function initTabs() {
+  const tabAlbum = document.getElementById("tab-album");
+  const tabMercado = document.getElementById("tab-mercado");
+  const vistaAlbum = document.getElementById("vista-album");
+  const vistaMercado = document.getElementById("seccion-mercado");
+
+  function mostrar(vista) {
+    estado.vista = vista;
+    vistaAlbum.hidden = vista !== "album";
+    vistaMercado.hidden = vista !== "mercado";
+    tabAlbum.classList.toggle("is-active", vista === "album");
+    tabMercado.classList.toggle("is-active", vista === "mercado");
+  }
+
+  tabAlbum.addEventListener("click", () => mostrar("album"));
+  tabMercado.addEventListener("click", () => mostrar("mercado"));
+}
+
+// ---------------------------------------------------------------------
+// Modal de detalle de carta: foto grande arriba, info abajo
+// ---------------------------------------------------------------------
+function abrirModalCarta(id) {
+  const info = buscarCartaPorId(id);
+  if (!info) return;
+  const cantidad = estado.coleccion.get(id) || 0;
+  if (cantidad <= 0) return; // no mostramos detalle de algo que no tienen
+
+  document.getElementById("carta-modal-media").innerHTML = mediaCarta(info.carta);
+  document.getElementById("carta-modal-pais").textContent = info.pais.pais;
+  document.getElementById("carta-modal-nombre").textContent = info.carta.nombre;
+  document.getElementById("carta-modal-rol").textContent = info.carta.rol;
+  document.getElementById("carta-modal-cantidad").textContent =
+    cantidad > 1 ? `Tenés ${cantidad}` : "Tenés 1";
+
+  document.getElementById("carta-overlay").hidden = false;
+}
+
+function initModalCarta() {
+  const overlay = document.getElementById("carta-overlay");
+  document.getElementById("btn-cerrar-carta").addEventListener("click", () => (overlay.hidden = true));
+  overlay.addEventListener("click", (e) => {
+    if (e.target === overlay) overlay.hidden = true;
+  });
+}
+
+function attachClicksEnCartas() {
+  document.querySelectorAll("#libro-pagina .carta--clicable").forEach((nodo) => {
+    nodo.addEventListener("click", () => abrirModalCarta(nodo.dataset.id));
+  });
+}
+
+// ---------------------------------------------------------------------
+// Buscador: salta directo a la página de la selección elegida
+// ---------------------------------------------------------------------
+function initBuscador() {
+  const input = document.getElementById("buscador-pais");
+  const resultados = document.getElementById("search-resultados");
+
+  input.addEventListener("input", () => {
+    const q = input.value.trim().toLowerCase();
+    if (!q) {
+      resultados.hidden = true;
+      resultados.innerHTML = "";
+      return;
+    }
+    const coincidencias = ALBUM_DATA
+      .map((pais, idx) => ({ pais, idx }))
+      .filter(({ pais }) => pais.pais.toLowerCase().includes(q))
+      .slice(0, 8);
+
+    if (coincidencias.length === 0) {
+      resultados.innerHTML = `<li class="search-bar__vacio">Sin resultados</li>`;
+      resultados.hidden = false;
+      return;
+    }
+
+    resultados.innerHTML = coincidencias
+      .map(
+        ({ pais, idx }) => `
+        <li>
+          <button type="button" data-idx="${idx}">
+            <img src="https://flagcdn.com/w40/${pais.code}.png" alt="" />
+            ${pais.pais}
+          </button>
+        </li>`
+      )
+      .join("");
+    resultados.hidden = false;
+
+    resultados.querySelectorAll("button[data-idx]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        irAPagina(Number(btn.dataset.idx));
+        resultados.hidden = true;
+        input.value = "";
+      });
+    });
+  });
+
+  document.addEventListener("click", (e) => {
+    if (!e.target.closest(".search-bar")) resultados.hidden = true;
   });
 }
 
@@ -180,24 +314,10 @@ function refrescarCartaEnDOM(id) {
   const info = buscarCartaPorId(id);
   if (!info) return;
   nodo.outerHTML = renderCarta(info.carta);
-}
-
-
-function initBuscador() {
-  const input = document.getElementById("buscador-pais");
-  input.addEventListener("input", () => {
-    const q = input.value.trim().toLowerCase();
-    document.querySelectorAll(".pagina-pais").forEach((art) => {
-      const coincide = art.dataset.nombre.includes(q);
-      art.style.display = coincide ? "" : "none";
-    });
-    // oculta secciones de confederación que quedaron sin resultados
-    document.querySelectorAll(".confed-section").forEach((sec) => {
-      if (sec.id === "seccion-mercado") return;
-      const visibles = sec.querySelectorAll('.pagina-pais:not([style*="display: none"])').length;
-      sec.style.display = visibles === 0 ? "none" : "";
-    });
-  });
+  const nuevoNodo = document.querySelector(`.carta[data-id="${id}"]`);
+  if (nuevoNodo && nuevoNodo.classList.contains("carta--clicable")) {
+    nuevoNodo.addEventListener("click", () => abrirModalCarta(id));
+  }
 }
 
 function generarSobreLocal() {
@@ -246,7 +366,7 @@ function initSobre() {
         else repetidas++;
         return `
           <div class="reveal-carta ${esNueva ? "reveal-carta--nueva" : "reveal-carta--repetida"}" style="animation-delay:${i * 0.08}s">
-            <div class="reveal-carta__icono">${mediaDeCarta(carta)}</div>
+            ${mediaCarta(carta)}
             <p class="reveal-carta__nombre">${carta.nombre}</p>
             <p class="reveal-carta__tag">${esNueva ? "¡Nueva!" : "Repetida"}</p>
           </div>`;
@@ -294,7 +414,7 @@ function renderRepetidas() {
       const info = buscarCartaPorId(id);
       return `<div class="carta carta--obtenida" style="aspect-ratio:3/4">
         <span class="carta__badge">x${cant}</span>
-        <div class="carta__icono">${mediaDeCarta(info.carta)}</div>
+        ${mediaCarta(info.carta)}
         <p class="carta__nombre">${info.carta.nombre}</p>
         <p class="carta__rol">${info.pais.pais}</p>
       </div>`;
@@ -362,31 +482,14 @@ function initMercado() {
 }
 
 
-function initScrollSpy() {
-  const links = document.querySelectorAll(".confed-nav__link");
-  const secciones = document.querySelectorAll(".confed-section");
-
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        links.forEach((l) => l.classList.remove("is-active"));
-        const activo = document.querySelector(`.confed-nav__link[href="#${entry.target.id}"]`);
-        if (activo) activo.classList.add("is-active");
-      });
-    },
-    { rootMargin: "-140px 0px -70% 0px" }
-  );
-
-  secciones.forEach((s) => observer.observe(s));
-}
-
 document.addEventListener("DOMContentLoaded", () => {
   renderNav();
-  renderAlbum();
+  renderLibroPagina();
   actualizarStats();
+  initLibro();
+  initTabs();
+  initModalCarta();
   initBuscador();
   initSobre();
   initMercado();
-  initScrollSpy();
 });

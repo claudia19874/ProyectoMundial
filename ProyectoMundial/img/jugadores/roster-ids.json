@@ -1,0 +1,2642 @@
+[
+  {
+    "id": "ARG-01",
+    "nombre": "Emiliano Martínez",
+    "pais": "Argentina"
+  },
+  {
+    "id": "ARG-02",
+    "nombre": "Cristian Romero",
+    "pais": "Argentina"
+  },
+  {
+    "id": "ARG-03",
+    "nombre": "Nicolás Otamendi",
+    "pais": "Argentina"
+  },
+  {
+    "id": "ARG-04",
+    "nombre": "Lisandro Martínez",
+    "pais": "Argentina"
+  },
+  {
+    "id": "ARG-05",
+    "nombre": "Nahuel Molina",
+    "pais": "Argentina"
+  },
+  {
+    "id": "ARG-06",
+    "nombre": "Rodrigo De Paul",
+    "pais": "Argentina"
+  },
+  {
+    "id": "ARG-07",
+    "nombre": "Enzo Fernández",
+    "pais": "Argentina"
+  },
+  {
+    "id": "ARG-08",
+    "nombre": "Alexis Mac Allister",
+    "pais": "Argentina"
+  },
+  {
+    "id": "ARG-09",
+    "nombre": "Lionel Messi",
+    "pais": "Argentina"
+  },
+  {
+    "id": "ARG-10",
+    "nombre": "Julián Álvarez",
+    "pais": "Argentina"
+  },
+  {
+    "id": "ARG-11",
+    "nombre": "Lautaro Martínez",
+    "pais": "Argentina"
+  },
+  {
+    "id": "BRA-01",
+    "nombre": "Alisson",
+    "pais": "Brasil"
+  },
+  {
+    "id": "BRA-02",
+    "nombre": "Marquinhos",
+    "pais": "Brasil"
+  },
+  {
+    "id": "BRA-03",
+    "nombre": "Gabriel Magalhães",
+    "pais": "Brasil"
+  },
+  {
+    "id": "BRA-04",
+    "nombre": "Danilo Luiz",
+    "pais": "Brasil"
+  },
+  {
+    "id": "BRA-05",
+    "nombre": "Wesley",
+    "pais": "Brasil"
+  },
+  {
+    "id": "BRA-06",
+    "nombre": "Casemiro",
+    "pais": "Brasil"
+  },
+  {
+    "id": "BRA-07",
+    "nombre": "Bruno Guimarães",
+    "pais": "Brasil"
+  },
+  {
+    "id": "BRA-08",
+    "nombre": "Lucas Paquetá",
+    "pais": "Brasil"
+  },
+  {
+    "id": "BRA-09",
+    "nombre": "Vinícius Júnior",
+    "pais": "Brasil"
+  },
+  {
+    "id": "BRA-10",
+    "nombre": "Neymar",
+    "pais": "Brasil"
+  },
+  {
+    "id": "BRA-11",
+    "nombre": "Raphinha",
+    "pais": "Brasil"
+  },
+  {
+    "id": "COL-01",
+    "nombre": "David Ospina",
+    "pais": "Colombia"
+  },
+  {
+    "id": "COL-02",
+    "nombre": "Davinson Sánchez",
+    "pais": "Colombia"
+  },
+  {
+    "id": "COL-03",
+    "nombre": "Yerry Mina",
+    "pais": "Colombia"
+  },
+  {
+    "id": "COL-04",
+    "nombre": "Daniel Muñoz",
+    "pais": "Colombia"
+  },
+  {
+    "id": "COL-05",
+    "nombre": "Johan Mojica",
+    "pais": "Colombia"
+  },
+  {
+    "id": "COL-06",
+    "nombre": "James Rodríguez",
+    "pais": "Colombia"
+  },
+  {
+    "id": "COL-07",
+    "nombre": "Jefferson Lerma",
+    "pais": "Colombia"
+  },
+  {
+    "id": "COL-08",
+    "nombre": "Jhon Arias",
+    "pais": "Colombia"
+  },
+  {
+    "id": "COL-09",
+    "nombre": "Luis Díaz",
+    "pais": "Colombia"
+  },
+  {
+    "id": "COL-10",
+    "nombre": "Luis Suárez",
+    "pais": "Colombia"
+  },
+  {
+    "id": "COL-11",
+    "nombre": "Jhon Córdoba",
+    "pais": "Colombia"
+  },
+  {
+    "id": "ECU-01",
+    "nombre": "Hernán Galíndez",
+    "pais": "Ecuador"
+  },
+  {
+    "id": "ECU-02",
+    "nombre": "Piero Hincapié",
+    "pais": "Ecuador"
+  },
+  {
+    "id": "ECU-03",
+    "nombre": "Willian Pacho",
+    "pais": "Ecuador"
+  },
+  {
+    "id": "ECU-04",
+    "nombre": "Pervis Estupiñán",
+    "pais": "Ecuador"
+  },
+  {
+    "id": "ECU-05",
+    "nombre": "Félix Torres",
+    "pais": "Ecuador"
+  },
+  {
+    "id": "ECU-06",
+    "nombre": "Moisés Caicedo",
+    "pais": "Ecuador"
+  },
+  {
+    "id": "ECU-07",
+    "nombre": "Kendry Páez",
+    "pais": "Ecuador"
+  },
+  {
+    "id": "ECU-08",
+    "nombre": "Alan Franco",
+    "pais": "Ecuador"
+  },
+  {
+    "id": "ECU-09",
+    "nombre": "Enner Valencia",
+    "pais": "Ecuador"
+  },
+  {
+    "id": "ECU-10",
+    "nombre": "Kevin Rodríguez",
+    "pais": "Ecuador"
+  },
+  {
+    "id": "ECU-11",
+    "nombre": "Gonzalo Plata",
+    "pais": "Ecuador"
+  },
+  {
+    "id": "PAR-01",
+    "nombre": "Gatito Fernández",
+    "pais": "Paraguay"
+  },
+  {
+    "id": "PAR-02",
+    "nombre": "Gustavo Gómez",
+    "pais": "Paraguay"
+  },
+  {
+    "id": "PAR-03",
+    "nombre": "Júnior Alonso",
+    "pais": "Paraguay"
+  },
+  {
+    "id": "PAR-04",
+    "nombre": "Omar Alderete",
+    "pais": "Paraguay"
+  },
+  {
+    "id": "PAR-05",
+    "nombre": "Fabián Balbuena",
+    "pais": "Paraguay"
+  },
+  {
+    "id": "PAR-06",
+    "nombre": "Miguel Almirón",
+    "pais": "Paraguay"
+  },
+  {
+    "id": "PAR-07",
+    "nombre": "Andrés Cubas",
+    "pais": "Paraguay"
+  },
+  {
+    "id": "PAR-08",
+    "nombre": "Diego Gómez",
+    "pais": "Paraguay"
+  },
+  {
+    "id": "PAR-09",
+    "nombre": "Antonio Sanabria",
+    "pais": "Paraguay"
+  },
+  {
+    "id": "PAR-10",
+    "nombre": "Julio Enciso",
+    "pais": "Paraguay"
+  },
+  {
+    "id": "PAR-11",
+    "nombre": "Gabriel Ávalos",
+    "pais": "Paraguay"
+  },
+  {
+    "id": "URU-01",
+    "nombre": "Sergio Rochet",
+    "pais": "Uruguay"
+  },
+  {
+    "id": "URU-02",
+    "nombre": "José María Giménez",
+    "pais": "Uruguay"
+  },
+  {
+    "id": "URU-03",
+    "nombre": "Ronald Araújo",
+    "pais": "Uruguay"
+  },
+  {
+    "id": "URU-04",
+    "nombre": "Mathías Olivera",
+    "pais": "Uruguay"
+  },
+  {
+    "id": "URU-05",
+    "nombre": "Matías Viña",
+    "pais": "Uruguay"
+  },
+  {
+    "id": "URU-06",
+    "nombre": "Federico Valverde",
+    "pais": "Uruguay"
+  },
+  {
+    "id": "URU-07",
+    "nombre": "Rodrigo Bentancur",
+    "pais": "Uruguay"
+  },
+  {
+    "id": "URU-08",
+    "nombre": "Giorgian de Arrascaeta",
+    "pais": "Uruguay"
+  },
+  {
+    "id": "URU-09",
+    "nombre": "Darwin Núñez",
+    "pais": "Uruguay"
+  },
+  {
+    "id": "URU-10",
+    "nombre": "Facundo Pellistri",
+    "pais": "Uruguay"
+  },
+  {
+    "id": "URU-11",
+    "nombre": "Federico Viñas",
+    "pais": "Uruguay"
+  },
+  {
+    "id": "ALE-01",
+    "nombre": "Manuel Neuer",
+    "pais": "Alemania"
+  },
+  {
+    "id": "ALE-02",
+    "nombre": "Antonio Rüdiger",
+    "pais": "Alemania"
+  },
+  {
+    "id": "ALE-03",
+    "nombre": "Jonathan Tah",
+    "pais": "Alemania"
+  },
+  {
+    "id": "ALE-04",
+    "nombre": "Waldemar Anton",
+    "pais": "Alemania"
+  },
+  {
+    "id": "ALE-05",
+    "nombre": "David Raum",
+    "pais": "Alemania"
+  },
+  {
+    "id": "ALE-06",
+    "nombre": "Joshua Kimmich",
+    "pais": "Alemania"
+  },
+  {
+    "id": "ALE-07",
+    "nombre": "Jamal Musiala",
+    "pais": "Alemania"
+  },
+  {
+    "id": "ALE-08",
+    "nombre": "Florian Wirtz",
+    "pais": "Alemania"
+  },
+  {
+    "id": "ALE-09",
+    "nombre": "Kai Havertz",
+    "pais": "Alemania"
+  },
+  {
+    "id": "ALE-10",
+    "nombre": "Nick Woltemade",
+    "pais": "Alemania"
+  },
+  {
+    "id": "ALE-11",
+    "nombre": "Leroy Sané",
+    "pais": "Alemania"
+  },
+  {
+    "id": "AUS-01",
+    "nombre": "Alexander Schlager",
+    "pais": "Austria"
+  },
+  {
+    "id": "AUS-02",
+    "nombre": "David Alaba",
+    "pais": "Austria"
+  },
+  {
+    "id": "AUS-03",
+    "nombre": "Kevin Danso",
+    "pais": "Austria"
+  },
+  {
+    "id": "AUS-04",
+    "nombre": "Stefan Posch",
+    "pais": "Austria"
+  },
+  {
+    "id": "AUS-05",
+    "nombre": "Philipp Lienhart",
+    "pais": "Austria"
+  },
+  {
+    "id": "AUS-06",
+    "nombre": "Xaver Schlager",
+    "pais": "Austria"
+  },
+  {
+    "id": "AUS-07",
+    "nombre": "Nicolas Seiwald",
+    "pais": "Austria"
+  },
+  {
+    "id": "AUS-08",
+    "nombre": "Konrad Laimer",
+    "pais": "Austria"
+  },
+  {
+    "id": "AUS-09",
+    "nombre": "Marko Arnautović",
+    "pais": "Austria"
+  },
+  {
+    "id": "AUS-10",
+    "nombre": "Michael Gregoritsch",
+    "pais": "Austria"
+  },
+  {
+    "id": "AUS-11",
+    "nombre": "Marcel Sabitzer",
+    "pais": "Austria"
+  },
+  {
+    "id": "BEL-01",
+    "nombre": "Thibaut Courtois",
+    "pais": "Bélgica"
+  },
+  {
+    "id": "BEL-02",
+    "nombre": "Thomas Meunier",
+    "pais": "Bélgica"
+  },
+  {
+    "id": "BEL-03",
+    "nombre": "Zeno Debast",
+    "pais": "Bélgica"
+  },
+  {
+    "id": "BEL-04",
+    "nombre": "Arthur Theate",
+    "pais": "Bélgica"
+  },
+  {
+    "id": "BEL-05",
+    "nombre": "Timothy Castagne",
+    "pais": "Bélgica"
+  },
+  {
+    "id": "BEL-06",
+    "nombre": "Kevin De Bruyne",
+    "pais": "Bélgica"
+  },
+  {
+    "id": "BEL-07",
+    "nombre": "Youri Tielemans",
+    "pais": "Bélgica"
+  },
+  {
+    "id": "BEL-08",
+    "nombre": "Amadou Onana",
+    "pais": "Bélgica"
+  },
+  {
+    "id": "BEL-09",
+    "nombre": "Romelu Lukaku",
+    "pais": "Bélgica"
+  },
+  {
+    "id": "BEL-10",
+    "nombre": "Jérémy Doku",
+    "pais": "Bélgica"
+  },
+  {
+    "id": "BEL-11",
+    "nombre": "Leandro Trossard",
+    "pais": "Bélgica"
+  },
+  {
+    "id": "BYH-01",
+    "nombre": "Nikola Vasilj",
+    "pais": "Bosnia y Herzegovina"
+  },
+  {
+    "id": "BYH-02",
+    "nombre": "Sead Kolašinac",
+    "pais": "Bosnia y Herzegovina"
+  },
+  {
+    "id": "BYH-03",
+    "nombre": "Dennis Hadžikadunić",
+    "pais": "Bosnia y Herzegovina"
+  },
+  {
+    "id": "BYH-04",
+    "nombre": "Amar Dedić",
+    "pais": "Bosnia y Herzegovina"
+  },
+  {
+    "id": "BYH-05",
+    "nombre": "Nikola Katić",
+    "pais": "Bosnia y Herzegovina"
+  },
+  {
+    "id": "BYH-06",
+    "nombre": "Amir Hadžiahmetović",
+    "pais": "Bosnia y Herzegovina"
+  },
+  {
+    "id": "BYH-07",
+    "nombre": "Benjamin Tahirović",
+    "pais": "Bosnia y Herzegovina"
+  },
+  {
+    "id": "BYH-08",
+    "nombre": "Ivan Šunjić",
+    "pais": "Bosnia y Herzegovina"
+  },
+  {
+    "id": "BYH-09",
+    "nombre": "Edin Džeko",
+    "pais": "Bosnia y Herzegovina"
+  },
+  {
+    "id": "BYH-10",
+    "nombre": "Ermedin Demirović",
+    "pais": "Bosnia y Herzegovina"
+  },
+  {
+    "id": "BYH-11",
+    "nombre": "Haris Tabaković",
+    "pais": "Bosnia y Herzegovina"
+  },
+  {
+    "id": "CRO-01",
+    "nombre": "Dominik Livaković",
+    "pais": "Croacia"
+  },
+  {
+    "id": "CRO-02",
+    "nombre": "Joško Gvardiol",
+    "pais": "Croacia"
+  },
+  {
+    "id": "CRO-03",
+    "nombre": "Josip Šutalo",
+    "pais": "Croacia"
+  },
+  {
+    "id": "CRO-04",
+    "nombre": "Josip Stanišić",
+    "pais": "Croacia"
+  },
+  {
+    "id": "CRO-05",
+    "nombre": "Duje Ćaleta-Car",
+    "pais": "Croacia"
+  },
+  {
+    "id": "CRO-06",
+    "nombre": "Luka Modrić",
+    "pais": "Croacia"
+  },
+  {
+    "id": "CRO-07",
+    "nombre": "Mateo Kovačić",
+    "pais": "Croacia"
+  },
+  {
+    "id": "CRO-08",
+    "nombre": "Nikola Vlašić",
+    "pais": "Croacia"
+  },
+  {
+    "id": "CRO-09",
+    "nombre": "Ivan Perišić",
+    "pais": "Croacia"
+  },
+  {
+    "id": "CRO-10",
+    "nombre": "Andrej Kramarić",
+    "pais": "Croacia"
+  },
+  {
+    "id": "CRO-11",
+    "nombre": "Ante Budimir",
+    "pais": "Croacia"
+  },
+  {
+    "id": "ESP-01",
+    "nombre": "Unai Simón",
+    "pais": "España"
+  },
+  {
+    "id": "ESP-02",
+    "nombre": "Marc Cucurella",
+    "pais": "España"
+  },
+  {
+    "id": "ESP-03",
+    "nombre": "Aymeric Laporte",
+    "pais": "España"
+  },
+  {
+    "id": "ESP-04",
+    "nombre": "Pau Cubarsí",
+    "pais": "España"
+  },
+  {
+    "id": "ESP-05",
+    "nombre": "Pedro Porro",
+    "pais": "España"
+  },
+  {
+    "id": "ESP-06",
+    "nombre": "Rodri",
+    "pais": "España"
+  },
+  {
+    "id": "ESP-07",
+    "nombre": "Pedri",
+    "pais": "España"
+  },
+  {
+    "id": "ESP-08",
+    "nombre": "Fabián Ruiz",
+    "pais": "España"
+  },
+  {
+    "id": "ESP-09",
+    "nombre": "Lamine Yamal",
+    "pais": "España"
+  },
+  {
+    "id": "ESP-10",
+    "nombre": "Nico Williams",
+    "pais": "España"
+  },
+  {
+    "id": "ESP-11",
+    "nombre": "Ferran Torres",
+    "pais": "España"
+  },
+  {
+    "id": "ESC-01",
+    "nombre": "Craig Gordon",
+    "pais": "Escocia"
+  },
+  {
+    "id": "ESC-02",
+    "nombre": "Andy Robertson",
+    "pais": "Escocia"
+  },
+  {
+    "id": "ESC-03",
+    "nombre": "Grant Hanley",
+    "pais": "Escocia"
+  },
+  {
+    "id": "ESC-04",
+    "nombre": "Kieran Tierney",
+    "pais": "Escocia"
+  },
+  {
+    "id": "ESC-05",
+    "nombre": "Scott McKenna",
+    "pais": "Escocia"
+  },
+  {
+    "id": "ESC-06",
+    "nombre": "John McGinn",
+    "pais": "Escocia"
+  },
+  {
+    "id": "ESC-07",
+    "nombre": "Scott McTominay",
+    "pais": "Escocia"
+  },
+  {
+    "id": "ESC-08",
+    "nombre": "Ryan Christie",
+    "pais": "Escocia"
+  },
+  {
+    "id": "ESC-09",
+    "nombre": "Ché Adams",
+    "pais": "Escocia"
+  },
+  {
+    "id": "ESC-10",
+    "nombre": "Lawrence Shankland",
+    "pais": "Escocia"
+  },
+  {
+    "id": "ESC-11",
+    "nombre": "Lyndon Dykes",
+    "pais": "Escocia"
+  },
+  {
+    "id": "FRA-01",
+    "nombre": "Mike Maignan",
+    "pais": "Francia"
+  },
+  {
+    "id": "FRA-02",
+    "nombre": "William Saliba",
+    "pais": "Francia"
+  },
+  {
+    "id": "FRA-03",
+    "nombre": "Ibrahima Konaté",
+    "pais": "Francia"
+  },
+  {
+    "id": "FRA-04",
+    "nombre": "Jules Koundé",
+    "pais": "Francia"
+  },
+  {
+    "id": "FRA-05",
+    "nombre": "Théo Hernandez",
+    "pais": "Francia"
+  },
+  {
+    "id": "FRA-06",
+    "nombre": "Aurélien Tchouaméni",
+    "pais": "Francia"
+  },
+  {
+    "id": "FRA-07",
+    "nombre": "Warren Zaïre-Emery",
+    "pais": "Francia"
+  },
+  {
+    "id": "FRA-08",
+    "nombre": "Adrien Rabiot",
+    "pais": "Francia"
+  },
+  {
+    "id": "FRA-09",
+    "nombre": "Kylian Mbappé",
+    "pais": "Francia"
+  },
+  {
+    "id": "FRA-10",
+    "nombre": "Ousmane Dembélé",
+    "pais": "Francia"
+  },
+  {
+    "id": "FRA-11",
+    "nombre": "Marcus Thuram",
+    "pais": "Francia"
+  },
+  {
+    "id": "PB-01",
+    "nombre": "Bart Verbruggen",
+    "pais": "Países Bajos"
+  },
+  {
+    "id": "PB-02",
+    "nombre": "Virgil van Dijk",
+    "pais": "Países Bajos"
+  },
+  {
+    "id": "PB-03",
+    "nombre": "Nathan Aké",
+    "pais": "Países Bajos"
+  },
+  {
+    "id": "PB-04",
+    "nombre": "Jurriën Timber",
+    "pais": "Países Bajos"
+  },
+  {
+    "id": "PB-05",
+    "nombre": "Denzel Dumfries",
+    "pais": "Países Bajos"
+  },
+  {
+    "id": "PB-06",
+    "nombre": "Frenkie de Jong",
+    "pais": "Países Bajos"
+  },
+  {
+    "id": "PB-07",
+    "nombre": "Tijjani Reijnders",
+    "pais": "Países Bajos"
+  },
+  {
+    "id": "PB-08",
+    "nombre": "Ryan Gravenberch",
+    "pais": "Países Bajos"
+  },
+  {
+    "id": "PB-09",
+    "nombre": "Cody Gakpo",
+    "pais": "Países Bajos"
+  },
+  {
+    "id": "PB-10",
+    "nombre": "Memphis Depay",
+    "pais": "Países Bajos"
+  },
+  {
+    "id": "PB-11",
+    "nombre": "Donyell Malen",
+    "pais": "Países Bajos"
+  },
+  {
+    "id": "NOR-01",
+    "nombre": "Ørjan Nyland",
+    "pais": "Noruega"
+  },
+  {
+    "id": "NOR-02",
+    "nombre": "Kristoffer Ajer",
+    "pais": "Noruega"
+  },
+  {
+    "id": "NOR-03",
+    "nombre": "Leo Østigård",
+    "pais": "Noruega"
+  },
+  {
+    "id": "NOR-04",
+    "nombre": "David Møller Wolfe",
+    "pais": "Noruega"
+  },
+  {
+    "id": "NOR-05",
+    "nombre": "Julian Ryerson",
+    "pais": "Noruega"
+  },
+  {
+    "id": "NOR-06",
+    "nombre": "Martin Ødegaard",
+    "pais": "Noruega"
+  },
+  {
+    "id": "NOR-07",
+    "nombre": "Sander Berge",
+    "pais": "Noruega"
+  },
+  {
+    "id": "NOR-08",
+    "nombre": "Morten Thorsby",
+    "pais": "Noruega"
+  },
+  {
+    "id": "NOR-09",
+    "nombre": "Erling Haaland",
+    "pais": "Noruega"
+  },
+  {
+    "id": "NOR-10",
+    "nombre": "Alexander Sørloth",
+    "pais": "Noruega"
+  },
+  {
+    "id": "NOR-11",
+    "nombre": "Jørgen Strand Larsen",
+    "pais": "Noruega"
+  },
+  {
+    "id": "POR-01",
+    "nombre": "Diogo Costa",
+    "pais": "Portugal"
+  },
+  {
+    "id": "POR-02",
+    "nombre": "Rúben Dias",
+    "pais": "Portugal"
+  },
+  {
+    "id": "POR-03",
+    "nombre": "João Cancelo",
+    "pais": "Portugal"
+  },
+  {
+    "id": "POR-04",
+    "nombre": "Nuno Mendes",
+    "pais": "Portugal"
+  },
+  {
+    "id": "POR-05",
+    "nombre": "Diogo Dalot",
+    "pais": "Portugal"
+  },
+  {
+    "id": "POR-06",
+    "nombre": "Bruno Fernandes",
+    "pais": "Portugal"
+  },
+  {
+    "id": "POR-07",
+    "nombre": "Bernardo Silva",
+    "pais": "Portugal"
+  },
+  {
+    "id": "POR-08",
+    "nombre": "Vitinha",
+    "pais": "Portugal"
+  },
+  {
+    "id": "POR-09",
+    "nombre": "Cristiano Ronaldo",
+    "pais": "Portugal"
+  },
+  {
+    "id": "POR-10",
+    "nombre": "João Félix",
+    "pais": "Portugal"
+  },
+  {
+    "id": "POR-11",
+    "nombre": "Rafael Leão",
+    "pais": "Portugal"
+  },
+  {
+    "id": "RC-01",
+    "nombre": "Matěj Kovář",
+    "pais": "República Checa"
+  },
+  {
+    "id": "RC-02",
+    "nombre": "Ladislav Krejčí",
+    "pais": "República Checa"
+  },
+  {
+    "id": "RC-03",
+    "nombre": "David Zima",
+    "pais": "República Checa"
+  },
+  {
+    "id": "RC-04",
+    "nombre": "Vladimír Coufal",
+    "pais": "República Checa"
+  },
+  {
+    "id": "RC-05",
+    "nombre": "Robin Hranáč",
+    "pais": "República Checa"
+  },
+  {
+    "id": "RC-06",
+    "nombre": "Tomáš Souček",
+    "pais": "República Checa"
+  },
+  {
+    "id": "RC-07",
+    "nombre": "Lukáš Provod",
+    "pais": "República Checa"
+  },
+  {
+    "id": "RC-08",
+    "nombre": "Michal Sadílek",
+    "pais": "República Checa"
+  },
+  {
+    "id": "RC-09",
+    "nombre": "Patrik Schick",
+    "pais": "República Checa"
+  },
+  {
+    "id": "RC-10",
+    "nombre": "Adam Hložek",
+    "pais": "República Checa"
+  },
+  {
+    "id": "RC-11",
+    "nombre": "Jan Kuchta",
+    "pais": "República Checa"
+  },
+  {
+    "id": "SUE-01",
+    "nombre": "Jacob Widell Zetterström",
+    "pais": "Suecia"
+  },
+  {
+    "id": "SUE-02",
+    "nombre": "Victor Lindelöf",
+    "pais": "Suecia"
+  },
+  {
+    "id": "SUE-03",
+    "nombre": "Isak Hien",
+    "pais": "Suecia"
+  },
+  {
+    "id": "SUE-04",
+    "nombre": "Gustaf Lagerbielke",
+    "pais": "Suecia"
+  },
+  {
+    "id": "SUE-05",
+    "nombre": "Gabriel Gudmundsson",
+    "pais": "Suecia"
+  },
+  {
+    "id": "SUE-06",
+    "nombre": "Lucas Bergvall",
+    "pais": "Suecia"
+  },
+  {
+    "id": "SUE-07",
+    "nombre": "Mattias Svanberg",
+    "pais": "Suecia"
+  },
+  {
+    "id": "SUE-08",
+    "nombre": "Yasin Ayari",
+    "pais": "Suecia"
+  },
+  {
+    "id": "SUE-09",
+    "nombre": "Viktor Gyökeres",
+    "pais": "Suecia"
+  },
+  {
+    "id": "SUE-10",
+    "nombre": "Alexander Isak",
+    "pais": "Suecia"
+  },
+  {
+    "id": "SUE-11",
+    "nombre": "Anthony Elanga",
+    "pais": "Suecia"
+  },
+  {
+    "id": "SUI-01",
+    "nombre": "Gregor Kobel",
+    "pais": "Suiza"
+  },
+  {
+    "id": "SUI-02",
+    "nombre": "Manuel Akanji",
+    "pais": "Suiza"
+  },
+  {
+    "id": "SUI-03",
+    "nombre": "Nico Elvedi",
+    "pais": "Suiza"
+  },
+  {
+    "id": "SUI-04",
+    "nombre": "Silvan Widmer",
+    "pais": "Suiza"
+  },
+  {
+    "id": "SUI-05",
+    "nombre": "Ricardo Rodriguez",
+    "pais": "Suiza"
+  },
+  {
+    "id": "SUI-06",
+    "nombre": "Granit Xhaka",
+    "pais": "Suiza"
+  },
+  {
+    "id": "SUI-07",
+    "nombre": "Remo Freuler",
+    "pais": "Suiza"
+  },
+  {
+    "id": "SUI-08",
+    "nombre": "Denis Zakaria",
+    "pais": "Suiza"
+  },
+  {
+    "id": "SUI-09",
+    "nombre": "Breel Embolo",
+    "pais": "Suiza"
+  },
+  {
+    "id": "SUI-10",
+    "nombre": "Dan Ndoye",
+    "pais": "Suiza"
+  },
+  {
+    "id": "SUI-11",
+    "nombre": "Rubén Vargas",
+    "pais": "Suiza"
+  },
+  {
+    "id": "TUR-01",
+    "nombre": "Uğurcan Çakır",
+    "pais": "Turquía"
+  },
+  {
+    "id": "TUR-02",
+    "nombre": "Merih Demiral",
+    "pais": "Turquía"
+  },
+  {
+    "id": "TUR-03",
+    "nombre": "Çağlar Söyüncü",
+    "pais": "Turquía"
+  },
+  {
+    "id": "TUR-04",
+    "nombre": "Zeki Çelik",
+    "pais": "Turquía"
+  },
+  {
+    "id": "TUR-05",
+    "nombre": "Ferdi Kadıoğlu",
+    "pais": "Turquía"
+  },
+  {
+    "id": "TUR-06",
+    "nombre": "Hakan Çalhanoğlu",
+    "pais": "Turquía"
+  },
+  {
+    "id": "TUR-07",
+    "nombre": "Kaan Ayhan",
+    "pais": "Turquía"
+  },
+  {
+    "id": "TUR-08",
+    "nombre": "Orkun Kökçü",
+    "pais": "Turquía"
+  },
+  {
+    "id": "TUR-09",
+    "nombre": "Arda Güler",
+    "pais": "Turquía"
+  },
+  {
+    "id": "TUR-10",
+    "nombre": "Kenan Yıldız",
+    "pais": "Turquía"
+  },
+  {
+    "id": "TUR-11",
+    "nombre": "Kerem Aktürkoğlu",
+    "pais": "Turquía"
+  },
+  {
+    "id": "ING-01",
+    "nombre": "Jordan Pickford",
+    "pais": "Inglaterra"
+  },
+  {
+    "id": "ING-02",
+    "nombre": "John Stones",
+    "pais": "Inglaterra"
+  },
+  {
+    "id": "ING-03",
+    "nombre": "Marc Guéhi",
+    "pais": "Inglaterra"
+  },
+  {
+    "id": "ING-04",
+    "nombre": "Reece James",
+    "pais": "Inglaterra"
+  },
+  {
+    "id": "ING-05",
+    "nombre": "Dan Burn",
+    "pais": "Inglaterra"
+  },
+  {
+    "id": "ING-06",
+    "nombre": "Declan Rice",
+    "pais": "Inglaterra"
+  },
+  {
+    "id": "ING-07",
+    "nombre": "Jude Bellingham",
+    "pais": "Inglaterra"
+  },
+  {
+    "id": "ING-08",
+    "nombre": "Jordan Henderson",
+    "pais": "Inglaterra"
+  },
+  {
+    "id": "ING-09",
+    "nombre": "Harry Kane",
+    "pais": "Inglaterra"
+  },
+  {
+    "id": "ING-10",
+    "nombre": "Bukayo Saka",
+    "pais": "Inglaterra"
+  },
+  {
+    "id": "ING-11",
+    "nombre": "Marcus Rashford",
+    "pais": "Inglaterra"
+  },
+  {
+    "id": "ARG-01",
+    "nombre": "Luca Zidane",
+    "pais": "Argelia"
+  },
+  {
+    "id": "ARG-02",
+    "nombre": "Aïssa Mandi",
+    "pais": "Argelia"
+  },
+  {
+    "id": "ARG-03",
+    "nombre": "Ramy Bensebaini",
+    "pais": "Argelia"
+  },
+  {
+    "id": "ARG-04",
+    "nombre": "Rayan Aït-Nouri",
+    "pais": "Argelia"
+  },
+  {
+    "id": "ARG-05",
+    "nombre": "Jaouen Hadjam",
+    "pais": "Argelia"
+  },
+  {
+    "id": "ARG-06",
+    "nombre": "Nabil Bentaleb",
+    "pais": "Argelia"
+  },
+  {
+    "id": "ARG-07",
+    "nombre": "Houssem Aouar",
+    "pais": "Argelia"
+  },
+  {
+    "id": "ARG-08",
+    "nombre": "Ramiz Zerrouki",
+    "pais": "Argelia"
+  },
+  {
+    "id": "ARG-09",
+    "nombre": "Riyad Mahrez",
+    "pais": "Argelia"
+  },
+  {
+    "id": "ARG-10",
+    "nombre": "Mohamed Amoura",
+    "pais": "Argelia"
+  },
+  {
+    "id": "ARG-11",
+    "nombre": "Amine Gouiri",
+    "pais": "Argelia"
+  },
+  {
+    "id": "CV-01",
+    "nombre": "Vozinha",
+    "pais": "Cabo Verde"
+  },
+  {
+    "id": "CV-02",
+    "nombre": "Stopira",
+    "pais": "Cabo Verde"
+  },
+  {
+    "id": "CV-03",
+    "nombre": "Roberto Lopes",
+    "pais": "Cabo Verde"
+  },
+  {
+    "id": "CV-04",
+    "nombre": "Logan Costa",
+    "pais": "Cabo Verde"
+  },
+  {
+    "id": "CV-05",
+    "nombre": "João Paulo",
+    "pais": "Cabo Verde"
+  },
+  {
+    "id": "CV-06",
+    "nombre": "Jamiro Monteiro",
+    "pais": "Cabo Verde"
+  },
+  {
+    "id": "CV-07",
+    "nombre": "Kevin Pina",
+    "pais": "Cabo Verde"
+  },
+  {
+    "id": "CV-08",
+    "nombre": "Deroy Duarte",
+    "pais": "Cabo Verde"
+  },
+  {
+    "id": "CV-09",
+    "nombre": "Ryan Mendes",
+    "pais": "Cabo Verde"
+  },
+  {
+    "id": "CV-10",
+    "nombre": "Garry Rodrigues",
+    "pais": "Cabo Verde"
+  },
+  {
+    "id": "CV-11",
+    "nombre": "Jovane Cabral",
+    "pais": "Cabo Verde"
+  },
+  {
+    "id": "CDM-01",
+    "nombre": "Yahia Fofana",
+    "pais": "Costa de Marfil"
+  },
+  {
+    "id": "CDM-02",
+    "nombre": "Odilon Kossounou",
+    "pais": "Costa de Marfil"
+  },
+  {
+    "id": "CDM-03",
+    "nombre": "Wilfried Singo",
+    "pais": "Costa de Marfil"
+  },
+  {
+    "id": "CDM-04",
+    "nombre": "Evan Ndicka",
+    "pais": "Costa de Marfil"
+  },
+  {
+    "id": "CDM-05",
+    "nombre": "Ghislain Konan",
+    "pais": "Costa de Marfil"
+  },
+  {
+    "id": "CDM-06",
+    "nombre": "Franck Kessié",
+    "pais": "Costa de Marfil"
+  },
+  {
+    "id": "CDM-07",
+    "nombre": "Ibrahim Sangaré",
+    "pais": "Costa de Marfil"
+  },
+  {
+    "id": "CDM-08",
+    "nombre": "Seko Fofana",
+    "pais": "Costa de Marfil"
+  },
+  {
+    "id": "CDM-09",
+    "nombre": "Nicolas Pépé",
+    "pais": "Costa de Marfil"
+  },
+  {
+    "id": "CDM-10",
+    "nombre": "Simon Adingra",
+    "pais": "Costa de Marfil"
+  },
+  {
+    "id": "CDM-11",
+    "nombre": "Amad Diallo",
+    "pais": "Costa de Marfil"
+  },
+  {
+    "id": "EGI-01",
+    "nombre": "Mohamed El Shenawy",
+    "pais": "Egipto"
+  },
+  {
+    "id": "EGI-02",
+    "nombre": "Ramy Rabia",
+    "pais": "Egipto"
+  },
+  {
+    "id": "EGI-03",
+    "nombre": "Mohamed Abdelmonem",
+    "pais": "Egipto"
+  },
+  {
+    "id": "EGI-04",
+    "nombre": "Yasser Ibrahim",
+    "pais": "Egipto"
+  },
+  {
+    "id": "EGI-05",
+    "nombre": "Mohamed Hany",
+    "pais": "Egipto"
+  },
+  {
+    "id": "EGI-06",
+    "nombre": "Marwan Attia",
+    "pais": "Egipto"
+  },
+  {
+    "id": "EGI-07",
+    "nombre": "Emam Ashour",
+    "pais": "Egipto"
+  },
+  {
+    "id": "EGI-08",
+    "nombre": "Mahmoud Saber",
+    "pais": "Egipto"
+  },
+  {
+    "id": "EGI-09",
+    "nombre": "Mohamed Salah",
+    "pais": "Egipto"
+  },
+  {
+    "id": "EGI-10",
+    "nombre": "Omar Marmoush",
+    "pais": "Egipto"
+  },
+  {
+    "id": "EGI-11",
+    "nombre": "Zizo",
+    "pais": "Egipto"
+  },
+  {
+    "id": "GHA-01",
+    "nombre": "Lawrence Ati-Zigi",
+    "pais": "Ghana"
+  },
+  {
+    "id": "GHA-02",
+    "nombre": "Alidu Seidu",
+    "pais": "Ghana"
+  },
+  {
+    "id": "GHA-03",
+    "nombre": "Abdul Rahman Baba",
+    "pais": "Ghana"
+  },
+  {
+    "id": "GHA-04",
+    "nombre": "Gideon Mensah",
+    "pais": "Ghana"
+  },
+  {
+    "id": "GHA-05",
+    "nombre": "Jerome Opoku",
+    "pais": "Ghana"
+  },
+  {
+    "id": "GHA-06",
+    "nombre": "Thomas Partey",
+    "pais": "Ghana"
+  },
+  {
+    "id": "GHA-07",
+    "nombre": "Abdul Fatawu",
+    "pais": "Ghana"
+  },
+  {
+    "id": "GHA-08",
+    "nombre": "Elisha Owusu",
+    "pais": "Ghana"
+  },
+  {
+    "id": "GHA-09",
+    "nombre": "Jordan Ayew",
+    "pais": "Ghana"
+  },
+  {
+    "id": "GHA-10",
+    "nombre": "Antoine Semenyo",
+    "pais": "Ghana"
+  },
+  {
+    "id": "GHA-11",
+    "nombre": "Iñaki Williams",
+    "pais": "Ghana"
+  },
+  {
+    "id": "MAR-01",
+    "nombre": "Yassine Bounou",
+    "pais": "Marruecos"
+  },
+  {
+    "id": "MAR-02",
+    "nombre": "Achraf Hakimi",
+    "pais": "Marruecos"
+  },
+  {
+    "id": "MAR-03",
+    "nombre": "Nayef Aguerd",
+    "pais": "Marruecos"
+  },
+  {
+    "id": "MAR-04",
+    "nombre": "Noussair Mazraoui",
+    "pais": "Marruecos"
+  },
+  {
+    "id": "MAR-05",
+    "nombre": "Chadi Riad",
+    "pais": "Marruecos"
+  },
+  {
+    "id": "MAR-06",
+    "nombre": "Sofyan Amrabat",
+    "pais": "Marruecos"
+  },
+  {
+    "id": "MAR-07",
+    "nombre": "Azzedine Ounahi",
+    "pais": "Marruecos"
+  },
+  {
+    "id": "MAR-08",
+    "nombre": "Bilal El Khannouss",
+    "pais": "Marruecos"
+  },
+  {
+    "id": "MAR-09",
+    "nombre": "Ayoub El Kaabi",
+    "pais": "Marruecos"
+  },
+  {
+    "id": "MAR-10",
+    "nombre": "Brahim Díaz",
+    "pais": "Marruecos"
+  },
+  {
+    "id": "MAR-11",
+    "nombre": "Abde Ezzalzouli",
+    "pais": "Marruecos"
+  },
+  {
+    "id": "RDC-01",
+    "nombre": "Lionel Mpasi",
+    "pais": "RD del Congo"
+  },
+  {
+    "id": "RDC-02",
+    "nombre": "Chancel Mbemba",
+    "pais": "RD del Congo"
+  },
+  {
+    "id": "RDC-03",
+    "nombre": "Arthur Masuaku",
+    "pais": "RD del Congo"
+  },
+  {
+    "id": "RDC-04",
+    "nombre": "Axel Tuanzebe",
+    "pais": "RD del Congo"
+  },
+  {
+    "id": "RDC-05",
+    "nombre": "Aaron Wan-Bissaka",
+    "pais": "RD del Congo"
+  },
+  {
+    "id": "RDC-06",
+    "nombre": "Samuel Moutoussamy",
+    "pais": "RD del Congo"
+  },
+  {
+    "id": "RDC-07",
+    "nombre": "Edo Kayembe",
+    "pais": "RD del Congo"
+  },
+  {
+    "id": "RDC-08",
+    "nombre": "Gaël Kakuta",
+    "pais": "RD del Congo"
+  },
+  {
+    "id": "RDC-09",
+    "nombre": "Cédric Bakambu",
+    "pais": "RD del Congo"
+  },
+  {
+    "id": "RDC-10",
+    "nombre": "Yoane Wissa",
+    "pais": "RD del Congo"
+  },
+  {
+    "id": "RDC-11",
+    "nombre": "Meschak Elia",
+    "pais": "RD del Congo"
+  },
+  {
+    "id": "SEN-01",
+    "nombre": "Édouard Mendy",
+    "pais": "Senegal"
+  },
+  {
+    "id": "SEN-02",
+    "nombre": "Kalidou Koulibaly",
+    "pais": "Senegal"
+  },
+  {
+    "id": "SEN-03",
+    "nombre": "Moussa Niakhaté",
+    "pais": "Senegal"
+  },
+  {
+    "id": "SEN-04",
+    "nombre": "Krépin Diatta",
+    "pais": "Senegal"
+  },
+  {
+    "id": "SEN-05",
+    "nombre": "Ismail Jakobs",
+    "pais": "Senegal"
+  },
+  {
+    "id": "SEN-06",
+    "nombre": "Idrissa Gueye",
+    "pais": "Senegal"
+  },
+  {
+    "id": "SEN-07",
+    "nombre": "Pape Matar Sarr",
+    "pais": "Senegal"
+  },
+  {
+    "id": "SEN-08",
+    "nombre": "Lamine Camara",
+    "pais": "Senegal"
+  },
+  {
+    "id": "SEN-09",
+    "nombre": "Sadio Mané",
+    "pais": "Senegal"
+  },
+  {
+    "id": "SEN-10",
+    "nombre": "Ismaïla Sarr",
+    "pais": "Senegal"
+  },
+  {
+    "id": "SEN-11",
+    "nombre": "Nicolas Jackson",
+    "pais": "Senegal"
+  },
+  {
+    "id": "SUD-01",
+    "nombre": "Ronwen Williams",
+    "pais": "Sudáfrica"
+  },
+  {
+    "id": "SUD-02",
+    "nombre": "Aubrey Modiba",
+    "pais": "Sudáfrica"
+  },
+  {
+    "id": "SUD-03",
+    "nombre": "Khuliso Mudau",
+    "pais": "Sudáfrica"
+  },
+  {
+    "id": "SUD-04",
+    "nombre": "Nkosinathi Sibisi",
+    "pais": "Sudáfrica"
+  },
+  {
+    "id": "SUD-05",
+    "nombre": "Mbekezeli Mbokazi",
+    "pais": "Sudáfrica"
+  },
+  {
+    "id": "SUD-06",
+    "nombre": "Teboho Mokoena",
+    "pais": "Sudáfrica"
+  },
+  {
+    "id": "SUD-07",
+    "nombre": "Sphephelo Sithole",
+    "pais": "Sudáfrica"
+  },
+  {
+    "id": "SUD-08",
+    "nombre": "Thalente Mbatha",
+    "pais": "Sudáfrica"
+  },
+  {
+    "id": "SUD-09",
+    "nombre": "Themba Zwane",
+    "pais": "Sudáfrica"
+  },
+  {
+    "id": "SUD-10",
+    "nombre": "Lyle Foster",
+    "pais": "Sudáfrica"
+  },
+  {
+    "id": "SUD-11",
+    "nombre": "Oswin Appollis",
+    "pais": "Sudáfrica"
+  },
+  {
+    "id": "TUN-01",
+    "nombre": "Aymen Dahmen",
+    "pais": "Túnez"
+  },
+  {
+    "id": "TUN-02",
+    "nombre": "Montassar Talbi",
+    "pais": "Túnez"
+  },
+  {
+    "id": "TUN-03",
+    "nombre": "Dylan Bronn",
+    "pais": "Túnez"
+  },
+  {
+    "id": "TUN-04",
+    "nombre": "Ali Abdi",
+    "pais": "Túnez"
+  },
+  {
+    "id": "TUN-05",
+    "nombre": "Yan Valery",
+    "pais": "Túnez"
+  },
+  {
+    "id": "TUN-06",
+    "nombre": "Ellyes Skhiri",
+    "pais": "Túnez"
+  },
+  {
+    "id": "TUN-07",
+    "nombre": "Hannibal Mejbri",
+    "pais": "Túnez"
+  },
+  {
+    "id": "TUN-08",
+    "nombre": "Anis Ben Slimane",
+    "pais": "Túnez"
+  },
+  {
+    "id": "TUN-09",
+    "nombre": "Elias Achouri",
+    "pais": "Túnez"
+  },
+  {
+    "id": "TUN-10",
+    "nombre": "Firas Chaouat",
+    "pais": "Túnez"
+  },
+  {
+    "id": "TUN-11",
+    "nombre": "Hazem Mastouri",
+    "pais": "Túnez"
+  },
+  {
+    "id": "AS-01",
+    "nombre": "Mohammed Al-Owais",
+    "pais": "Arabia Saudita"
+  },
+  {
+    "id": "AS-02",
+    "nombre": "Saud Abdulhamid",
+    "pais": "Arabia Saudita"
+  },
+  {
+    "id": "AS-03",
+    "nombre": "Hassan Al-Tambakti",
+    "pais": "Arabia Saudita"
+  },
+  {
+    "id": "AS-04",
+    "nombre": "Abdulelah Al-Amri",
+    "pais": "Arabia Saudita"
+  },
+  {
+    "id": "AS-05",
+    "nombre": "Ali Lajami",
+    "pais": "Arabia Saudita"
+  },
+  {
+    "id": "AS-06",
+    "nombre": "Salem Al-Dawsari",
+    "pais": "Arabia Saudita"
+  },
+  {
+    "id": "AS-07",
+    "nombre": "Mohamed Kanno",
+    "pais": "Arabia Saudita"
+  },
+  {
+    "id": "AS-08",
+    "nombre": "Nasser Al-Dawsari",
+    "pais": "Arabia Saudita"
+  },
+  {
+    "id": "AS-09",
+    "nombre": "Firas Al-Buraikan",
+    "pais": "Arabia Saudita"
+  },
+  {
+    "id": "AS-10",
+    "nombre": "Saleh Al-Shehri",
+    "pais": "Arabia Saudita"
+  },
+  {
+    "id": "AS-11",
+    "nombre": "Abdullah Al-Hamdan",
+    "pais": "Arabia Saudita"
+  },
+  {
+    "id": "AUS-01",
+    "nombre": "Mathew Ryan",
+    "pais": "Australia"
+  },
+  {
+    "id": "AUS-02",
+    "nombre": "Harry Souttar",
+    "pais": "Australia"
+  },
+  {
+    "id": "AUS-03",
+    "nombre": "Miloš Degenek",
+    "pais": "Australia"
+  },
+  {
+    "id": "AUS-04",
+    "nombre": "Alessandro Circati",
+    "pais": "Australia"
+  },
+  {
+    "id": "AUS-05",
+    "nombre": "Aziz Behich",
+    "pais": "Australia"
+  },
+  {
+    "id": "AUS-06",
+    "nombre": "Jackson Irvine",
+    "pais": "Australia"
+  },
+  {
+    "id": "AUS-07",
+    "nombre": "Connor Metcalfe",
+    "pais": "Australia"
+  },
+  {
+    "id": "AUS-08",
+    "nombre": "Ajdin Hrustic",
+    "pais": "Australia"
+  },
+  {
+    "id": "AUS-09",
+    "nombre": "Mathew Leckie",
+    "pais": "Australia"
+  },
+  {
+    "id": "AUS-10",
+    "nombre": "Awer Mabil",
+    "pais": "Australia"
+  },
+  {
+    "id": "AUS-11",
+    "nombre": "Nestory Irankunda",
+    "pais": "Australia"
+  },
+  {
+    "id": "CAT-01",
+    "nombre": "Meshaal Barsham",
+    "pais": "Catar"
+  },
+  {
+    "id": "CAT-02",
+    "nombre": "Pedro Miguel",
+    "pais": "Catar"
+  },
+  {
+    "id": "CAT-03",
+    "nombre": "Boualem Khoukhi",
+    "pais": "Catar"
+  },
+  {
+    "id": "CAT-04",
+    "nombre": "Lucas Mendes",
+    "pais": "Catar"
+  },
+  {
+    "id": "CAT-05",
+    "nombre": "Homam Ahmed",
+    "pais": "Catar"
+  },
+  {
+    "id": "CAT-06",
+    "nombre": "Abdulaziz Hatem",
+    "pais": "Catar"
+  },
+  {
+    "id": "CAT-07",
+    "nombre": "Karim Boudiaf",
+    "pais": "Catar"
+  },
+  {
+    "id": "CAT-08",
+    "nombre": "Assim Madibo",
+    "pais": "Catar"
+  },
+  {
+    "id": "CAT-09",
+    "nombre": "Hassan Al-Haydos",
+    "pais": "Catar"
+  },
+  {
+    "id": "CAT-10",
+    "nombre": "Akram Afif",
+    "pais": "Catar"
+  },
+  {
+    "id": "CAT-11",
+    "nombre": "Almoez Ali",
+    "pais": "Catar"
+  },
+  {
+    "id": "CDS-01",
+    "nombre": "Jo Hyeon-woo",
+    "pais": "Corea del Sur"
+  },
+  {
+    "id": "CDS-02",
+    "nombre": "Kim Min-jae",
+    "pais": "Corea del Sur"
+  },
+  {
+    "id": "CDS-03",
+    "nombre": "Kim Moon-hwan",
+    "pais": "Corea del Sur"
+  },
+  {
+    "id": "CDS-04",
+    "nombre": "Seol Young-woo",
+    "pais": "Corea del Sur"
+  },
+  {
+    "id": "CDS-05",
+    "nombre": "Lee Tae-seok",
+    "pais": "Corea del Sur"
+  },
+  {
+    "id": "CDS-06",
+    "nombre": "Lee Jae-sung",
+    "pais": "Corea del Sur"
+  },
+  {
+    "id": "CDS-07",
+    "nombre": "Hwang In-beom",
+    "pais": "Corea del Sur"
+  },
+  {
+    "id": "CDS-08",
+    "nombre": "Lee Kang-in",
+    "pais": "Corea del Sur"
+  },
+  {
+    "id": "CDS-09",
+    "nombre": "Son Heung-min",
+    "pais": "Corea del Sur"
+  },
+  {
+    "id": "CDS-10",
+    "nombre": "Hwang Hee-chan",
+    "pais": "Corea del Sur"
+  },
+  {
+    "id": "CDS-11",
+    "nombre": "Cho Gue-sung",
+    "pais": "Corea del Sur"
+  },
+  {
+    "id": "IRA-01",
+    "nombre": "Jalal Hassan",
+    "pais": "Irak"
+  },
+  {
+    "id": "IRA-02",
+    "nombre": "Rebin Sulaka",
+    "pais": "Irak"
+  },
+  {
+    "id": "IRA-03",
+    "nombre": "Manaf Younis",
+    "pais": "Irak"
+  },
+  {
+    "id": "IRA-04",
+    "nombre": "Merchas Doski",
+    "pais": "Irak"
+  },
+  {
+    "id": "IRA-05",
+    "nombre": "Zaid Tahseen",
+    "pais": "Irak"
+  },
+  {
+    "id": "IRA-06",
+    "nombre": "Ibrahim Bayesh",
+    "pais": "Irak"
+  },
+  {
+    "id": "IRA-07",
+    "nombre": "Amir Al-Ammari",
+    "pais": "Irak"
+  },
+  {
+    "id": "IRA-08",
+    "nombre": "Zidane Iqbal",
+    "pais": "Irak"
+  },
+  {
+    "id": "IRA-09",
+    "nombre": "Aymen Hussein",
+    "pais": "Irak"
+  },
+  {
+    "id": "IRA-10",
+    "nombre": "Mohanad Ali",
+    "pais": "Irak"
+  },
+  {
+    "id": "IRA-11",
+    "nombre": "Ali Al-Hamadi",
+    "pais": "Irak"
+  },
+  {
+    "id": "IRA-01",
+    "nombre": "Alireza Beiranvand",
+    "pais": "Irán"
+  },
+  {
+    "id": "IRA-02",
+    "nombre": "Ehsan Hajsafi",
+    "pais": "Irán"
+  },
+  {
+    "id": "IRA-03",
+    "nombre": "Milad Mohammadi",
+    "pais": "Irán"
+  },
+  {
+    "id": "IRA-04",
+    "nombre": "Hossein Kanaanizadegan",
+    "pais": "Irán"
+  },
+  {
+    "id": "IRA-05",
+    "nombre": "Ramin Rezaeian",
+    "pais": "Irán"
+  },
+  {
+    "id": "IRA-06",
+    "nombre": "Saeid Ezatolahi",
+    "pais": "Irán"
+  },
+  {
+    "id": "IRA-07",
+    "nombre": "Alireza Jahanbakhsh",
+    "pais": "Irán"
+  },
+  {
+    "id": "IRA-08",
+    "nombre": "Mehdi Torabi",
+    "pais": "Irán"
+  },
+  {
+    "id": "IRA-09",
+    "nombre": "Mehdi Taremi",
+    "pais": "Irán"
+  },
+  {
+    "id": "IRA-10",
+    "nombre": "Ali Alipour",
+    "pais": "Irán"
+  },
+  {
+    "id": "IRA-11",
+    "nombre": "Shahriyar Moghanlou",
+    "pais": "Irán"
+  },
+  {
+    "id": "JAP-01",
+    "nombre": "Zion Suzuki",
+    "pais": "Japón"
+  },
+  {
+    "id": "JAP-02",
+    "nombre": "Kō Itakura",
+    "pais": "Japón"
+  },
+  {
+    "id": "JAP-03",
+    "nombre": "Yukinari Sugawara",
+    "pais": "Japón"
+  },
+  {
+    "id": "JAP-04",
+    "nombre": "Takehiro Tomiyasu",
+    "pais": "Japón"
+  },
+  {
+    "id": "JAP-05",
+    "nombre": "Shōgo Taniguchi",
+    "pais": "Japón"
+  },
+  {
+    "id": "JAP-06",
+    "nombre": "Wataru Endo",
+    "pais": "Japón"
+  },
+  {
+    "id": "JAP-07",
+    "nombre": "Takefusa Kubo",
+    "pais": "Japón"
+  },
+  {
+    "id": "JAP-08",
+    "nombre": "Ritsu Dōan",
+    "pais": "Japón"
+  },
+  {
+    "id": "JAP-09",
+    "nombre": "Daizen Maeda",
+    "pais": "Japón"
+  },
+  {
+    "id": "JAP-10",
+    "nombre": "Ayase Ueda",
+    "pais": "Japón"
+  },
+  {
+    "id": "JAP-11",
+    "nombre": "Kōki Ogawa",
+    "pais": "Japón"
+  },
+  {
+    "id": "JOR-01",
+    "nombre": "Yazeed Abulaila",
+    "pais": "Jordania"
+  },
+  {
+    "id": "JOR-02",
+    "nombre": "Ihsan Haddad",
+    "pais": "Jordania"
+  },
+  {
+    "id": "JOR-03",
+    "nombre": "Yazan Al-Arab",
+    "pais": "Jordania"
+  },
+  {
+    "id": "JOR-04",
+    "nombre": "Abdallah Nasib",
+    "pais": "Jordania"
+  },
+  {
+    "id": "JOR-05",
+    "nombre": "Saed Al-Rosan",
+    "pais": "Jordania"
+  },
+  {
+    "id": "JOR-06",
+    "nombre": "Rajaei Ayed",
+    "pais": "Jordania"
+  },
+  {
+    "id": "JOR-07",
+    "nombre": "Noor Al-Rawabdeh",
+    "pais": "Jordania"
+  },
+  {
+    "id": "JOR-08",
+    "nombre": "Mohannad Abu Taha",
+    "pais": "Jordania"
+  },
+  {
+    "id": "JOR-09",
+    "nombre": "Musa Al-Taamari",
+    "pais": "Jordania"
+  },
+  {
+    "id": "JOR-10",
+    "nombre": "Ali Olwan",
+    "pais": "Jordania"
+  },
+  {
+    "id": "JOR-11",
+    "nombre": "Mahmoud Al-Mardi",
+    "pais": "Jordania"
+  },
+  {
+    "id": "UZB-01",
+    "nombre": "Utkir Yusupov",
+    "pais": "Uzbekistán"
+  },
+  {
+    "id": "UZB-02",
+    "nombre": "Abdukodir Khusanov",
+    "pais": "Uzbekistán"
+  },
+  {
+    "id": "UZB-03",
+    "nombre": "Rustam Ashurmatov",
+    "pais": "Uzbekistán"
+  },
+  {
+    "id": "UZB-04",
+    "nombre": "Farrukh Sayfiev",
+    "pais": "Uzbekistán"
+  },
+  {
+    "id": "UZB-05",
+    "nombre": "Khojiakbar Alijonov",
+    "pais": "Uzbekistán"
+  },
+  {
+    "id": "UZB-06",
+    "nombre": "Otabek Shukurov",
+    "pais": "Uzbekistán"
+  },
+  {
+    "id": "UZB-07",
+    "nombre": "Jamshid Iskanderov",
+    "pais": "Uzbekistán"
+  },
+  {
+    "id": "UZB-08",
+    "nombre": "Odiljon Hamrobekov",
+    "pais": "Uzbekistán"
+  },
+  {
+    "id": "UZB-09",
+    "nombre": "Eldor Shomurodov",
+    "pais": "Uzbekistán"
+  },
+  {
+    "id": "UZB-10",
+    "nombre": "Abbosbek Fayzullaev",
+    "pais": "Uzbekistán"
+  },
+  {
+    "id": "UZB-11",
+    "nombre": "Jaloliddin Masharipov",
+    "pais": "Uzbekistán"
+  },
+  {
+    "id": "CAN-01",
+    "nombre": "Dayne St. Clair",
+    "pais": "Canadá"
+  },
+  {
+    "id": "CAN-02",
+    "nombre": "Alphonso Davies",
+    "pais": "Canadá"
+  },
+  {
+    "id": "CAN-03",
+    "nombre": "Alistair Johnston",
+    "pais": "Canadá"
+  },
+  {
+    "id": "CAN-04",
+    "nombre": "Moïse Bombito",
+    "pais": "Canadá"
+  },
+  {
+    "id": "CAN-05",
+    "nombre": "Derek Cornelius",
+    "pais": "Canadá"
+  },
+  {
+    "id": "CAN-06",
+    "nombre": "Stephen Eustáquio",
+    "pais": "Canadá"
+  },
+  {
+    "id": "CAN-07",
+    "nombre": "Ismaël Koné",
+    "pais": "Canadá"
+  },
+  {
+    "id": "CAN-08",
+    "nombre": "Tajon Buchanan",
+    "pais": "Canadá"
+  },
+  {
+    "id": "CAN-09",
+    "nombre": "Jonathan David",
+    "pais": "Canadá"
+  },
+  {
+    "id": "CAN-10",
+    "nombre": "Cyle Larin",
+    "pais": "Canadá"
+  },
+  {
+    "id": "CAN-11",
+    "nombre": "Jacob Shaffelburg",
+    "pais": "Canadá"
+  },
+  {
+    "id": "CUR-01",
+    "nombre": "Eloy Room",
+    "pais": "Curazao"
+  },
+  {
+    "id": "CUR-02",
+    "nombre": "Juriën Gaari",
+    "pais": "Curazao"
+  },
+  {
+    "id": "CUR-03",
+    "nombre": "Roshon van Eijma",
+    "pais": "Curazao"
+  },
+  {
+    "id": "CUR-04",
+    "nombre": "Sherel Floranus",
+    "pais": "Curazao"
+  },
+  {
+    "id": "CUR-05",
+    "nombre": "Joshua Brenet",
+    "pais": "Curazao"
+  },
+  {
+    "id": "CUR-06",
+    "nombre": "Leandro Bacuna",
+    "pais": "Curazao"
+  },
+  {
+    "id": "CUR-07",
+    "nombre": "Juninho Bacuna",
+    "pais": "Curazao"
+  },
+  {
+    "id": "CUR-08",
+    "nombre": "Godfried Roemeratoe",
+    "pais": "Curazao"
+  },
+  {
+    "id": "CUR-09",
+    "nombre": "Jürgen Locadia",
+    "pais": "Curazao"
+  },
+  {
+    "id": "CUR-10",
+    "nombre": "Gervane Kastaneer",
+    "pais": "Curazao"
+  },
+  {
+    "id": "CUR-11",
+    "nombre": "Jeremy Antonisse",
+    "pais": "Curazao"
+  },
+  {
+    "id": "EU-01",
+    "nombre": "Matt Turner",
+    "pais": "Estados Unidos"
+  },
+  {
+    "id": "EU-02",
+    "nombre": "Sergiño Dest",
+    "pais": "Estados Unidos"
+  },
+  {
+    "id": "EU-03",
+    "nombre": "Chris Richards",
+    "pais": "Estados Unidos"
+  },
+  {
+    "id": "EU-04",
+    "nombre": "Antonee Robinson",
+    "pais": "Estados Unidos"
+  },
+  {
+    "id": "EU-05",
+    "nombre": "Tim Ream",
+    "pais": "Estados Unidos"
+  },
+  {
+    "id": "EU-06",
+    "nombre": "Tyler Adams",
+    "pais": "Estados Unidos"
+  },
+  {
+    "id": "EU-07",
+    "nombre": "Weston McKennie",
+    "pais": "Estados Unidos"
+  },
+  {
+    "id": "EU-08",
+    "nombre": "Giovanni Reyna",
+    "pais": "Estados Unidos"
+  },
+  {
+    "id": "EU-09",
+    "nombre": "Christian Pulisic",
+    "pais": "Estados Unidos"
+  },
+  {
+    "id": "EU-10",
+    "nombre": "Ricardo Pepi",
+    "pais": "Estados Unidos"
+  },
+  {
+    "id": "EU-11",
+    "nombre": "Folarin Balogun",
+    "pais": "Estados Unidos"
+  },
+  {
+    "id": "HAI-01",
+    "nombre": "Johny Placide",
+    "pais": "Haití"
+  },
+  {
+    "id": "HAI-02",
+    "nombre": "Ricardo Adé",
+    "pais": "Haití"
+  },
+  {
+    "id": "HAI-03",
+    "nombre": "Carlens Arcus",
+    "pais": "Haití"
+  },
+  {
+    "id": "HAI-04",
+    "nombre": "Jean-Kévin Duverne",
+    "pais": "Haití"
+  },
+  {
+    "id": "HAI-05",
+    "nombre": "Duke Lacroix",
+    "pais": "Haití"
+  },
+  {
+    "id": "HAI-06",
+    "nombre": "Leverton Pierre",
+    "pais": "Haití"
+  },
+  {
+    "id": "HAI-07",
+    "nombre": "Danley Jean Jacques",
+    "pais": "Haití"
+  },
+  {
+    "id": "HAI-08",
+    "nombre": "Jean-Ricner Bellegarde",
+    "pais": "Haití"
+  },
+  {
+    "id": "HAI-09",
+    "nombre": "Duckens Nazon",
+    "pais": "Haití"
+  },
+  {
+    "id": "HAI-10",
+    "nombre": "Frantzdy Pierrot",
+    "pais": "Haití"
+  },
+  {
+    "id": "HAI-11",
+    "nombre": "Derrick Etienne Jr.",
+    "pais": "Haití"
+  },
+  {
+    "id": "MEX-01",
+    "nombre": "Guillermo Ochoa",
+    "pais": "México"
+  },
+  {
+    "id": "MEX-02",
+    "nombre": "Jesús Gallardo",
+    "pais": "México"
+  },
+  {
+    "id": "MEX-03",
+    "nombre": "César Montes",
+    "pais": "México"
+  },
+  {
+    "id": "MEX-04",
+    "nombre": "Jorge Sánchez",
+    "pais": "México"
+  },
+  {
+    "id": "MEX-05",
+    "nombre": "Johan Vásquez",
+    "pais": "México"
+  },
+  {
+    "id": "MEX-06",
+    "nombre": "Edson Álvarez",
+    "pais": "México"
+  },
+  {
+    "id": "MEX-07",
+    "nombre": "Orbelín Pineda",
+    "pais": "México"
+  },
+  {
+    "id": "MEX-08",
+    "nombre": "Luis Chávez",
+    "pais": "México"
+  },
+  {
+    "id": "MEX-09",
+    "nombre": "Raúl Jiménez",
+    "pais": "México"
+  },
+  {
+    "id": "MEX-10",
+    "nombre": "Santiago Giménez",
+    "pais": "México"
+  },
+  {
+    "id": "MEX-11",
+    "nombre": "Alexis Vega",
+    "pais": "México"
+  },
+  {
+    "id": "PAN-01",
+    "nombre": "Luis Mejía",
+    "pais": "Panamá"
+  },
+  {
+    "id": "PAN-02",
+    "nombre": "Fidel Escobar",
+    "pais": "Panamá"
+  },
+  {
+    "id": "PAN-03",
+    "nombre": "Eric Davis",
+    "pais": "Panamá"
+  },
+  {
+    "id": "PAN-04",
+    "nombre": "Amir Murillo",
+    "pais": "Panamá"
+  },
+  {
+    "id": "PAN-05",
+    "nombre": "Cesar Blackman",
+    "pais": "Panamá"
+  },
+  {
+    "id": "PAN-06",
+    "nombre": "Adalberto Carrasquilla",
+    "pais": "Panamá"
+  },
+  {
+    "id": "PAN-07",
+    "nombre": "Yoel Barcenas",
+    "pais": "Panamá"
+  },
+  {
+    "id": "PAN-08",
+    "nombre": "Alberto Quintero",
+    "pais": "Panamá"
+  },
+  {
+    "id": "PAN-09",
+    "nombre": "Cecilio Waterman",
+    "pais": "Panamá"
+  },
+  {
+    "id": "PAN-10",
+    "nombre": "Jose Fajardo",
+    "pais": "Panamá"
+  },
+  {
+    "id": "PAN-11",
+    "nombre": "Ismael Diaz",
+    "pais": "Panamá"
+  },
+  {
+    "id": "NZ-01",
+    "nombre": "Max Crocombe",
+    "pais": "Nueva Zelanda"
+  },
+  {
+    "id": "NZ-02",
+    "nombre": "Michael Boxall",
+    "pais": "Nueva Zelanda"
+  },
+  {
+    "id": "NZ-03",
+    "nombre": "Tim Payne",
+    "pais": "Nueva Zelanda"
+  },
+  {
+    "id": "NZ-04",
+    "nombre": "Liberato Cacace",
+    "pais": "Nueva Zelanda"
+  },
+  {
+    "id": "NZ-05",
+    "nombre": "Tyler Bindon",
+    "pais": "Nueva Zelanda"
+  },
+  {
+    "id": "NZ-06",
+    "nombre": "Joe Bell",
+    "pais": "Nueva Zelanda"
+  },
+  {
+    "id": "NZ-07",
+    "nombre": "Alex Rufer",
+    "pais": "Nueva Zelanda"
+  },
+  {
+    "id": "NZ-08",
+    "nombre": "Marko Stamenić",
+    "pais": "Nueva Zelanda"
+  },
+  {
+    "id": "NZ-09",
+    "nombre": "Chris Wood",
+    "pais": "Nueva Zelanda"
+  },
+  {
+    "id": "NZ-10",
+    "nombre": "Ben Waine",
+    "pais": "Nueva Zelanda"
+  },
+  {
+    "id": "NZ-11",
+    "nombre": "Kosta Barbarouses",
+    "pais": "Nueva Zelanda"
+  }
+]

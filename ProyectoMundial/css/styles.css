@@ -1,3 +1,7 @@
+/* =========================================================================
+   Álbum Fútbol · Mundial 2026 — estilos
+   Mobile-first. CSS Grid + Flexbox. Sin frameworks.
+   ========================================================================= */
 
 :root {
   /* --- paleta --- */
@@ -204,6 +208,8 @@ a {
   border: 1px solid transparent;
   border-radius: 999px;
   padding: 0.35rem 0.75rem;
+  font-family: inherit;
+  cursor: pointer;
 }
 
 .confed-nav__link:hover,
@@ -212,10 +218,46 @@ a {
   color: var(--ink);
 }
 
+/* ------------------------------ pestañas -------------------------------- */
+
+.vista-tabs {
+  position: sticky;
+  top: 61px;
+  z-index: 40;
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.6rem 1rem;
+  background: var(--pitch-900);
+  border-bottom: 1px solid rgba(244, 239, 224, 0.15);
+}
+
+.vista-tabs__btn {
+  flex: 1;
+  max-width: 220px;
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
+  padding: 0.55rem 1rem;
+  border-radius: 999px;
+  border: 1px solid rgba(244, 239, 224, 0.25);
+  background: transparent;
+  color: var(--parchment-dim);
+  cursor: pointer;
+}
+
+.vista-tabs__btn.is-active {
+  background: var(--coral);
+  border-color: var(--coral);
+  color: #fff;
+}
+
+/* -------------------------- buscador con resultados ---------------------- */
+
 .search-bar {
   max-width: 1180px;
   margin: 0.6rem auto 0;
   padding: 0 1rem;
+  position: relative;
 }
 
 .search-bar input {
@@ -226,6 +268,110 @@ a {
   background: var(--parchment);
   font-family: var(--font-body);
   font-size: 0.85rem;
+}
+
+.search-bar__resultados {
+  list-style: none;
+  margin: 0.35rem 1rem 0;
+  padding: 0.3rem;
+  background: var(--parchment);
+  border-radius: 12px;
+  box-shadow: var(--shadow-float);
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.search-bar__resultados[hidden] {
+  display: none;
+}
+
+.search-bar__resultados li button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0.6rem;
+  background: none;
+  border: none;
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  text-align: left;
+  cursor: pointer;
+  color: var(--ink);
+}
+
+.search-bar__resultados li button:hover {
+  background: var(--parchment-dim);
+}
+
+.search-bar__resultados li button img {
+  width: 22px;
+  height: 16px;
+  object-fit: cover;
+  border-radius: 3px;
+}
+
+.search-bar__vacio {
+  padding: 0.5rem 0.6rem;
+  font-size: 0.8rem;
+  color: var(--parchment-dim);
+}
+
+/* --------------------------- libro (una página a la vez) ----------------- */
+
+#vista-album {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 1rem 1rem 3rem;
+}
+
+.libro {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  margin-top: 1rem;
+}
+
+.libro__pagina {
+  flex: 1;
+  min-width: 0;
+}
+
+.libro__flecha {
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  border: 1px solid var(--gold);
+  background: var(--pitch-700);
+  color: var(--parchment);
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+  position: sticky;
+  top: 45vh;
+}
+
+.libro__flecha:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.libro__indicador {
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--parchment-dim);
+  margin-top: 0.75rem;
+}
+
+.carta--clicable {
+  cursor: pointer;
 }
 
 /* ---------------------------- main / álbum ---------------------------- */
@@ -343,9 +489,15 @@ main {
   justify-content: center;
 }
 
-.carta__icono svg {
-  width: 55%;
-  height: 55%;
+/* contenedor de la foto real de la barajita (jugador o escudo) */
+.carta__media {
+  flex: 1;
+  width: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }
 
 .carta__foto {
@@ -358,6 +510,23 @@ main {
 .carta--escudo .carta__foto {
   object-fit: contain;
   padding: 10%;
+}
+
+/* cuando la foto real todavía no existe y se usa la bandera como respaldo,
+   se ve atenuada/apagada para dejar claro que no es la foto del jugador */
+.carta__foto--respaldo {
+  opacity: 0.32;
+  filter: grayscale(35%);
+}
+
+.carta__media .carta__icono {
+  position: absolute;
+  inset: 0;
+}
+
+.carta__icono svg {
+  width: 55%;
+  height: 55%;
 }
 
 .carta__nombre {
@@ -571,6 +740,105 @@ main {
 }
 
 /* =========================================================================
+   Modal: detalle de una carta (foto arriba, info abajo)
+   ========================================================================= */
+
+.carta-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(11, 20, 15, 0.82);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 110;
+  padding: 1rem;
+}
+
+.carta-overlay[hidden] {
+  display: none;
+}
+
+.carta-modal {
+  position: relative;
+  width: 100%;
+  max-width: 340px;
+  background: var(--parchment);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: var(--shadow-float);
+  max-height: 88vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.carta-modal__cerrar {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.6rem;
+  z-index: 2;
+  background: rgba(11, 20, 15, 0.55);
+  border-color: transparent;
+}
+
+.carta-modal__media {
+  width: 100%;
+  aspect-ratio: 3/4;
+  background: var(--pitch-700);
+  flex-shrink: 0;
+}
+
+.carta-modal__media .carta__media,
+.carta-modal__media .carta__foto,
+.carta-modal__media .carta__icono {
+  width: 100%;
+  height: 100%;
+}
+
+.carta-modal__media .carta__icono svg {
+  width: 45%;
+  height: 45%;
+  fill: var(--parchment-dim);
+}
+
+.carta-modal__info {
+  padding: 1rem 1.1rem 1.25rem;
+  text-align: center;
+}
+
+.carta-modal__pais {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--pitch-700);
+  opacity: 0.7;
+  margin: 0 0 0.2rem;
+}
+
+.carta-modal__nombre {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  margin: 0 0 0.6rem;
+  color: var(--ink);
+}
+
+.carta-modal__tags {
+  display: flex;
+  gap: 0.4rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.carta-modal__tag {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  padding: 0.3rem 0.65rem;
+  border-radius: 999px;
+  background: var(--pitch-700);
+  color: var(--parchment);
+}
+
+/* =========================================================================
    Modal: abrir sobre
    ========================================================================= */
 
@@ -693,14 +961,6 @@ main {
   width: 55%;
   height: 55%;
   fill: var(--pitch-700);
-}
-
-.reveal-carta__icono .carta__foto {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: top center;
-  border-radius: var(--radius-card) var(--radius-card) 0 0;
 }
 
 .reveal-carta__nombre {

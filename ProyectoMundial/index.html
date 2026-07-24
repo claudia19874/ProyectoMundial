@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Álbum Fútbol · Mundial 2026</title>
+  <meta name="description" content="Álbum interactivo de figuritas del Mundial 2026: abre sobres, completa países e intercambia repetidas." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=JetBrains+Mono:wght@500;700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <header class="app-header">
+    <div class="app-header__top">
+      <div class="brand">
+        <span class="brand__mark" aria-hidden="true">⚽</span>
+        <div>
+          <p class="brand__title">Álbum Mundial 2026</p>
+          <p class="brand__subtitle">48 selecciones · 576 figuritas</p>
+        </div>
+      </div>
+
+      <div class="header-stats">
+        <span class="stat-pill" id="stat-coleccion">0 / 576</span>
+        <span class="stat-pill" id="stat-sobres">Sobres: 3</span>
+        <button class="btn-sobre" id="btn-abrir-sobre" type="button">
+          Abrir sobre
+        </button>
+      </div>
+    </div>
+
+    <div class="progreso-global" aria-hidden="true">
+      <div class="progreso-global__track">
+        <div class="progreso-global__fill" id="progreso-global-fill"></div>
+      </div>
+    </div>
+  </header>
+
+  <nav class="vista-tabs" aria-label="Vista principal">
+    <button class="vista-tabs__btn is-active" id="tab-album" type="button">📖 Álbum</button>
+    <button class="vista-tabs__btn" id="tab-mercado" type="button">🔄 Mercado</button>
+  </nav>
+
+  <section id="vista-album">
+    <nav class="confed-nav" aria-label="Confederaciones">
+      <ul class="confed-nav__list" id="confed-nav-list">
+        <!-- generado por JS -->
+      </ul>
+    </nav>
+
+    <div class="search-bar">
+      <label for="buscador-pais" class="visually-hidden">Buscar selección</label>
+      <input
+        type="search"
+        id="buscador-pais"
+        placeholder="Buscar selección… (ej: Argentina, Japón, Marruecos)"
+        autocomplete="off"
+      />
+      <ul class="search-bar__resultados" id="search-resultados" hidden></ul>
+    </div>
+
+    <div class="libro">
+      <button class="libro__flecha libro__flecha--prev" id="btn-pagina-prev" type="button" aria-label="Selección anterior">‹</button>
+      <div class="libro__pagina" id="libro-pagina"><!-- generado por JS --></div>
+      <button class="libro__flecha libro__flecha--next" id="btn-pagina-next" type="button" aria-label="Selección siguiente">›</button>
+    </div>
+
+    <p class="libro__indicador" id="libro-indicador"></p>
+  </section>
+
+  <section id="seccion-mercado" aria-labelledby="mercado-heading" hidden>
+    <div class="mercado">
+      <h2 class="mercado__heading" id="mercado-heading">Mercado de intercambios</h2>
+      <div class="mercado__grid">
+
+        <div class="mercado__panel">
+          <h3>Tus repetidas</h3>
+          <div class="repetidas-lista" id="repetidas-lista">
+            <p class="mercado__vacio">Todavía no tenés figuritas repetidas. Abrí sobres para conseguir.</p>
+          </div>
+
+          <h3>Proponer intercambio</h3>
+          <form class="propuesta-form" id="form-propuesta">
+            <label for="select-repetida">Ofrecés</label>
+            <select id="select-repetida" required></select>
+
+            <label for="input-grupo">A qué grupo</label>
+            <input type="text" id="input-grupo" placeholder="Ej: Grupo 4" required />
+
+            <label for="input-pedido">A cambio de</label>
+            <input type="text" id="input-pedido" placeholder="Ej: ARG-10 (figurita que te falta)" required />
+
+            <button type="submit" id="btn-proponer">Enviar propuesta</button>
+          </form>
+          <p class="mercado__vacio" style="margin-top:.5rem">
+            Esta propuesta se enviará por Socket.IO al servidor cuando la API esté disponible. Por ahora queda simulada localmente.
+          </p>
+        </div>
+
+        <div class="mercado__panel">
+          <h3>Ofertas en vivo</h3>
+          <ul class="ofertas-lista" id="ofertas-lista">
+            <!-- generado por JS -->
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <footer class="app-footer">
+    Proyecto NRC 26577 · Programación Orientada a la Web · Interfaz de cliente (sin servidor todavía)
+  </footer>
+
+  <!-- Modal detalle de una carta -->
+  <div class="carta-overlay" id="carta-overlay" hidden>
+    <div class="carta-modal" role="dialog" aria-modal="true" aria-labelledby="carta-modal-nombre">
+      <button class="sobre-modal__cerrar carta-modal__cerrar" id="btn-cerrar-carta" aria-label="Cerrar">✕</button>
+      <div class="carta-modal__media" id="carta-modal-media"><!-- generado por JS --></div>
+      <div class="carta-modal__info">
+        <p class="carta-modal__pais" id="carta-modal-pais"></p>
+        <h2 class="carta-modal__nombre" id="carta-modal-nombre"></h2>
+        <div class="carta-modal__tags">
+          <span class="carta-modal__tag" id="carta-modal-rol"></span>
+          <span class="carta-modal__tag" id="carta-modal-cantidad"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal apertura de sobre -->
+  <div class="sobre-overlay" id="sobre-overlay" hidden>
+    <div class="sobre-modal" role="dialog" aria-modal="true" aria-labelledby="sobre-titulo">
+      <div class="sobre-modal__header">
+        <h2 id="sobre-titulo">Sobre de figuritas</h2>
+        <button class="sobre-modal__cerrar" id="btn-cerrar-sobre" aria-label="Cerrar">✕</button>
+      </div>
+
+      <div id="sobre-contenido">
+        <div class="sobre-inicial">
+          <div class="sobre-inicial__icono" aria-hidden="true">✉️</div>
+          <p>Tu sobre trae 7 figuritas al azar de cualquier selección clasificada.</p>
+          <button class="btn-revelar" id="btn-revelar">Abrir</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
