@@ -1,9 +1,9 @@
-import { GROUPS, ALBUM_DATA, CATALOGO_COMPLETO, FLAG_CODES } from "./data.js";
+import { GROUPS, ALBUM_DATA, CATALOGO_COMPLETO, FLAG_CODES, CANT_SOBRES } from "./data.js";
 
 
 const estado = {
   coleccion: new Map(), // id de carta -> cantidad que tengo (0, 1, 2, 3...)
-  sobresDisponibles: 3,
+  sobresDisponibles: CANT_SOBRES,
   ofertas: [
     {
       id: "OF-1",
@@ -21,12 +21,27 @@ const estado = {
 };
 
 
-const countryArr = CATALOGO_COMPLETO.countries
+const countryArr = CATALOGO_COMPLETO.countries;
 
-// inicializa todas las cartas en 0
+// Inicializa todas las cartas en 0 primero
 countryArr.forEach((country) => {
   country.cards.forEach((c) => estado.coleccion.set(c.id, 0));
 });
+
+// Sobreescribe con el estado real del álbum desde la API:
+// - isStuck: true  → la carta está pegada (cuenta como 1 en el álbum)
+// - duplicatesCount → cuántas repetidas hay en el inventario
+// La colección local representa: 0=missing, 1=pegada, 2+=pegada+repetidas
+if (ALBUM_DATA && ALBUM_DATA.pages) {
+  ALBUM_DATA.pages.forEach((page) => {
+    page.stickers.forEach((sticker) => {
+      let count = 0;
+      if (sticker.isStuck) count = 1 + (sticker.duplicatesCount || 0);
+      else if (sticker.duplicatesCount > 0) count = sticker.duplicatesCount;
+      estado.coleccion.set(sticker.id, count);
+    });
+  });
+}
 
 const TOTAL_CARTAS = CATALOGO_COMPLETO.totalCards;
 
@@ -184,14 +199,34 @@ function initBuscador() {
   });
 }
 
-function generarSobreLocal() {
-  const todasLasCartas = CATALOGO_COMPLETO.countries.flatMap((p) => p.cards);
-  const sobre = [];
-  for (let i = 0; i < 7; i++) {
-    const carta = todasLasCartas[Math.floor(Math.random() * todasLasCartas.length)];
-    sobre.push(carta);
+async function abrirSobreAPI() {
+  const apiKey = import.meta.env.VITE_APIKEY;
+  const apiUrl = import.meta.env.VITE_API_URL;
+
+  const response = await fetch(`${apiUrl}/api/packs/open`, {
+    method: "GET",
+    headers: { "x-api-key": apiKey }
+  });
+
+  if (!response.ok) {
+    throw new Error("No tienes sobres disponibles o hubo un error en el servidor.");
   }
-  return sobre;
+
+  return await response.json();
+}
+
+async function pegarCartaAPI(cardCode) {
+  const apiKey = import.meta.env.VITE_APIKEY;
+  const apiUrl = import.meta.env.VITE_API_URL;
+
+  await fetch(`${apiUrl}/api/album/stick`, {
+    method: "POST",
+    headers: {
+      "x-api-key": apiKey,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ cardCode })
+  });
 }
 
 function initSobre() {
@@ -215,36 +250,60 @@ function initSobre() {
     document.getElementById("btn-revelar").addEventListener("click", revelarSobre);
   }
 
-  function revelarSobre() {
-    estado.sobresDisponibles -= 1;
-    const sobre = generarSobreLocal();
-    let nuevas = 0;
-    let repetidas = 0;
+  async function revelarSobre() {
+    const btnRevelar = document.getElementById("btn-revelar");
+    btnRevelar.disabled = true;
+    btnRevelar.textContent = "Abriendo...";
 
-    const html = sobre
-      .map((carta, i) => {
-        const teniaAntes = estado.coleccion.get(carta.id) || 0;
-        estado.coleccion.set(carta.id, teniaAntes + 1);
-        const esNueva = teniaAntes === 0;
-        if (esNueva) nuevas++;
-        else repetidas++;
+    try {
+      const data = await abrirSobreAPI();
+
+      estado.sobresDisponibles = data.unopenedPacks;
+
+      let nuevas = 0;
+      let repetidas = 0;
+      const contenido = document.getElementById("sobre-contenido");
+
+      const html = data.pack.map((carta, i) => {
+        const esNueva = carta.isNewInAlbum;
+        if (esNueva) nuevas++; else repetidas++;
+
         return `
           <div class="reveal-carta ${esNueva ? "reveal-carta--nueva" : "reveal-carta--repetida"}" style="animation-delay:${i * 0.08}s">
             <div class="reveal-carta__icono">${iconoDeCarta(carta)}</div>
             <p class="reveal-carta__nombre">${carta.name}</p>
             <p class="reveal-carta__tag">${esNueva ? "¡Nueva!" : "Repetida"}</p>
           </div>`;
-      })
-      .join("");
+      }).join("");
 
-    contenido.innerHTML = `
-      <div class="reveal-grid">${html}</div>
-      <p class="sobre-resumen">${nuevas} nuevas · ${repetidas} repetidas</p>
-    `;
+      contenido.innerHTML = `
+        <div class="reveal-grid">${html}</div>
+        <p class="sobre-resumen">${nuevas} nuevas · ${repetidas} repetidas</p>
+      `;
 
-    sobre.forEach((c) => refrescarCartaEnDOM(c.id));
-    actualizarStats();
-    renderRepetidas();
+      for (const carta of data.pack) {
+        if (carta.isNewInAlbum) {
+          await pegarCartaAPI(carta.code);
+
+          estado.coleccion.set(carta.id, (estado.coleccion.get(carta.id) || 0) + 1);
+          refrescarCartaEnDOM(carta.id);
+        } else {
+          estado.coleccion.set(carta.id, (estado.coleccion.get(carta.id) || 0) + 1);
+        }
+      }
+
+      actualizarStats();
+      renderRepetidas();
+
+    } catch (error) {
+      alert(error.message);
+    } finally {
+      if (document.getElementById("btn-revelar")) {
+        const btn = document.getElementById("btn-revelar");
+        btn.disabled = false;
+        btn.textContent = "Abrir";
+      }
+    }
   }
 
   btnAbrir.addEventListener("click", abrirModal);

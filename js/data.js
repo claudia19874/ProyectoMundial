@@ -232,7 +232,26 @@ async function BuscarCatalogoBarajitas() {
   }
 }
 
+async function BuscarCantidadSobres() {
+  try {
+    const resp = await fetch(apiUrl + '/api/groups/me', {
+      method: 'GET',
+      headers: {
+        'x-api-key': apiKey
+      }
+    })
+    if (!resp.ok) throw new Error(resp.status + ' ' + resp.statusText)
+    const data = await resp.json()
+    const cant = data.group.unopenedPacks;
+    // console.log(JSON.stringify(data.countries))
+    return cant;
+  } catch (Error) {
+    console.error("Hubo un error...\n" + Error.message)
+  }
+}
+
 const CATALOGO_COMPLETO = await BuscarCatalogoBarajitas();
 const ALBUM_DATA = await construirAlbumLocal();
+const CANT_SOBRES = await BuscarCantidadSobres();
 
-export { CATALOGO_COMPLETO, ALBUM_DATA, GROUPS, FLAG_CODES };
+export { CATALOGO_COMPLETO, ALBUM_DATA, GROUPS, FLAG_CODES, CANT_SOBRES };

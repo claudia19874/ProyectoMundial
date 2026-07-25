@@ -176,7 +176,7 @@ a {
 
 /* ---------------------------- nav (tabs) ------------------------------ */
 
-.confed-nav {
+.group-nav {
   position: sticky;
   top: 61px;
   z-index: 30;
@@ -187,7 +187,7 @@ a {
   border-bottom: 1px solid rgba(244, 239, 224, 0.15);
 }
 
-.confed-nav__list {
+.group-nav__list {
   list-style: none;
   display: flex;
   gap: 0.4rem;
@@ -197,7 +197,7 @@ a {
   margin-inline: auto;
 }
 
-.confed-nav__link {
+.group-nav__link {
   display: inline-block;
   text-decoration: none;
   font-size: 0.75rem;
@@ -210,8 +210,8 @@ a {
   padding: 0.35rem 0.75rem;
 }
 
-.confed-nav__link:hover,
-.confed-nav__link.is-active {
+.group-nav__link:hover,
+.group-nav__link.is-active {
   background: var(--gold);
   color: var(--ink);
 }
@@ -240,12 +240,12 @@ main {
   padding: 1.25rem 1rem 4rem;
 }
 
-.confed-section {
+.group-section {
   margin-bottom: 2.75rem;
   scroll-margin-top: 130px;
 }
 
-.confed-section__heading {
+.group-section__heading {
   display: flex;
   align-items: baseline;
   gap: 0.6rem;
@@ -253,14 +253,14 @@ main {
   margin-bottom: 0.9rem;
 }
 
-.confed-section__heading h2 {
+.group-section__heading h2 {
   font-family: var(--font-display);
   letter-spacing: 0.02em;
   font-size: 1.3rem;
   margin: 0;
 }
 
-.confed-section__count {
+.group-section__count {
   font-family: var(--font-mono);
   font-size: 0.75rem;
   color: var(--gold-light);
