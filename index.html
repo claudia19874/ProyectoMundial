@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Álbum Fútbol · Mundial 2026</title>
+  <meta name="description" content="Álbum interactivo de figuritas del Mundial 2026: abre sobres, completa países e intercambia repetidas." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=JetBrains+Mono:wght@500;700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <header class="app-header">
+    <div class="app-header__top">
+      <div class="brand">
+        <span class="brand__mark" aria-hidden="true">⚽</span>
+        <div>
+          <p class="brand__title">Álbum Mundial 2026</p>
+          <p class="brand__subtitle">48 selecciones · 576 figuritas</p>
+        </div>
+      </div>
+
+      <div class="header-stats">
+        <span class="stat-pill" id="stat-coleccion">0 / 576</span>
+        <span class="stat-pill" id="stat-sobres">Sobres: 3</span>
+        <button class="btn-sobre" id="btn-abrir-sobre" type="button">
+          Abrir sobre
+        </button>
+      </div>
+    </div>
+
+    <div class="progreso-global" aria-hidden="true">
+      <div class="progreso-global__track">
+        <div class="progreso-global__fill" id="progreso-global-fill"></div>
+      </div>
+    </div>
+    <nav class="group-nav" aria-label="Grupos">
+      <ul class="group-nav__list" id="group-nav-list">
+        <!-- generado por JS -->
+      </ul>
+    </nav>
+
+
+  </header>
+
+    <div class="search-bar">
+    <label for="buscador-pais" class="visually-hidden">Buscar selección</label>
+    <input
+      type="search"
+      id="buscador-pais"
+      placeholder="Buscar selección… (ej: Argentina, Japón, Marruecos)"
+      autocomplete="off"
+    />
+  </div>
+
+  <main id="album-main">
+    <!-- Las <section> por grupo del mundial con sus <article> de país se generan por JS -->
+
+    <section class="group-section" id="seccion-mercado" aria-labelledby="mercado-heading">
+      <div class="mercado">
+        <h2 class="mercado__heading" id="mercado-heading">Mercado de intercambios</h2>
+        <div class="mercado__grid">
+
+          <div class="mercado__panel">
+            <h3>Tus repetidas</h3>
+            <div class="repetidas-lista" id="repetidas-lista">
+              <p class="mercado__vacio">Todavía no tenés figuritas repetidas. Abrí sobres para conseguir.</p>
+            </div>
+
+            <h3>Proponer intercambio</h3>
+            <form class="propuesta-form" id="form-propuesta">
+              <label for="select-repetida">Ofrecés</label>
+              <select id="select-repetida" required></select>
+
+              <label for="input-grupo">A qué grupo</label>
+              <select id="input-grupo" required>
+                <option value="">-- Selecciona un grupo --</option>
+              </select>
+
+              <label for="input-pedido">A cambio de</label>
+              <select id="input-pedido" required disabled>
+                <option value="">-- Selecciona el grupo primero --</option>
+              </select>
+
+              <button type="submit" id="btn-proponer">Enviar propuesta</button>
+            </form>
+          </div>
+
+          <div class="mercado__panel">
+            <h3>Ofertas en vivo</h3>
+            <ul class="ofertas-lista" id="ofertas-lista">
+              <!-- generado por JS -->
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    Proyecto NRC 26577 · Programación Orientada a la Web · Interfaz de cliente
+  </footer>
+
+  <!-- Modal apertura de sobre -->
+  <div class="sobre-overlay" id="sobre-overlay" hidden>
+    <div class="sobre-modal" role="dialog" aria-modal="true" aria-labelledby="sobre-titulo">
+      <div class="sobre-modal__header">
+        <h2 id="sobre-titulo">Sobre de figuritas</h2>
+        <button class="sobre-modal__cerrar" id="btn-cerrar-sobre" aria-label="Cerrar">✕</button>
+      </div>
+
+      <div id="sobre-contenido">
+        <div class="sobre-inicial">
+          <div class="sobre-inicial__icono" aria-hidden="true">✉️</div>
+          <p>Tu sobre trae 7 figuritas al azar de cualquier selección clasificada.</p>
+          <button class="btn-revelar" id="btn-revelar">Abrir</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="js/data.js"></script>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

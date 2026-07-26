@@ -1,0 +1,13 @@
+{
+  "name": "album-mundial-2026",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "start": "node server-preview.js"
+  },
+  "dependencies": {
+    "socket.io-client": "^4.8.3",
+    "vite": "^8.1.5"
+  }
+}
