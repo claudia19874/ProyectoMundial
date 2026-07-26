@@ -1,10 +1,5 @@
-import { GROUPS, ALBUM_DATA, CATALOGO_COMPLETO, FLAG_CODES, CANT_SOBRES, BuscarIntercambios, GRUPO_PROY_ID } from "./data.js";
-import { io } from "socket.io-client";
-
-const APIKEY = import.meta.env.VITE_APIKEY
-
-
-const socket = io("https://sticker-album-server-proyect-production.up.railway.app", {
+import { GROUPS, ALBUM_DATA, CATALOGO_COMPLETO, FLAG_CODES, CANT_SOBRES, BuscarIntercambios, GRUPO_PROY_ID, TODOS_LOS_GRUPOS } from "./data.js"; import { io } from "socket.io-client"; const APIKEY = import.meta.env.VITE_APIKEY; const APIURL = import.meta.env.VITE_API_URL;
+const socket = io(APIURL, {
   auth: { apiKey: APIKEY }
 })
 
@@ -13,46 +8,33 @@ var intercambios = await BuscarIntercambios();
 const estado = {
   coleccion: new Map(), // id de carta -> cantidad que tengo (0, 1, 2, 3...)
   sobresDisponibles: CANT_SOBRES,
-  ofertas: [
-    {
-      id: "OF-1",
-      grupo: "Grupo 4",
-      ofrece: "BRA-09",
-      pide: "ARG-10",
-    },
-    {
-      id: "OF-2",
-      grupo: "Grupo 7",
-      ofrece: "JPN-ESC",
-      pide: "MEX-01",
-    },
-  ],
 };
 
 
-const countryArr = CATALOGO_COMPLETO.countries;
+function initAlbum() {
 
-// Inicializa todas las cartas en 0 primero
-countryArr.forEach((country) => {
-  country.cards.forEach((c) => estado.coleccion.set(c.id, 0));
-});
+  const countryArr = CATALOGO_COMPLETO.countries;
 
-// Sobreescribe con el estado real del álbum desde la API:
-// - isStuck: true  → la carta está pegada (cuenta como 1 en el álbum)
-// - duplicatesCount → cuántas repetidas hay en el inventario
-// La colección local representa: 0=missing, 1=pegada, 2+=pegada+repetidas
-if (ALBUM_DATA && ALBUM_DATA.pages) {
-  ALBUM_DATA.pages.forEach((page) => {
-    page.stickers.forEach((sticker) => {
-      let count = 0;
-      if (sticker.isStuck) count = 1 + (sticker.duplicatesCount || 0);
-      else if (sticker.duplicatesCount > 0) count = sticker.duplicatesCount;
-      estado.coleccion.set(sticker.id, count);
-    });
+  // Inicializa todas las cartas en 0 primero
+  countryArr.forEach((country) => {
+    country.cards.forEach((c) => estado.coleccion.set(c.id, 0));
   });
-}
 
-const TOTAL_CARTAS = CATALOGO_COMPLETO.totalCards;
+  // Sobreescribe con el estado real del álbum desde la API:
+  // - isStuck: true  → la carta está pegada (cuenta como 1 en el álbum)
+  // - duplicatesCount → cuántas repetidas hay en el inventario
+  // La colección local representa: 0=missing, 1=pegada, 2+=pegada+repetidas
+  if (ALBUM_DATA && ALBUM_DATA.pages) {
+    ALBUM_DATA.pages.forEach((page) => {
+      page.stickers.forEach((sticker) => {
+        let count = 0;
+        if (sticker.isStuck) count = 1 + (sticker.duplicatesCount || 0);
+        else if (sticker.duplicatesCount > 0) count = sticker.duplicatesCount;
+        estado.coleccion.set(sticker.id, count);
+      });
+    });
+  }
+}
 
 // WebSocket
 
@@ -70,11 +52,11 @@ socket.on("disconnect", (reason) => {
   console.log("Connected:", socket.connected)
 })
 
-socket.on("trade:proposed",)
-socket.on("trade:accepted",)
-socket.on("trade:rejected",)
-socket.on("trade:cancelled",)
-socket.on("market:new_offer",)
+socket.on("trade:proposed", () => cargarIntercambios())
+socket.on("trade:accepted", () => cargarIntercambios())
+socket.on("trade:rejected", () => cargarIntercambios())
+socket.on("trade:cancelled", () => cargarIntercambios())
+socket.on("market:new_offer", () => cargarIntercambios())
 
 
 
@@ -129,7 +111,7 @@ function renderCarta(carta) {
   const obtenida = cantidad > 0;
   const claseEstado = obtenida ? "carta--obtenida" : "carta--faltante";
   const claseTipo = carta.role === "Escudo" ? "carta--escudo" : "";
-  const badge = cantidad > 1 ? `<span class="carta__badge">x${cantidad}</span>` : "";
+  const badge = cantidad > 1 ? `<span class="carta__badge">x${cantidad - 1}</span>` : "";
 
   return `
     <div class="carta ${claseEstado} ${claseTipo}" data-id="${carta.id}" title="${carta.name} · ${carta.role}">
@@ -191,6 +173,7 @@ function renderAlbum() {
 
 
 function actualizarStats() {
+  const TOTAL_CARTAS = CATALOGO_COMPLETO.totalCards;
   const obtenidas = [...estado.coleccion.values()].filter((v) => v > 0).length;
   document.getElementById("stat-coleccion").textContent = `${obtenidas} / ${TOTAL_CARTAS}`;
   document.getElementById("stat-sobres").textContent = `Sobres: ${estado.sobresDisponibles}`;
@@ -357,7 +340,7 @@ function renderRepetidas() {
   });
 
   if (repetidas.length === 0) {
-    cont.innerHTML = `<p class="mercado__vacio">Todavía no tenés figuritas repetidas. Abrí sobres para conseguir.</p>`;
+    cont.innerHTML = `<p class="mercado__vacio">Todavía no tienes figuritas repetidas. Abre sobres para conseguir.</p>`;
     select.innerHTML = `<option value="">— sin repetidas —</option>`;
     document.getElementById("btn-proponer").disabled = true;
     return;
@@ -385,55 +368,200 @@ function renderRepetidas() {
     .join("");
 }
 
-function renderOfertas() {
+// -----------------------------------------------------------------------
+// API DE INTERCAMBIOS
+// -----------------------------------------------------------------------
+
+async function apiCall(path, options = {}) {
+  const res = await fetch(`${APIURL}${path}`, {
+    ...options,
+    headers: {
+      "x-api-key": APIKEY,
+      "Content-Type": "application/json",
+      ...(options.headers || {})
+    }
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || `Error ${res.status}`);
+  return data;
+}
+
+async function cargarIntercambios() {
+  try {
+    const data = await apiCall("/api/trades");
+    renderOfertas(data.trades || []);
+  } catch (err) {
+    console.error("Error cargando intercambios:", err.message);
+  }
+}
+
+async function proponerIntercambio(targetGroupId, offeredCardCode, requestedCardCode) {
+  return await apiCall("/api/trades", {
+    method: "POST",
+    body: JSON.stringify({ targetGroupId, offeredCardCode, requestedCardCode })
+  });
+}
+
+async function aceptarIntercambio(tradeId) {
+  return await apiCall(`/api/trades/${tradeId}/accept`, { method: "POST" });
+}
+
+async function rechazarIntercambio(tradeId) {
+  return await apiCall(`/api/trades/${tradeId}/reject`, { method: "POST" });
+}
+
+async function cancelarIntercambio(tradeId) {
+  return await apiCall(`/api/trades/${tradeId}`, { method: "DELETE" });
+}
+
+// -----------------------------------------------------------------------
+// RENDER INTERCAMBIOS
+// -----------------------------------------------------------------------
+
+function estadoBadge(status) {
+  const map = {
+    PENDING: { label: "Pendiente", cls: "badge--pendiente" },
+    ACCEPTED: { label: "Aceptado", cls: "badge--aceptado" },
+    REJECTED: { label: "Rechazado", cls: "badge--rechazado" },
+    CANCELLED: { label: "Cancelado", cls: "badge--cancelado" },
+  };
+  const s = map[status] || { label: status, cls: "" };
+  return `<span class="oferta-badge ${s.cls}">${s.label}</span>`;
+}
+
+function renderOfertas(trades) {
   const ul = document.getElementById("ofertas-lista");
-  if (estado.ofertas.length === 0) {
-    ul.innerHTML = `<p class="mercado__vacio">No hay ofertas activas en este momento.</p>`;
+
+  if (!trades || trades.length === 0) {
+    ul.innerHTML = `<p class="mercado__vacio">No hay intercambios activos en este momento.</p>`;
     return;
   }
-  ul.innerHTML = estado.ofertas
-    .map(
-      (of) => `
-      <li class="oferta-item" data-oferta="${of.id}">
-        <span><strong>${of.grupo}</strong> ofrece ${of.ofrece} por tu ${of.pide}</span>
-        <span class="oferta-item__acciones">
-          <button class="btn-aceptar" data-accion="aceptar">Aceptar</button>
-          <button class="btn-rechazar" data-accion="rechazar">Rechazar</button>
-        </span>
-      </li>`
-    )
-    .join("");
 
-  ul.querySelectorAll("button").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const li = btn.closest(".oferta-item");
-      const id = li.dataset.oferta;
-      estado.ofertas = estado.ofertas.filter((o) => o.id !== id);
-      renderOfertas();
+  ul.innerHTML = trades.map(trade => {
+    const soyProponente = trade.proposerGroup._id === GRUPO_PROY_ID;
+    const otroGrupo = soyProponente ? trade.targetGroup.name : trade.proposerGroup.name;
+    const esPendiente = trade.status === "PENDING";
+
+    const accionesSoyProponente = esPendiente
+      ? `<button class="btn-cancelar" data-id="${trade._id}">Cancelar</button>`
+      : "";
+
+    const accionesSoyTarget = (!soyProponente && esPendiente)
+      ? `<button class="btn-aceptar" data-id="${trade._id}">Aceptar</button>
+         <button class="btn-rechazar" data-id="${trade._id}">Rechazar</button>`
+      : "";
+
+    return `
+    <li class="oferta-item" data-oferta="${trade._id}">
+      <div class="oferta-item__info">
+        <strong>${estadoBadge(trade.status)}:</strong>
+        <span class="oferta-item__grupos">
+          ${soyProponente ? 'Tú' : `<strong>${otroGrupo}</strong>`}
+          ${soyProponente ? 'ofreces' : 'ofrece'} <code>${trade.offeredCardCode}</code>
+          a cambio de <code>${trade.requestedCardCode}</code>
+          ${soyProponente ? `→ <strong>${otroGrupo}</strong>` : ""}
+        </span>
+      </div>
+      <span class="oferta-item__acciones">
+        ${accionesSoyProponente}
+        ${accionesSoyTarget}
+      </span>
+    </li>`;
+  }).join("");
+
+  // Delegación de eventos
+  ul.querySelectorAll(".btn-aceptar").forEach(btn => {
+    btn.addEventListener("click", async () => {
+      try {
+        btn.disabled = true;
+        btn.textContent = "Aceptando...";
+        await aceptarIntercambio(btn.dataset.id);
+        await cargarIntercambios();
+      } catch (err) {
+        alert(err.message);
+        btn.disabled = false;
+        btn.textContent = "Aceptar";
+      }
+    });
+  });
+
+  ul.querySelectorAll(".btn-rechazar").forEach(btn => {
+    btn.addEventListener("click", async () => {
+      try {
+        btn.disabled = true;
+        btn.textContent = "Rechazando...";
+        await rechazarIntercambio(btn.dataset.id);
+        await cargarIntercambios();
+      } catch (err) {
+        alert(err.message);
+        btn.disabled = false;
+        btn.textContent = "Rechazar";
+      }
+    });
+  });
+
+  ul.querySelectorAll(".btn-cancelar").forEach(btn => {
+    btn.addEventListener("click", async () => {
+      try {
+        btn.disabled = true;
+        btn.textContent = "Cancelando...";
+        await cancelarIntercambio(btn.dataset.id);
+        await cargarIntercambios();
+      } catch (err) {
+        alert(err.message);
+        btn.disabled = false;
+        btn.textContent = "Cancelar";
+      }
     });
   });
 }
 
 function initMercado() {
   renderRepetidas();
-  renderOfertas();
+  cargarIntercambios();
 
-  document.getElementById("form-propuesta").addEventListener("submit", (e) => {
+  // Llenar selector de grupos destino
+  const selectGrupo = document.getElementById("input-grupo");
+  if (selectGrupo && TODOS_LOS_GRUPOS) {
+    selectGrupo.innerHTML = TODOS_LOS_GRUPOS
+      .filter(g => g._id !== GRUPO_PROY_ID && g.id !== GRUPO_PROY_ID)
+      .map(g => `<option value="${g._id || g.id}">${g.name}</option>`)
+      .join("");
+  }
+
+  document.getElementById("form-propuesta").addEventListener("submit", async (e) => {
     e.preventDefault();
-    const grupo = document.getElementById("input-grupo").value.trim();
-    const pedido = document.getElementById("input-pedido").value.trim();
-    const ofrecida = document.getElementById("select-repetida").value;
-    if (!ofrecida) return;
+    const targetGroupId = document.getElementById("input-grupo").value;
+    const requestedCardCode = document.getElementById("input-pedido").value.trim().toUpperCase();
+    const offeredCardCode = document.getElementById("select-repetida").value;
 
-    estado.ofertas.push({
-      id: `OF-${Date.now()}`,
-      grupo: grupo || "Tu grupo",
-      ofrece: ofrecida,
-      pide: pedido || "?",
-    });
-    renderOfertas();
-    e.target.reset();
-    alert("Propuesta guardada localmente. Cuando la API esté lista, esto se enviará por Socket.IO al otro grupo.");
+    if (!offeredCardCode) {
+      alert("Selecciona una barajita repetida para ofrecer.");
+      return;
+    }
+    if (!requestedCardCode) {
+      alert("Ingresa el código de la barajita que pides (ej: ARG-5).");
+      return;
+    }
+    if (!targetGroupId) {
+      alert("Selecciona el grupo al que le propones el intercambio.");
+      return;
+    }
+
+    const btnSubmit = e.target.querySelector("button[type=submit]");
+    btnSubmit.disabled = true;
+    btnSubmit.textContent = "Enviando...";
+
+    try {
+      await proponerIntercambio(targetGroupId, offeredCardCode, requestedCardCode);
+      e.target.reset();
+      await cargarIntercambios();
+    } catch (err) {
+      alert("Error al proponer intercambio: " + err.message);
+    } finally {
+      btnSubmit.disabled = false;
+      btnSubmit.textContent = "Proponer";
+    }
   });
 }
 
@@ -459,6 +587,7 @@ function initScrollSpy() {
 
 // Ya que usamos top-level await en data.js, el DOM ya está cargado cuando este código se ejecuta.
 // No necesitamos DOMContentLoaded.
+initAlbum();
 renderNav();
 renderAlbum();
 actualizarStats();

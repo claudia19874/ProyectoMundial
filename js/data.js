@@ -1,6 +1,6 @@
 
-const apiKey = import.meta.env.VITE_APIKEY
-const apiUrl = import.meta.env.VITE_API_URL
+const APIKEY = import.meta.env.VITE_APIKEY
+const APIURL = import.meta.env.VITE_API_URL
 
 /**
 
@@ -166,125 +166,74 @@ const GROUPS = [
  * Construye el álbum completo en memoria (48 países x 12 cartas = 576).
  * Reemplazar por una llamada a la API cuando esté disponible.
  */
+
+async function apiCall(path, options = {}) {
+  const res = await fetch(`${APIURL}${path}`, {
+    ...options,
+    headers: {
+      "x-api-key": APIKEY,
+      "Content-Type": "application/json",
+      ...(options.headers || {})
+    }
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || `Error ${res.status}`);
+  return data;
+}
+
 async function construirAlbumLocal() {
   try {
-    const resp = await fetch(apiUrl + '/api/album/', {
-      method: 'GET',
-      headers: {
-        'x-api-key': apiKey
-      }
-    })
-
-    if (!resp.ok) throw new Error(resp.status + ' ' + resp.statusText)
-    const data = await resp.json()
-    return data;
-  } catch (Error) {
-    console.Error("Hubo un error...\n" + Error.message)
+    return await apiCall('/api/album');
+  } catch (err) {
+    console.error("Hubo un error...\n" + err.message);
   }
-
-
 }
 
 async function BuscarCatalogoBarajitas() {
   try {
-    const resp = await fetch(apiUrl + '/api/cards/', {
-      method: 'GET',
-      headers: {
-        'x-api-key': apiKey
-      }
-    })
-
-    if (!resp.ok) throw new Error(resp.status + ' ' + resp.statusText)
-    const data = await resp.json()
-    // console.log(JSON.stringify(data.countries))
-    return data;
-  } catch (Error) {
-    console.error("Hubo un error...\n" + Error.message)
+    return await apiCall('/api/cards');
+  } catch (err) {
+    console.error("Hubo un error...\n" + err.message);
   }
 }
 
 async function BuscarInfoGrupoProy() {
   try {
-    const resp = await fetch(apiUrl + '/api/groups/me/', {
-      method: 'GET',
-      headers: {
-        'x-api-key': apiKey
-      }
-    })
-    if (!resp.ok) throw new Error(resp.status + ' ' + resp.statusText)
-    const data = await resp.json()
-    // const cant = data.group.unopenedPacks;
-    // console.log(JSON.stringify(data.countries))
-    return data;
-  } catch (Error) {
-    console.error("Hubo un error...\n" + Error.message)
+    return await apiCall('/api/groups/me');
+  } catch (err) {
+    console.error("Hubo un error...\n" + err.message);
   }
 }
 
 async function BuscarTodosGruposProy() {
   try {
-    const resp = await fetch(apiUrl + '/api/groups/', {
-      method: 'GET',
-      headers: {
-        'x-api-key': apiKey
-      }
-    })
-    if (!resp.ok) throw new Error(resp.status + ' ' + resp.statusText)
-    const data = await resp.json()
-    return data;
-  } catch (Error) {
-    console.error("Hubo un error...\n" + Error.message)
+    return await apiCall('/api/groups');
+  } catch (err) {
+    console.error("Hubo un error...\n" + err.message);
   }
 }
 
 async function BuscarIntercambios() {
   try {
-    const resp = await fetch(apiUrl + '/api/trades/', {
-      method: 'GET',
-      headers: {
-        'x-api-key': apiKey
-      }
-    })
-
-    if (!resp.ok) throw new Error(resp.status + ' ' + resp.statusText)
-    const data = await resp.json()
-    return data;
-  } catch (Error) {
-    console.error("Hubo un error...\n" + Error.message)
+    return await apiCall('/api/trades');
+  } catch (err) {
+    console.error("Hubo un error...\n" + err.message);
   }
 }
 
 async function BuscarRepetidas() {
   try {
-    const resp = await fetch(apiUrl + '/api/inventory/duplicates/', {
-      method: 'GET',
-      headers: {
-        'x-api-key': apiKey
-      }
-    })
-
-    if (!resp.ok) throw new Error(resp.status + ' ' + resp.statusText)
-    const data = await resp.json()
-    return data;
-  } catch (Error) {
-    console.error("Hubo un error...\n" + Error.message)
+    return await apiCall('/api/inventory/duplicates');
+  } catch (err) {
+    console.error("Hubo un error...\n" + err.message);
   }
 }
 
 async function BuscarRepetidasGrupo(groupId) {
   try {
-    const resp = await fetch(apiUrl + `/api/groups/${groupId}/duplicates/`, {
-      method: 'GET',
-      headers: {
-        'x-api-key': apiKey
-      }
-    })
-
-    if (!resp.ok) throw new Error(resp.status + ' ' + resp.statusText)
-    const data = await resp.json()
-    return data;
-  } catch (Error) {
-    console.error("Hubo un error...\n" + Error.message)
+    return await apiCall(`/api/groups/${groupId}/duplicates`);
+  } catch (err) {
+    console.error("Hubo un error...\n" + err.message);
   }
 }
 
@@ -292,7 +241,8 @@ const GRUPO_PROY = await BuscarInfoGrupoProy()
 const GRUPOS_PROY_TODOS = await BuscarTodosGruposProy()
 export const CATALOGO_COMPLETO = await BuscarCatalogoBarajitas()
 export const ALBUM_DATA = await construirAlbumLocal()
-export const CANT_SOBRES = await GRUPO_PROY.group.unopenedPacks
-export const GRUPO_PROY_ID = await GRUPO_PROY.group._id
+export const CANT_SOBRES = GRUPO_PROY.group.unopenedPacks
+export const GRUPO_PROY_ID = GRUPO_PROY.group._id
+export const TODOS_LOS_GRUPOS = GRUPOS_PROY_TODOS.groups
 
 export { GROUPS, FLAG_CODES, BuscarIntercambios }
