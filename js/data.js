@@ -22,6 +22,10 @@ const FLAG_CODES = {
   "ENG": "gb-eng", "CRO": "hr", "GHA": "gh", "PAN": "pa"
 };
 
+const COUNTRIES = [
+
+]
+
 const GROUPS = [
   {
     wcGroup: "Grupo A",
@@ -244,4 +248,4 @@ export const ALBUM_DATA = await construirAlbumLocal()
 export const CANT_SOBRES = GRUPO_PROY.group.unopenedPacks
 export const TODOS_LOS_GRUPOS = GRUPOS_PROY_TODOS.groups
 
-export { GROUPS, FLAG_CODES, BuscarIntercambios, BuscarRepetidasGrupo }
+export { GROUPS, FLAG_CODES, BuscarIntercambios, BuscarRepetidasGrupo, construirAlbumLocal }

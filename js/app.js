@@ -1,4 +1,9 @@
-import { GROUPS, ALBUM_DATA, CATALOGO_COMPLETO, FLAG_CODES, CANT_SOBRES, BuscarIntercambios, TODOS_LOS_GRUPOS, BuscarRepetidasGrupo, GRUPO_PROY } from "./data.js"; import { io } from "socket.io-client"; const APIKEY = import.meta.env.VITE_APIKEY; const APIURL = import.meta.env.VITE_API_URL;
+import { GROUPS, ALBUM_DATA, CATALOGO_COMPLETO, FLAG_CODES, CANT_SOBRES, BuscarIntercambios, TODOS_LOS_GRUPOS, BuscarRepetidasGrupo, GRUPO_PROY, construirAlbumLocal } from "./data.js";
+import { io } from "socket.io-client";
+
+const APIKEY = import.meta.env.VITE_APIKEY;
+const APIURL = import.meta.env.VITE_API_URL;
+
 const socket = io(APIURL, {
   auth: { apiKey: APIKEY }
 })
@@ -53,7 +58,12 @@ socket.on("disconnect", (reason) => {
 })
 
 socket.on("trade:proposed", () => cargarIntercambios())
-socket.on("trade:accepted", () => cargarIntercambios())
+socket.on("trade:accepted", async (payload) => {
+  await cargarIntercambios();
+  const t = await buscarIntercambio(payload.tradeId)
+  await pegarCartaAPI(t.requestedCardCode);
+  await sincronizarAlbumAPI();
+})
 socket.on("trade:rejected", () => cargarIntercambios())
 socket.on("trade:cancelled", () => cargarIntercambios())
 socket.on("market:new_offer", () => cargarIntercambios())
@@ -75,6 +85,39 @@ function iconoDeCarta(carta) {
   return ICONOS[carta.role] || ICONOS["Delantero"];
 }
 
+async function buscarIntercambio(id, filtro = '') {
+  try {
+    const path = filtro ? `/api/trades?status=${filtro}` : "/api/trades/";
+    const data = await apiCall(path);
+    if (data && data.trades) {
+      return data.trades.find((trade) => trade._id === id || trade.id === id) || {};
+    }
+  } catch (err) {
+    console.error("Error al buscar intercambio:", err);
+  }
+  return {};
+}
+
+async function sincronizarAlbumAPI() {
+  try {
+    const data = await construirAlbumLocal();
+    if (data && data.pages) {
+      data.pages.forEach((page) => {
+        page.stickers.forEach((sticker) => {
+          let count = 0;
+          if (sticker.isStuck) count = 1 + (sticker.duplicatesCount || 0);
+          else if (sticker.duplicatesCount > 0) count = sticker.duplicatesCount;
+          estado.coleccion.set(sticker.id, count);
+          refrescarCartaEnDOM(sticker.id);
+        });
+      });
+    }
+    actualizarStats();
+    renderRepetidas();
+  } catch (err) {
+    console.error("Error al sincronizar álbum:", err);
+  }
+}
 
 function sigla3(nombre) {
   const partes = nombre.toUpperCase().split(/\s+/);
@@ -188,6 +231,18 @@ function actualizarStats() {
   });
 }
 
+function BarajitaPegadaEnAlbum(barajita) {
+  if (ALBUM_DATA && ALBUM_DATA.pages) {
+    for (const page of ALBUM_DATA.pages) {
+      for (const sticker of page.stickers) {
+        if (barajita.id === sticker.id) {
+          return sticker.isStuck;
+        }
+      }
+    }
+  }
+  return false;
+}
 
 function refrescarCartaEnDOM(id) {
   const nodo = document.querySelector(`.carta[data-id="${id}"]`);
@@ -411,7 +466,7 @@ async function rechazarIntercambio(tradeId) {
 }
 
 async function cancelarIntercambio(tradeId) {
-  return await apiCall(`/api/trades/${tradeId}`, { method: "DELETE" });
+  return await apiCall(`/api/trades/${tradeId}/cancel`, { method: "POST" });
 }
 
 // -----------------------------------------------------------------------
@@ -477,6 +532,8 @@ function renderOfertas(trades) {
         btn.textContent = "Aceptando...";
         await aceptarIntercambio(btn.dataset.id);
         await cargarIntercambios();
+        await pegarCartaAPI(btn.dataset.offeredCardCode);
+        await sincronizarAlbumAPI();
       } catch (err) {
         alert(err.message);
         btn.disabled = false;
@@ -525,12 +582,10 @@ function initMercado() {
   const selectPedido = document.getElementById("input-pedido");
 
   if (selectGrupo && TODOS_LOS_GRUPOS) {
-    console.log(GRUPO_PROY);
     const opcionesGrupos = TODOS_LOS_GRUPOS
       .filter(g => g._id !== GRUPO_PROY.group.id)
       .map(g => `<option value="${g._id}">${g.name}</option>`)
       .join("");
-    console.log(JSON.stringify(opcionesGrupos))
     selectGrupo.innerHTML = `<option value="">-- Selecciona un grupo --</option>` + opcionesGrupos;
 
     selectGrupo.addEventListener("change", async (e) => {
@@ -550,9 +605,9 @@ function initMercado() {
         if (Array.isArray(duplicates) && duplicates.length > 0) {
           selectPedido.innerHTML = `<option value="">-- Selecciona qué pides --</option>` +
             duplicates.map(dup => {
-              const code = dup.cardCode || dup.code || dup.id || dup;
+              const code = dup.code || dup.id || dup;
               const label = typeof dup === 'object' ? (dup.name ? `${code} · ${dup.name}` : code) : code;
-              return `<option value="${code}">${label}</option>`;
+              return `<option value="${code}">${label} – ${BarajitaPegadaEnAlbum(dup) ? "(Pegada)" : "(Suelta)"}</option>`;
             }).join("");
           selectPedido.disabled = false;
         } else {
