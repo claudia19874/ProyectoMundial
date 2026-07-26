@@ -1,5 +1,14 @@
-import { GROUPS, ALBUM_DATA, CATALOGO_COMPLETO, FLAG_CODES, CANT_SOBRES } from "./data.js";
+import { GROUPS, ALBUM_DATA, CATALOGO_COMPLETO, FLAG_CODES, CANT_SOBRES, BuscarIntercambios, GRUPO_PROY_ID } from "./data.js";
+import { io } from "socket.io-client";
 
+const APIKEY = import.meta.env.VITE_APIKEY
+
+
+const socket = io("https://sticker-album-server-proyect-production.up.railway.app", {
+  auth: { apiKey: APIKEY }
+})
+
+var intercambios = await BuscarIntercambios();
 
 const estado = {
   coleccion: new Map(), // id de carta -> cantidad que tengo (0, 1, 2, 3...)
@@ -45,6 +54,30 @@ if (ALBUM_DATA && ALBUM_DATA.pages) {
 
 const TOTAL_CARTAS = CATALOGO_COMPLETO.totalCards;
 
+// WebSocket
+
+socket.on("connect", () => {
+  console.log("WebSocket connected successfully")
+  console.log("Connected:", socket.connected)
+})
+
+socket.on("connect_error", (error) => {
+  console.log("Connection failed:", error.message)
+})
+
+socket.on("disconnect", (reason) => {
+  console.log("Disconnected:", reason)
+  console.log("Connected:", socket.connected)
+})
+
+socket.on("trade:proposed",)
+socket.on("trade:accepted",)
+socket.on("trade:rejected",)
+socket.on("trade:cancelled",)
+socket.on("market:new_offer",)
+
+
+
 // ---------------------------------------------------------------------
 // Íconos por rol (SVG inline, sin dependencias externas)
 // ---------------------------------------------------------------------
@@ -80,14 +113,14 @@ function cantidadObtenidaPais(pais) {
 
 
 function renderNav() {
-  const ul = document.getElementById("confed-nav-list");
+  const ul = document.getElementById("group-nav-list");
   ul.innerHTML = GROUPS.map(
     (c) => `
       <li>
-        <a class="confed-nav__link" href="#confed-${c.codigo}">${c.nombre}</a>
+        <a class="group-nav__link" href="#group-${c.wcGroup.slice(-1)}">${c.wcGroup}</a>
       </li>`
   ).join("") + `
-      <li><a class="confed-nav__link" href="#seccion-mercado">Mercado</a></li>`;
+      <li><a class="group-nav__link" href="#seccion-mercado">Mercado</a></li>`;
 }
 
 
@@ -103,6 +136,7 @@ function renderCarta(carta) {
       ${badge}
       <div class="carta__icono">${iconoDeCarta(carta)}</div>
       <p class="carta__nombre">${obtenida ? carta.name : "¿?"}</p>
+      <p class="carta__id">${carta.id}</p>
       <p class="carta__rol">${carta.role}</p>
     </div>`;
 }
@@ -133,9 +167,8 @@ function renderAlbum() {
   const main = document.getElementById("album-main");
   const mercadoSection = document.getElementById("seccion-mercado");
 
-  const groups = ["Grupo A", "Grupo B", "Grupo C", "Grupo D", "Grupo E", "Grupo F", "Grupo G", "Grupo H", "Grupo I", "Grupo J", "Grupo K", "Grupo L"];
-
-  groups.forEach((groupName) => {
+  GROUPS.forEach((group) => {
+    const groupName = group.wcGroup;
     const countryGroup = CATALOGO_COMPLETO.countries.filter((p) => p.wcGroup === groupName);
     if (countryGroup.length === 0) return;
     const seccion = document.createElement("section");
@@ -190,8 +223,8 @@ function initBuscador() {
       const coincide = art.dataset.nombre.includes(q);
       art.style.display = coincide ? "" : "none";
     });
-    // oculta secciones de confederación que quedaron sin resultados
-    document.querySelectorAll(".confed-section").forEach((sec) => {
+    // oculta secciones de grouperación que quedaron sin resultados
+    document.querySelectorAll(".group-section").forEach((sec) => {
       if (sec.id === "seccion-mercado") return;
       const visibles = sec.querySelectorAll('.pagina-pais:not([style*="display: none"])').length;
       sec.style.display = visibles === 0 ? "none" : "";
@@ -336,7 +369,7 @@ function renderRepetidas() {
     .map(({ id, cant }) => {
       const info = buscarCartaPorId(id);
       return `<div class="carta carta--obtenida" style="aspect-ratio:3/4">
-        <span class="carta__badge">x${cant}</span>
+        <span class="carta__badge">x${cant - 1}</span>
         <div class="carta__icono">${iconoDeCarta(info.carta)}</div>
         <p class="carta__nombre">${info.carta.name}</p>
         <p class="carta__rol">${info.pais.country}</p>
@@ -347,7 +380,7 @@ function renderRepetidas() {
   select.innerHTML = repetidas
     .map(({ id, cant }) => {
       const info = buscarCartaPorId(id);
-      return `<option value="${id}">${id} · ${info.carta.name} (x${cant})</option>`;
+      return `<option value="${id}">${id} · ${info.carta.name} (x${cant - 1})</option>`;
     })
     .join("");
 }
@@ -406,15 +439,15 @@ function initMercado() {
 
 
 function initScrollSpy() {
-  const links = document.querySelectorAll(".confed-nav__link");
-  const secciones = document.querySelectorAll(".confed-section");
+  const links = document.querySelectorAll(".group-nav__link");
+  const secciones = document.querySelectorAll(".group-section");
 
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
         links.forEach((l) => l.classList.remove("is-active"));
-        const activo = document.querySelector(`.confed-nav__link[href="#${entry.target.id}"]`);
+        const activo = document.querySelector(`.group-nav__link[href="#${entry.target.id}"]`);
         if (activo) activo.classList.add("is-active");
       });
     },

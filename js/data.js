@@ -167,34 +167,6 @@ const GROUPS = [
  * Reemplazar por una llamada a la API cuando esté disponible.
  */
 async function construirAlbumLocal() {
-  // const paises = [];
-  // CONFEDERACIONES.forEach((conf) => {
-  //   conf.paises.forEach((p) => {
-  //     const sigla = siglaPais(p.nombre);
-  //     const cartas = [
-  //       {
-  //         id: `${sigla}-ESC`,
-  //         nombre: `Escudo · ${p.nombre}`,
-  //         rol: "Federación",
-  //         tipo: "escudo",
-  //       },
-  //       ...FORMACION.map((rol, i) => ({
-  //         id: `${sigla}-${String(i + 1).padStart(2, "0")}`,
-  //         nombre: `Jugador ${i + 1}`,
-  //         rol,
-  //         tipo: "jugador",
-  //         dorsal: i + 1,
-  //       })),
-  //     ];
-  //     paises.push({
-  //       pais: p.nombre,
-  //       code: p.code,
-  //       confederacion: conf.codigo,
-  //       cartas,
-  //     });
-  //   });
-  // });
-  // return paises;
   try {
     const resp = await fetch(apiUrl + '/api/album/', {
       method: 'GET',
@@ -205,7 +177,6 @@ async function construirAlbumLocal() {
 
     if (!resp.ok) throw new Error(resp.status + ' ' + resp.statusText)
     const data = await resp.json()
-    // console.log(JSON.stringify(data.countries))
     return data;
   } catch (Error) {
     console.Error("Hubo un error...\n" + Error.message)
@@ -232,9 +203,9 @@ async function BuscarCatalogoBarajitas() {
   }
 }
 
-async function BuscarCantidadSobres() {
+async function BuscarInfoGrupoProy() {
   try {
-    const resp = await fetch(apiUrl + '/api/groups/me', {
+    const resp = await fetch(apiUrl + '/api/groups/me/', {
       method: 'GET',
       headers: {
         'x-api-key': apiKey
@@ -242,16 +213,86 @@ async function BuscarCantidadSobres() {
     })
     if (!resp.ok) throw new Error(resp.status + ' ' + resp.statusText)
     const data = await resp.json()
-    const cant = data.group.unopenedPacks;
+    // const cant = data.group.unopenedPacks;
     // console.log(JSON.stringify(data.countries))
-    return cant;
+    return data;
   } catch (Error) {
     console.error("Hubo un error...\n" + Error.message)
   }
 }
 
-const CATALOGO_COMPLETO = await BuscarCatalogoBarajitas();
-const ALBUM_DATA = await construirAlbumLocal();
-const CANT_SOBRES = await BuscarCantidadSobres();
+async function BuscarTodosGruposProy() {
+  try {
+    const resp = await fetch(apiUrl + '/api/groups/', {
+      method: 'GET',
+      headers: {
+        'x-api-key': apiKey
+      }
+    })
+    if (!resp.ok) throw new Error(resp.status + ' ' + resp.statusText)
+    const data = await resp.json()
+    return data;
+  } catch (Error) {
+    console.error("Hubo un error...\n" + Error.message)
+  }
+}
 
-export { CATALOGO_COMPLETO, ALBUM_DATA, GROUPS, FLAG_CODES, CANT_SOBRES };
+async function BuscarIntercambios() {
+  try {
+    const resp = await fetch(apiUrl + '/api/trades/', {
+      method: 'GET',
+      headers: {
+        'x-api-key': apiKey
+      }
+    })
+
+    if (!resp.ok) throw new Error(resp.status + ' ' + resp.statusText)
+    const data = await resp.json()
+    return data;
+  } catch (Error) {
+    console.error("Hubo un error...\n" + Error.message)
+  }
+}
+
+async function BuscarRepetidas() {
+  try {
+    const resp = await fetch(apiUrl + '/api/inventory/duplicates/', {
+      method: 'GET',
+      headers: {
+        'x-api-key': apiKey
+      }
+    })
+
+    if (!resp.ok) throw new Error(resp.status + ' ' + resp.statusText)
+    const data = await resp.json()
+    return data;
+  } catch (Error) {
+    console.error("Hubo un error...\n" + Error.message)
+  }
+}
+
+async function BuscarRepetidasGrupo(groupId) {
+  try {
+    const resp = await fetch(apiUrl + `/api/groups/${groupId}/duplicates/`, {
+      method: 'GET',
+      headers: {
+        'x-api-key': apiKey
+      }
+    })
+
+    if (!resp.ok) throw new Error(resp.status + ' ' + resp.statusText)
+    const data = await resp.json()
+    return data;
+  } catch (Error) {
+    console.error("Hubo un error...\n" + Error.message)
+  }
+}
+
+const GRUPO_PROY = await BuscarInfoGrupoProy()
+const GRUPOS_PROY_TODOS = await BuscarTodosGruposProy()
+export const CATALOGO_COMPLETO = await BuscarCatalogoBarajitas()
+export const ALBUM_DATA = await construirAlbumLocal()
+export const CANT_SOBRES = await GRUPO_PROY.group.unopenedPacks
+export const GRUPO_PROY_ID = await GRUPO_PROY.group._id
+
+export { GROUPS, FLAG_CODES, BuscarIntercambios }

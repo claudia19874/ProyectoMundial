@@ -35,15 +35,16 @@
         <div class="progreso-global__fill" id="progreso-global-fill"></div>
       </div>
     </div>
+    <nav class="group-nav" aria-label="Grupos">
+      <ul class="group-nav__list" id="group-nav-list">
+        <!-- generado por JS -->
+      </ul>
+    </nav>
+
+
   </header>
 
-  <nav class="confed-nav" aria-label="Confederaciones">
-    <ul class="confed-nav__list" id="confed-nav-list">
-      <!-- generado por JS -->
-    </ul>
-  </nav>
-
-  <div class="search-bar">
+    <div class="search-bar">
     <label for="buscador-pais" class="visually-hidden">Buscar selección</label>
     <input
       type="search"
@@ -54,9 +55,9 @@
   </div>
 
   <main id="album-main">
-    <!-- Las <section> por confederación con sus <article> de país se generan por JS -->
+    <!-- Las <section> por grupo del mundial con sus <article> de país se generan por JS -->
 
-    <section class="confed-section" id="seccion-mercado" aria-labelledby="mercado-heading">
+    <section class="group-section" id="seccion-mercado" aria-labelledby="mercado-heading">
       <div class="mercado">
         <h2 class="mercado__heading" id="mercado-heading">Mercado de intercambios</h2>
         <div class="mercado__grid">
@@ -80,9 +81,6 @@
 
               <button type="submit" id="btn-proponer">Enviar propuesta</button>
             </form>
-            <p class="mercado__vacio" style="margin-top:.5rem">
-              Esta propuesta se enviará por Socket.IO al servidor cuando la API esté disponible. Por ahora queda simulada localmente.
-            </p>
           </div>
 
           <div class="mercado__panel">
@@ -98,7 +96,7 @@
   </main>
 
   <footer class="app-footer">
-    Proyecto NRC 26577 · Programación Orientada a la Web · Interfaz de cliente (sin servidor todavía)
+    Proyecto NRC 26577 · Programación Orientada a la Web · Interfaz de cliente
   </footer>
 
   <!-- Modal apertura de sobre -->

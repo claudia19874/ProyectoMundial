@@ -180,7 +180,7 @@ a {
   position: sticky;
   top: 61px;
   z-index: 30;
-  background: var(--pitch-700);
+  background: var(--pitch-900);
   overflow-x: auto;
   white-space: nowrap;
   padding: 0.5rem 1rem;
@@ -356,7 +356,7 @@ main {
   font-size: 0.62rem;
   font-weight: 600;
   line-height: 1.15;
-  padding: 0.25rem 0.2rem 0.15rem;
+  /* padding: 0.05rem 0.2rem 0.05rem; */
 }
 
 .carta__rol {
@@ -364,7 +364,14 @@ main {
   text-transform: uppercase;
   letter-spacing: 0.05em;
   opacity: 0.75;
-  padding-bottom: 0.35rem;
+  /* padding-bottom: 0.15rem; */
+}
+
+.carta__id {
+  font-size: 0.55rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  opacity: 0.75;
 }
 
 /* estado: obtenida */
