@@ -1,4 +1,4 @@
-import { GROUPS, ALBUM_DATA, CATALOGO_COMPLETO, FLAG_CODES, CANT_SOBRES, BuscarIntercambios, GRUPO_PROY_ID, TODOS_LOS_GRUPOS } from "./data.js"; import { io } from "socket.io-client"; const APIKEY = import.meta.env.VITE_APIKEY; const APIURL = import.meta.env.VITE_API_URL;
+import { GROUPS, ALBUM_DATA, CATALOGO_COMPLETO, FLAG_CODES, CANT_SOBRES, BuscarIntercambios, TODOS_LOS_GRUPOS, BuscarRepetidasGrupo, GRUPO_PROY } from "./data.js"; import { io } from "socket.io-client"; const APIKEY = import.meta.env.VITE_APIKEY; const APIURL = import.meta.env.VITE_API_URL;
 const socket = io(APIURL, {
   auth: { apiKey: APIKEY }
 })
@@ -438,7 +438,7 @@ function renderOfertas(trades) {
   }
 
   ul.innerHTML = trades.map(trade => {
-    const soyProponente = trade.proposerGroup._id === GRUPO_PROY_ID;
+    const soyProponente = trade.proposerGroup._id === GRUPO_PROY.group.id;
     const otroGrupo = soyProponente ? trade.targetGroup.name : trade.proposerGroup.name;
     const esPendiente = trade.status === "PENDING";
 
@@ -522,11 +522,47 @@ function initMercado() {
 
   // Llenar selector de grupos destino
   const selectGrupo = document.getElementById("input-grupo");
+  const selectPedido = document.getElementById("input-pedido");
+
   if (selectGrupo && TODOS_LOS_GRUPOS) {
-    selectGrupo.innerHTML = TODOS_LOS_GRUPOS
-      .filter(g => g._id !== GRUPO_PROY_ID && g.id !== GRUPO_PROY_ID)
-      .map(g => `<option value="${g._id || g.id}">${g.name}</option>`)
+    console.log(GRUPO_PROY);
+    const opcionesGrupos = TODOS_LOS_GRUPOS
+      .filter(g => g._id !== GRUPO_PROY.group.id)
+      .map(g => `<option value="${g._id}">${g.name}</option>`)
       .join("");
+    console.log(JSON.stringify(opcionesGrupos))
+    selectGrupo.innerHTML = `<option value="">-- Selecciona un grupo --</option>` + opcionesGrupos;
+
+    selectGrupo.addEventListener("change", async (e) => {
+      const groupId = e.target.value;
+      if (!groupId) {
+        selectPedido.innerHTML = `<option value="">-- Selecciona el grupo primero --</option>`;
+        selectPedido.disabled = true;
+        return;
+      }
+
+      selectPedido.disabled = true;
+      selectPedido.innerHTML = `<option value="">Cargando repetidas...</option>`;
+
+      try {
+        const data = await BuscarRepetidasGrupo(groupId);
+        const duplicates = data.duplicates || data;
+        if (Array.isArray(duplicates) && duplicates.length > 0) {
+          selectPedido.innerHTML = `<option value="">-- Selecciona qué pides --</option>` +
+            duplicates.map(dup => {
+              const code = dup.cardCode || dup.code || dup.id || dup;
+              const label = typeof dup === 'object' ? (dup.name ? `${code} · ${dup.name}` : code) : code;
+              return `<option value="${code}">${label}</option>`;
+            }).join("");
+          selectPedido.disabled = false;
+        } else {
+          selectPedido.innerHTML = `<option value="">Este grupo no tiene repetidas</option>`;
+          selectPedido.disabled = true;
+        }
+      } catch (err) {
+        selectPedido.innerHTML = `<option value="">Error al cargar</option>`;
+      }
+    });
   }
 
   document.getElementById("form-propuesta").addEventListener("submit", async (e) => {

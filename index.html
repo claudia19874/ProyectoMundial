@@ -74,10 +74,14 @@
               <select id="select-repetida" required></select>
 
               <label for="input-grupo">A qué grupo</label>
-              <input type="text" id="input-grupo" placeholder="Ej: Grupo 4" required />
+              <select id="input-grupo" required>
+                <option value="">-- Selecciona un grupo --</option>
+              </select>
 
               <label for="input-pedido">A cambio de</label>
-              <input type="text" id="input-pedido" placeholder="Ej: ARG-10 (figurita que te falta)" required />
+              <select id="input-pedido" required disabled>
+                <option value="">-- Selecciona el grupo primero --</option>
+              </select>
 
               <button type="submit" id="btn-proponer">Enviar propuesta</button>
             </form>

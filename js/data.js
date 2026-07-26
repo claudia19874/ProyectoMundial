@@ -237,12 +237,11 @@ async function BuscarRepetidasGrupo(groupId) {
   }
 }
 
-const GRUPO_PROY = await BuscarInfoGrupoProy()
 const GRUPOS_PROY_TODOS = await BuscarTodosGruposProy()
+export const GRUPO_PROY = await BuscarInfoGrupoProy()
 export const CATALOGO_COMPLETO = await BuscarCatalogoBarajitas()
 export const ALBUM_DATA = await construirAlbumLocal()
 export const CANT_SOBRES = GRUPO_PROY.group.unopenedPacks
-export const GRUPO_PROY_ID = GRUPO_PROY.group._id
 export const TODOS_LOS_GRUPOS = GRUPOS_PROY_TODOS.groups
 
-export { GROUPS, FLAG_CODES, BuscarIntercambios }
+export { GROUPS, FLAG_CODES, BuscarIntercambios, BuscarRepetidasGrupo }
